@@ -1,0 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'subtasks_dao.dart';
+
+// ignore_for_file: type=lint
+mixin _$SubtasksDaoMixin on DatabaseAccessor<AppDatabase> {
+  $SubtasksTableTable get subtasksTable => attachedDatabase.subtasksTable;
+  $PendingChangesTableTable get pendingChangesTable =>
+      attachedDatabase.pendingChangesTable;
+}
