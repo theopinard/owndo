@@ -11,13 +11,13 @@ import 'package:owndo/presentation/screens/task/add_edit_task_screen.dart';
 part 'app_router.g.dart';
 
 @riverpod
-GoRouter appRouter(AppRouterRef ref) {
+GoRouter appRouter(Ref ref) {
   final authAsync = ref.watch(isAuthenticatedProvider);
 
   return GoRouter(
     initialLocation: '/inbox',
     redirect: (context, state) {
-      final isLoggedIn = authAsync.valueOrNull ?? false;
+      final isLoggedIn = authAsync.asData?.value ?? false;
       final onLoginPage = state.matchedLocation == '/login';
 
       if (!isLoggedIn && !onLoginPage) return '/login';

@@ -9,7 +9,7 @@ class SyncStatusIndicator extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final statusAsync = ref.watch(syncStatusProvider);
-    final status = statusAsync.valueOrNull ?? SyncStatus.idle;
+    final status = statusAsync.asData?.value ?? SyncStatus.idle;
 
     return IconButton(
       tooltip: switch (status) {

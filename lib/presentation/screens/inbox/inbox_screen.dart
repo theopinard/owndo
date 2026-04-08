@@ -20,8 +20,8 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final tasksAsync = ref.watch(taskListNotifierProvider);
-    final notifier = ref.read(taskListNotifierProvider.notifier);
+    final tasksAsync = ref.watch(taskListProvider);
+    final notifier = ref.read(taskListProvider.notifier);
 
     return AdaptiveNavShell(
       selectedIndex: 0,

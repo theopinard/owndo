@@ -9,13 +9,13 @@ import 'package:owndo/data/sync/sync_scheduler.dart';
 part 'sync_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-DropboxSyncAdapter dropboxSyncAdapter(DropboxSyncAdapterRef ref) {
+DropboxSyncAdapter dropboxSyncAdapter(Ref ref) {
   final auth = ref.watch(dropboxAuthProvider);
   return DropboxSyncAdapter(auth, DropboxApiClient());
 }
 
 @Riverpod(keepAlive: true)
-SyncEngine syncEngine(SyncEngineRef ref) {
+SyncEngine syncEngine(Ref ref) {
   final adapter = ref.watch(dropboxSyncAdapterProvider);
   final db = ref.watch(appDatabaseProvider);
   final engine = SyncEngine(
@@ -30,7 +30,7 @@ SyncEngine syncEngine(SyncEngineRef ref) {
 }
 
 @Riverpod(keepAlive: true)
-SyncScheduler syncScheduler(SyncSchedulerRef ref) {
+SyncScheduler syncScheduler(Ref ref) {
   final engine = ref.watch(syncEngineProvider);
   final scheduler = SyncScheduler(engine);
   ref.onDispose(scheduler.stop);
@@ -38,6 +38,6 @@ SyncScheduler syncScheduler(SyncSchedulerRef ref) {
 }
 
 @riverpod
-Stream<SyncStatus> syncStatus(SyncStatusRef ref) {
+Stream<SyncStatus> syncStatus(Ref ref) {
   return ref.watch(syncEngineProvider).statusStream;
 }

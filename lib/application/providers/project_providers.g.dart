@@ -6,39 +6,82 @@ part of 'project_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$projectRepositoryHash() => r'0f0c13843069f10a5055b14bf5b9bdd5e62438b3';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [projectRepository].
 @ProviderFor(projectRepository)
-final projectRepositoryProvider =
-    AutoDisposeProvider<ProjectRepository>.internal(
-  projectRepository,
-  name: r'projectRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$projectRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final projectRepositoryProvider = ProjectRepositoryProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ProjectRepositoryRef = AutoDisposeProviderRef<ProjectRepository>;
-String _$projectListHash() => r'b926c18898c907630aa8b4ac61cc4f11c6919e45';
+final class ProjectRepositoryProvider extends $FunctionalProvider<
+    ProjectRepository,
+    ProjectRepository,
+    ProjectRepository> with $Provider<ProjectRepository> {
+  ProjectRepositoryProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'projectRepositoryProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
-/// See also [projectList].
+  @override
+  String debugGetCreateSourceHash() => _$projectRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<ProjectRepository> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  ProjectRepository create(Ref ref) {
+    return projectRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ProjectRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ProjectRepository>(value),
+    );
+  }
+}
+
+String _$projectRepositoryHash() => r'49ec8c771b041c30e39e62c1b7f4bf82b19b538f';
+
 @ProviderFor(projectList)
-final projectListProvider = AutoDisposeStreamProvider<List<Project>>.internal(
-  projectList,
-  name: r'projectListProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$projectListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final projectListProvider = ProjectListProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ProjectListRef = AutoDisposeStreamProviderRef<List<Project>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ProjectListProvider extends $FunctionalProvider<
+        AsyncValue<List<Project>>, List<Project>, Stream<List<Project>>>
+    with $FutureModifier<List<Project>>, $StreamProvider<List<Project>> {
+  ProjectListProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'projectListProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$projectListHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<List<Project>> $createElement(
+          $ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<Project>> create(Ref ref) {
+    return projectList(ref);
+  }
+}
+
+String _$projectListHash() => r'eb33eddd113a8fc62612dd782011c98d4a41fe99';

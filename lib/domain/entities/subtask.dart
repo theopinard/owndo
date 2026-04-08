@@ -4,7 +4,7 @@ import 'package:owndo/core/utils/uuid_factory.dart';
 part 'subtask.freezed.dart';
 
 @freezed
-class Subtask with _$Subtask {
+abstract class Subtask with _$Subtask {
   const factory Subtask({
     required String id,
     required String taskId,

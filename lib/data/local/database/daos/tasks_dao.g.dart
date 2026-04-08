@@ -7,4 +7,15 @@ mixin _$TasksDaoMixin on DatabaseAccessor<AppDatabase> {
   $TasksTableTable get tasksTable => attachedDatabase.tasksTable;
   $PendingChangesTableTable get pendingChangesTable =>
       attachedDatabase.pendingChangesTable;
+  TasksDaoManager get managers => TasksDaoManager(this);
+}
+
+class TasksDaoManager {
+  final _$TasksDaoMixin _db;
+  TasksDaoManager(this._db);
+  $$TasksTableTableTableManager get tasksTable =>
+      $$TasksTableTableTableManager(_db.attachedDatabase, _db.tasksTable);
+  $$PendingChangesTableTableTableManager get pendingChangesTable =>
+      $$PendingChangesTableTableTableManager(
+          _db.attachedDatabase, _db.pendingChangesTable);
 }

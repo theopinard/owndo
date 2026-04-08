@@ -7,17 +7,17 @@ import 'package:owndo/domain/repositories/task_repository.dart';
 part 'task_providers.g.dart';
 
 @riverpod
-TaskRepository taskRepository(TaskRepositoryRef ref) {
+TaskRepository taskRepository(Ref ref) {
   final db = ref.watch(appDatabaseProvider);
   return TaskRepositoryImpl(db.tasksDao);
 }
 
 @riverpod
-Stream<List<Task>> inboxTasks(InboxTasksRef ref) {
+Stream<List<Task>> inboxTasks(Ref ref) {
   return ref.watch(taskRepositoryProvider).watchInbox();
 }
 
 @riverpod
-Stream<List<Task>> projectTasks(ProjectTasksRef ref, String projectId) {
+Stream<List<Task>> projectTasks(Ref ref, String projectId) {
   return ref.watch(taskRepositoryProvider).watchTasks(projectId: projectId);
 }

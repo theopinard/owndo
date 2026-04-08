@@ -17,7 +17,7 @@ class _OwnDoAppState extends ConsumerState<OwnDoApp> {
     super.initState();
     // Start the sync scheduler once authenticated
     ref.listenManual(isAuthenticatedProvider, (_, next) {
-      if (next.valueOrNull == true) {
+      if (next.asData?.value == true) {
         ref.read(syncSchedulerProvider).start();
       }
     });

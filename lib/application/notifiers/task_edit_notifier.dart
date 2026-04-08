@@ -7,7 +7,7 @@ part 'task_edit_notifier.freezed.dart';
 part 'task_edit_notifier.g.dart';
 
 @freezed
-class TaskEditState with _$TaskEditState {
+abstract class TaskEditState with _$TaskEditState {
   const factory TaskEditState({
     required String title,
     String? description,

@@ -45,13 +45,13 @@ class _AddEditTaskScreenState extends ConsumerState<AddEditTaskScreen> {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.watch(
-      taskEditNotifierProvider(
+      taskEditProvider(
         existing: widget.existingTask,
         initialProjectId: widget.initialProjectId,
       ).notifier,
     );
     final editState = ref.watch(
-      taskEditNotifierProvider(
+      taskEditProvider(
         existing: widget.existingTask,
         initialProjectId: widget.initialProjectId,
       ),
@@ -160,7 +160,7 @@ class _SubtaskSectionState extends ConsumerState<_SubtaskSection> {
     final title = _controller.text.trim();
     if (title.isEmpty) return;
     ref
-        .read(subtaskListNotifierProvider(widget.taskId).notifier)
+        .read(subtaskListProvider(widget.taskId).notifier)
         .addSubtask(title);
     _controller.clear();
   }
@@ -168,9 +168,9 @@ class _SubtaskSectionState extends ConsumerState<_SubtaskSection> {
   @override
   Widget build(BuildContext context) {
     final subtasksAsync =
-        ref.watch(subtaskListNotifierProvider(widget.taskId));
+        ref.watch(subtaskListProvider(widget.taskId));
     final notifier = ref.read(
-      subtaskListNotifierProvider(widget.taskId).notifier,
+      subtaskListProvider(widget.taskId).notifier,
     );
 
     return Column(

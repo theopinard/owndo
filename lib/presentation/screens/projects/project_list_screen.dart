@@ -11,8 +11,8 @@ class ProjectListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final projectsAsync = ref.watch(projectListNotifierProvider);
-    final notifier = ref.read(projectListNotifierProvider.notifier);
+    final projectsAsync = ref.watch(projectListProvider);
+    final notifier = ref.read(projectListProvider.notifier);
 
     return AdaptiveNavShell(
       selectedIndex: 1,

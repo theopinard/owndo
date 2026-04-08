@@ -6,38 +6,79 @@ part of 'auth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dropboxAuthHash() => r'f7ad81709a1b4d55af659ac2d96410726436addf';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [dropboxAuth].
 @ProviderFor(dropboxAuth)
-final dropboxAuthProvider = Provider<DropboxAuthService>.internal(
-  dropboxAuth,
-  name: r'dropboxAuthProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$dropboxAuthHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final dropboxAuthProvider = DropboxAuthProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef DropboxAuthRef = ProviderRef<DropboxAuthService>;
-String _$isAuthenticatedHash() => r'077f1fa3ad6eeb8a7305f3cb3fd99840cc7edc2b';
+final class DropboxAuthProvider extends $FunctionalProvider<DropboxAuthService,
+    DropboxAuthService, DropboxAuthService> with $Provider<DropboxAuthService> {
+  DropboxAuthProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'dropboxAuthProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
-/// See also [isAuthenticated].
+  @override
+  String debugGetCreateSourceHash() => _$dropboxAuthHash();
+
+  @$internal
+  @override
+  $ProviderElement<DropboxAuthService> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  DropboxAuthService create(Ref ref) {
+    return dropboxAuth(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DropboxAuthService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DropboxAuthService>(value),
+    );
+  }
+}
+
+String _$dropboxAuthHash() => r'c85a18649b6a35ef9be97236c296bc30470802b4';
+
 @ProviderFor(isAuthenticated)
-final isAuthenticatedProvider = AutoDisposeFutureProvider<bool>.internal(
-  isAuthenticated,
-  name: r'isAuthenticatedProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$isAuthenticatedHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final isAuthenticatedProvider = IsAuthenticatedProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef IsAuthenticatedRef = AutoDisposeFutureProviderRef<bool>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class IsAuthenticatedProvider
+    extends $FunctionalProvider<AsyncValue<bool>, bool, FutureOr<bool>>
+    with $FutureModifier<bool>, $FutureProvider<bool> {
+  IsAuthenticatedProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'isAuthenticatedProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$isAuthenticatedHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<bool> create(Ref ref) {
+    return isAuthenticated(ref);
+  }
+}
+
+String _$isAuthenticatedHash() => r'40c175ed0037199725a1f22a977643bc4eb83a7b';

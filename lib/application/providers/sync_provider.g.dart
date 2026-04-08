@@ -6,72 +6,164 @@ part of 'sync_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dropboxSyncAdapterHash() =>
-    r'89195e7459f38d076d4eaf3af3c60712f5b829c4';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [dropboxSyncAdapter].
 @ProviderFor(dropboxSyncAdapter)
-final dropboxSyncAdapterProvider = Provider<DropboxSyncAdapter>.internal(
-  dropboxSyncAdapter,
-  name: r'dropboxSyncAdapterProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$dropboxSyncAdapterHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final dropboxSyncAdapterProvider = DropboxSyncAdapterProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef DropboxSyncAdapterRef = ProviderRef<DropboxSyncAdapter>;
-String _$syncEngineHash() => r'b2ba4bc4e477f59cad214478f868dc72267b4c28';
+final class DropboxSyncAdapterProvider extends $FunctionalProvider<
+    DropboxSyncAdapter,
+    DropboxSyncAdapter,
+    DropboxSyncAdapter> with $Provider<DropboxSyncAdapter> {
+  DropboxSyncAdapterProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'dropboxSyncAdapterProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
-/// See also [syncEngine].
+  @override
+  String debugGetCreateSourceHash() => _$dropboxSyncAdapterHash();
+
+  @$internal
+  @override
+  $ProviderElement<DropboxSyncAdapter> $createElement(
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  DropboxSyncAdapter create(Ref ref) {
+    return dropboxSyncAdapter(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DropboxSyncAdapter value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DropboxSyncAdapter>(value),
+    );
+  }
+}
+
+String _$dropboxSyncAdapterHash() =>
+    r'8addebc986057b10b955cc77fced3020402e5433';
+
 @ProviderFor(syncEngine)
-final syncEngineProvider = Provider<SyncEngine>.internal(
-  syncEngine,
-  name: r'syncEngineProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$syncEngineHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final syncEngineProvider = SyncEngineProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SyncEngineRef = ProviderRef<SyncEngine>;
-String _$syncSchedulerHash() => r'5d008ea65ee9fa2d298b4801f619572a7f7beb66';
+final class SyncEngineProvider
+    extends $FunctionalProvider<SyncEngine, SyncEngine, SyncEngine>
+    with $Provider<SyncEngine> {
+  SyncEngineProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'syncEngineProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
-/// See also [syncScheduler].
+  @override
+  String debugGetCreateSourceHash() => _$syncEngineHash();
+
+  @$internal
+  @override
+  $ProviderElement<SyncEngine> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SyncEngine create(Ref ref) {
+    return syncEngine(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SyncEngine value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SyncEngine>(value),
+    );
+  }
+}
+
+String _$syncEngineHash() => r'6ee0ba409a66b0897eb9caffec3a09884f6abd26';
+
 @ProviderFor(syncScheduler)
-final syncSchedulerProvider = Provider<SyncScheduler>.internal(
-  syncScheduler,
-  name: r'syncSchedulerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$syncSchedulerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final syncSchedulerProvider = SyncSchedulerProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SyncSchedulerRef = ProviderRef<SyncScheduler>;
-String _$syncStatusHash() => r'450c2fd7a533a4a4a03be1fabd3c21ddd1959896';
+final class SyncSchedulerProvider
+    extends $FunctionalProvider<SyncScheduler, SyncScheduler, SyncScheduler>
+    with $Provider<SyncScheduler> {
+  SyncSchedulerProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'syncSchedulerProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
-/// See also [syncStatus].
+  @override
+  String debugGetCreateSourceHash() => _$syncSchedulerHash();
+
+  @$internal
+  @override
+  $ProviderElement<SyncScheduler> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  SyncScheduler create(Ref ref) {
+    return syncScheduler(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SyncScheduler value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SyncScheduler>(value),
+    );
+  }
+}
+
+String _$syncSchedulerHash() => r'4ab18f603b06b2cefc2d6e8e633d6c91101b558f';
+
 @ProviderFor(syncStatus)
-final syncStatusProvider = AutoDisposeStreamProvider<SyncStatus>.internal(
-  syncStatus,
-  name: r'syncStatusProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$syncStatusHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final syncStatusProvider = SyncStatusProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef SyncStatusRef = AutoDisposeStreamProviderRef<SyncStatus>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class SyncStatusProvider extends $FunctionalProvider<
+        AsyncValue<SyncStatus>, SyncStatus, Stream<SyncStatus>>
+    with $FutureModifier<SyncStatus>, $StreamProvider<SyncStatus> {
+  SyncStatusProvider._()
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'syncStatusProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
+
+  @override
+  String debugGetCreateSourceHash() => _$syncStatusHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<SyncStatus> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
+
+  @override
+  Stream<SyncStatus> create(Ref ref) {
+    return syncStatus(ref);
+  }
+}
+
+String _$syncStatusHash() => r'c9297f688533e6071eab8cda9c436983eda2364f';

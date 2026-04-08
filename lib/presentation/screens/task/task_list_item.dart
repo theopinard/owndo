@@ -20,9 +20,9 @@ class TaskListItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final subtasks =
-        ref.watch(subtaskListNotifierProvider(task.id)).valueOrNull ?? [];
+        ref.watch(subtaskListProvider(task.id)).asData?.value ?? [];
     final subtaskNotifier =
-        ref.read(subtaskListNotifierProvider(task.id).notifier);
+        ref.read(subtaskListProvider(task.id).notifier);
 
     final titleStyle = task.completed
         ? const TextStyle(decoration: TextDecoration.lineThrough)

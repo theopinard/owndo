@@ -7,12 +7,12 @@ import 'package:owndo/domain/repositories/project_repository.dart';
 part 'project_providers.g.dart';
 
 @riverpod
-ProjectRepository projectRepository(ProjectRepositoryRef ref) {
+ProjectRepository projectRepository(Ref ref) {
   final db = ref.watch(appDatabaseProvider);
   return ProjectRepositoryImpl(db.projectsDao);
 }
 
 @riverpod
-Stream<List<Project>> projectList(ProjectListRef ref) {
+Stream<List<Project>> projectList(Ref ref) {
   return ref.watch(projectRepositoryProvider).watchProjects();
 }

@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,98 +9,63 @@ part of 'project.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$Project {
-  String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  int get createdAt => throw _privateConstructorUsedError;
-  int get updatedAt => throw _privateConstructorUsedError;
-  bool get deleted => throw _privateConstructorUsedError;
+  String get id;
+  String get name;
+  int get createdAt;
+  int get updatedAt;
+  bool get deleted;
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ProjectCopyWith<Project> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ProjectCopyWith<$Res> {
-  factory $ProjectCopyWith(Project value, $Res Function(Project) then) =
-      _$ProjectCopyWithImpl<$Res, Project>;
-  @useResult
-  $Res call(
-      {String id, String name, int createdAt, int updatedAt, bool deleted});
-}
-
-/// @nodoc
-class _$ProjectCopyWithImpl<$Res, $Val extends Project>
-    implements $ProjectCopyWith<$Res> {
-  _$ProjectCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Project
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $ProjectCopyWith<Project> get copyWith =>
+      _$ProjectCopyWithImpl<Project>(this as Project, _$identity);
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? deleted = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as int,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as int,
-      deleted: null == deleted
-          ? _value.deleted
-          : deleted // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Project &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, createdAt, updatedAt, deleted);
+
+  @override
+  String toString() {
+    return 'Project(id: $id, name: $name, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
   }
 }
 
 /// @nodoc
-abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
-  factory _$$ProjectImplCopyWith(
-          _$ProjectImpl value, $Res Function(_$ProjectImpl) then) =
-      __$$ProjectImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $ProjectCopyWith<$Res> {
+  factory $ProjectCopyWith(Project value, $Res Function(Project) _then) =
+      _$ProjectCopyWithImpl;
   @useResult
   $Res call(
       {String id, String name, int createdAt, int updatedAt, bool deleted});
 }
 
 /// @nodoc
-class __$$ProjectImplCopyWithImpl<$Res>
-    extends _$ProjectCopyWithImpl<$Res, _$ProjectImpl>
-    implements _$$ProjectImplCopyWith<$Res> {
-  __$$ProjectImplCopyWithImpl(
-      _$ProjectImpl _value, $Res Function(_$ProjectImpl) _then)
-      : super(_value, _then);
+class _$ProjectCopyWithImpl<$Res> implements $ProjectCopyWith<$Res> {
+  _$ProjectCopyWithImpl(this._self, this._then);
+
+  final Project _self;
+  final $Res Function(Project) _then;
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.
@@ -113,35 +78,201 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? deleted = null,
   }) {
-    return _then(_$ProjectImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _value.name
+          ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
-          ? _value.createdAt
+          ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as int,
       updatedAt: null == updatedAt
-          ? _value.updatedAt
+          ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as int,
       deleted: null == deleted
-          ? _value.deleted
+          ? _self.deleted
           : deleted // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
 }
 
+/// Adds pattern-matching-related methods to [Project].
+extension ProjectPatterns on Project {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Project value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Project() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Project value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Project():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Project value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Project() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String id, String name, int createdAt, int updatedAt, bool deleted)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Project() when $default != null:
+        return $default(_that.id, _that.name, _that.createdAt, _that.updatedAt,
+            _that.deleted);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String id, String name, int createdAt, int updatedAt, bool deleted)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Project():
+        return $default(_that.id, _that.name, _that.createdAt, _that.updatedAt,
+            _that.deleted);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String id, String name, int createdAt, int updatedAt, bool deleted)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Project() when $default != null:
+        return $default(_that.id, _that.name, _that.createdAt, _that.updatedAt,
+            _that.deleted);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 
-class _$ProjectImpl implements _Project {
-  const _$ProjectImpl(
+class _Project implements Project {
+  const _Project(
       {required this.id,
       required this.name,
       required this.createdAt,
@@ -159,16 +290,19 @@ class _$ProjectImpl implements _Project {
   @override
   final bool deleted;
 
+  /// Create a copy of Project
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'Project(id: $id, name: $name, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ProjectCopyWith<_Project> get copyWith =>
+      __$ProjectCopyWithImpl<_Project>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ProjectImpl &&
+            other is _Project &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.createdAt, createdAt) ||
@@ -182,38 +316,63 @@ class _$ProjectImpl implements _Project {
   int get hashCode =>
       Object.hash(runtimeType, id, name, createdAt, updatedAt, deleted);
 
+  @override
+  String toString() {
+    return 'Project(id: $id, name: $name, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
+  factory _$ProjectCopyWith(_Project value, $Res Function(_Project) _then) =
+      __$ProjectCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id, String name, int createdAt, int updatedAt, bool deleted});
+}
+
+/// @nodoc
+class __$ProjectCopyWithImpl<$Res> implements _$ProjectCopyWith<$Res> {
+  __$ProjectCopyWithImpl(this._self, this._then);
+
+  final _Project _self;
+  final $Res Function(_Project) _then;
+
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ProjectImplCopyWith<_$ProjectImpl> get copyWith =>
-      __$$ProjectImplCopyWithImpl<_$ProjectImpl>(this, _$identity);
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+    Object? deleted = null,
+  }) {
+    return _then(_Project(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      updatedAt: null == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as int,
+      deleted: null == deleted
+          ? _self.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
-abstract class _Project implements Project {
-  const factory _Project(
-      {required final String id,
-      required final String name,
-      required final int createdAt,
-      required final int updatedAt,
-      required final bool deleted}) = _$ProjectImpl;
-
-  @override
-  String get id;
-  @override
-  String get name;
-  @override
-  int get createdAt;
-  @override
-  int get updatedAt;
-  @override
-  bool get deleted;
-
-  /// Create a copy of Project
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ProjectImplCopyWith<_$ProjectImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on
