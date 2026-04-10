@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:owndo/application/notifiers/task_edit_notifier.dart';
 import 'package:owndo/application/providers/project_providers.dart';
 import 'package:owndo/application/providers/subtask_providers.dart';
+import 'package:owndo/application/providers/task_providers.dart';
 import 'package:owndo/domain/entities/task.dart';
 
 class AddEditTaskScreen extends ConsumerStatefulWidget {
@@ -62,6 +63,37 @@ class _AddEditTaskScreenState extends ConsumerState<AddEditTaskScreen> {
       appBar: AppBar(
         title: Text(widget.existingTask == null ? 'New Task' : 'Edit Task'),
         actions: [
+          if (widget.existingTask != null)
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: 'Delete task',
+              onPressed: () async {
+                final confirmed = await showDialog<bool>(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('Delete task?'),
+                    content: const Text(
+                        'This will permanently remove the task and all its subtasks.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, false),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(ctx, true),
+                        child: const Text('Delete'),
+                      ),
+                    ],
+                  ),
+                );
+                if (confirmed == true && context.mounted) {
+                  await ref
+                      .read(taskRepositoryProvider)
+                      .deleteTask(widget.existingTask!.id);
+                  if (context.mounted) context.pop();
+                }
+              },
+            ),
           TextButton(
             onPressed: editState.title.trim().isEmpty
                 ? null
