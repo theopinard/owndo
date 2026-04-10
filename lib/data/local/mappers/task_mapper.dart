@@ -12,6 +12,8 @@ abstract final class TaskMapper {
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,
       deleted: row.deleted,
+      deadline: row.deadline,
+      reminderAt: row.reminderAt,
     );
   }
 
@@ -25,6 +27,8 @@ abstract final class TaskMapper {
       createdAt: task.createdAt,
       updatedAt: task.updatedAt,
       deleted: task.deleted,
+      deadline: task.deadline,
+      reminderAt: task.reminderAt,
     );
   }
 }

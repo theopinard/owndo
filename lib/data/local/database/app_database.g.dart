@@ -63,6 +63,18 @@ class $TasksTableTable extends TasksTable
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('CHECK ("deleted" IN (0, 1))'),
       defaultValue: const Constant(false));
+  static const VerificationMeta _deadlineMeta =
+      const VerificationMeta('deadline');
+  @override
+  late final GeneratedColumn<int> deadline = GeneratedColumn<int>(
+      'deadline', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _reminderAtMeta =
+      const VerificationMeta('reminderAt');
+  @override
+  late final GeneratedColumn<int> reminderAt = GeneratedColumn<int>(
+      'reminder_at', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -72,7 +84,9 @@ class $TasksTableTable extends TasksTable
         projectId,
         createdAt,
         updatedAt,
-        deleted
+        deleted,
+        deadline,
+        reminderAt
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -125,6 +139,16 @@ class $TasksTableTable extends TasksTable
       context.handle(_deletedMeta,
           deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
     }
+    if (data.containsKey('deadline')) {
+      context.handle(_deadlineMeta,
+          deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta));
+    }
+    if (data.containsKey('reminder_at')) {
+      context.handle(
+          _reminderAtMeta,
+          reminderAt.isAcceptableOrUnknown(
+              data['reminder_at']!, _reminderAtMeta));
+    }
     return context;
   }
 
@@ -150,6 +174,10 @@ class $TasksTableTable extends TasksTable
           .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
       deleted: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}deleted'])!,
+      deadline: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}deadline']),
+      reminderAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}reminder_at']),
     );
   }
 
@@ -168,6 +196,8 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
   final int createdAt;
   final int updatedAt;
   final bool deleted;
+  final int? deadline;
+  final int? reminderAt;
   const TasksTableData(
       {required this.id,
       required this.title,
@@ -176,7 +206,9 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       this.projectId,
       required this.createdAt,
       required this.updatedAt,
-      required this.deleted});
+      required this.deleted,
+      this.deadline,
+      this.reminderAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -192,6 +224,12 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
     map['created_at'] = Variable<int>(createdAt);
     map['updated_at'] = Variable<int>(updatedAt);
     map['deleted'] = Variable<bool>(deleted);
+    if (!nullToAbsent || deadline != null) {
+      map['deadline'] = Variable<int>(deadline);
+    }
+    if (!nullToAbsent || reminderAt != null) {
+      map['reminder_at'] = Variable<int>(reminderAt);
+    }
     return map;
   }
 
@@ -209,6 +247,12 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deleted: Value(deleted),
+      deadline: deadline == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deadline),
+      reminderAt: reminderAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reminderAt),
     );
   }
 
@@ -224,6 +268,8 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       createdAt: serializer.fromJson<int>(json['createdAt']),
       updatedAt: serializer.fromJson<int>(json['updatedAt']),
       deleted: serializer.fromJson<bool>(json['deleted']),
+      deadline: serializer.fromJson<int?>(json['deadline']),
+      reminderAt: serializer.fromJson<int?>(json['reminderAt']),
     );
   }
   @override
@@ -238,6 +284,8 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       'createdAt': serializer.toJson<int>(createdAt),
       'updatedAt': serializer.toJson<int>(updatedAt),
       'deleted': serializer.toJson<bool>(deleted),
+      'deadline': serializer.toJson<int?>(deadline),
+      'reminderAt': serializer.toJson<int?>(reminderAt),
     };
   }
 
@@ -249,7 +297,9 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
           Value<String?> projectId = const Value.absent(),
           int? createdAt,
           int? updatedAt,
-          bool? deleted}) =>
+          bool? deleted,
+          Value<int?> deadline = const Value.absent(),
+          Value<int?> reminderAt = const Value.absent()}) =>
       TasksTableData(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -259,6 +309,8 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         deleted: deleted ?? this.deleted,
+        deadline: deadline.present ? deadline.value : this.deadline,
+        reminderAt: reminderAt.present ? reminderAt.value : this.reminderAt,
       );
   TasksTableData copyWithCompanion(TasksTableCompanion data) {
     return TasksTableData(
@@ -271,6 +323,9 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deleted: data.deleted.present ? data.deleted.value : this.deleted,
+      deadline: data.deadline.present ? data.deadline.value : this.deadline,
+      reminderAt:
+          data.reminderAt.present ? data.reminderAt.value : this.reminderAt,
     );
   }
 
@@ -284,14 +339,16 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
           ..write('projectId: $projectId, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
-          ..write('deleted: $deleted')
+          ..write('deleted: $deleted, ')
+          ..write('deadline: $deadline, ')
+          ..write('reminderAt: $reminderAt')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(id, title, description, completed, projectId,
-      createdAt, updatedAt, deleted);
+      createdAt, updatedAt, deleted, deadline, reminderAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -303,7 +360,9 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
           other.projectId == this.projectId &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
-          other.deleted == this.deleted);
+          other.deleted == this.deleted &&
+          other.deadline == this.deadline &&
+          other.reminderAt == this.reminderAt);
 }
 
 class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
@@ -315,6 +374,8 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
   final Value<int> createdAt;
   final Value<int> updatedAt;
   final Value<bool> deleted;
+  final Value<int?> deadline;
+  final Value<int?> reminderAt;
   final Value<int> rowid;
   const TasksTableCompanion({
     this.id = const Value.absent(),
@@ -325,6 +386,8 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deleted = const Value.absent(),
+    this.deadline = const Value.absent(),
+    this.reminderAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TasksTableCompanion.insert({
@@ -336,6 +399,8 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     required int createdAt,
     required int updatedAt,
     this.deleted = const Value.absent(),
+    this.deadline = const Value.absent(),
+    this.reminderAt = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         title = Value(title),
@@ -350,6 +415,8 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     Expression<int>? createdAt,
     Expression<int>? updatedAt,
     Expression<bool>? deleted,
+    Expression<int>? deadline,
+    Expression<int>? reminderAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -361,6 +428,8 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deleted != null) 'deleted': deleted,
+      if (deadline != null) 'deadline': deadline,
+      if (reminderAt != null) 'reminder_at': reminderAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -374,6 +443,8 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
       Value<int>? createdAt,
       Value<int>? updatedAt,
       Value<bool>? deleted,
+      Value<int?>? deadline,
+      Value<int?>? reminderAt,
       Value<int>? rowid}) {
     return TasksTableCompanion(
       id: id ?? this.id,
@@ -384,6 +455,8 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       deleted: deleted ?? this.deleted,
+      deadline: deadline ?? this.deadline,
+      reminderAt: reminderAt ?? this.reminderAt,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -415,6 +488,12 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     if (deleted.present) {
       map['deleted'] = Variable<bool>(deleted.value);
     }
+    if (deadline.present) {
+      map['deadline'] = Variable<int>(deadline.value);
+    }
+    if (reminderAt.present) {
+      map['reminder_at'] = Variable<int>(reminderAt.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -432,6 +511,8 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deleted: $deleted, ')
+          ..write('deadline: $deadline, ')
+          ..write('reminderAt: $reminderAt, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -1484,6 +1565,8 @@ typedef $$TasksTableTableCreateCompanionBuilder = TasksTableCompanion Function({
   required int createdAt,
   required int updatedAt,
   Value<bool> deleted,
+  Value<int?> deadline,
+  Value<int?> reminderAt,
   Value<int> rowid,
 });
 typedef $$TasksTableTableUpdateCompanionBuilder = TasksTableCompanion Function({
@@ -1495,6 +1578,8 @@ typedef $$TasksTableTableUpdateCompanionBuilder = TasksTableCompanion Function({
   Value<int> createdAt,
   Value<int> updatedAt,
   Value<bool> deleted,
+  Value<int?> deadline,
+  Value<int?> reminderAt,
   Value<int> rowid,
 });
 
@@ -1530,6 +1615,12 @@ class $$TasksTableTableFilterComposer
 
   ColumnFilters<bool> get deleted => $composableBuilder(
       column: $table.deleted, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get deadline => $composableBuilder(
+      column: $table.deadline, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get reminderAt => $composableBuilder(
+      column: $table.reminderAt, builder: (column) => ColumnFilters(column));
 }
 
 class $$TasksTableTableOrderingComposer
@@ -1564,6 +1655,12 @@ class $$TasksTableTableOrderingComposer
 
   ColumnOrderings<bool> get deleted => $composableBuilder(
       column: $table.deleted, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get deadline => $composableBuilder(
+      column: $table.deadline, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get reminderAt => $composableBuilder(
+      column: $table.reminderAt, builder: (column) => ColumnOrderings(column));
 }
 
 class $$TasksTableTableAnnotationComposer
@@ -1598,6 +1695,12 @@ class $$TasksTableTableAnnotationComposer
 
   GeneratedColumn<bool> get deleted =>
       $composableBuilder(column: $table.deleted, builder: (column) => column);
+
+  GeneratedColumn<int> get deadline =>
+      $composableBuilder(column: $table.deadline, builder: (column) => column);
+
+  GeneratedColumn<int> get reminderAt => $composableBuilder(
+      column: $table.reminderAt, builder: (column) => column);
 }
 
 class $$TasksTableTableTableManager extends RootTableManager<
@@ -1634,6 +1737,8 @@ class $$TasksTableTableTableManager extends RootTableManager<
             Value<int> createdAt = const Value.absent(),
             Value<int> updatedAt = const Value.absent(),
             Value<bool> deleted = const Value.absent(),
+            Value<int?> deadline = const Value.absent(),
+            Value<int?> reminderAt = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               TasksTableCompanion(
@@ -1645,6 +1750,8 @@ class $$TasksTableTableTableManager extends RootTableManager<
             createdAt: createdAt,
             updatedAt: updatedAt,
             deleted: deleted,
+            deadline: deadline,
+            reminderAt: reminderAt,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -1656,6 +1763,8 @@ class $$TasksTableTableTableManager extends RootTableManager<
             required int createdAt,
             required int updatedAt,
             Value<bool> deleted = const Value.absent(),
+            Value<int?> deadline = const Value.absent(),
+            Value<int?> reminderAt = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               TasksTableCompanion.insert(
@@ -1667,6 +1776,8 @@ class $$TasksTableTableTableManager extends RootTableManager<
             createdAt: createdAt,
             updatedAt: updatedAt,
             deleted: deleted,
+            deadline: deadline,
+            reminderAt: reminderAt,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0

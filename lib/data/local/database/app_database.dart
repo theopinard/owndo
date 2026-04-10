@@ -22,7 +22,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.connection);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -33,6 +33,10 @@ class AppDatabase extends _$AppDatabase {
           }
           if (from < 3) {
             await m.createTable(subtasksTable);
+          }
+          if (from < 4) {
+            await m.addColumn(tasksTable, tasksTable.deadline);
+            await m.addColumn(tasksTable, tasksTable.reminderAt);
           }
         },
       );

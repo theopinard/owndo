@@ -36,6 +36,10 @@ dependencies:
   # Routing
   go_router: ^17.2.0
 
+  # Notifications
+  flutter_local_notifications: ^18.0.0
+  timezone: ^0.9.4
+
   # Utilities
   uuid: ^4.4.0
   json_annotation: ^4.9.0

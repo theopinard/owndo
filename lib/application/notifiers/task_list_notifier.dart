@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:owndo/application/providers/notification_provider.dart';
 import 'package:owndo/application/providers/task_providers.dart';
 import 'package:owndo/domain/entities/task.dart';
 
@@ -25,5 +26,6 @@ class TaskListNotifier extends _$TaskListNotifier {
 
   Future<void> deleteTask(String id) async {
     await ref.read(taskRepositoryProvider).deleteTask(id);
+    await ref.read(notificationServiceProvider).cancelReminder(id);
   }
 }

@@ -22,6 +22,8 @@ mixin _$Task {
   int get createdAt;
   int get updatedAt;
   bool get deleted;
+  int? get deadline;
+  int? get reminderAt;
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.
@@ -47,16 +49,30 @@ mixin _$Task {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.deleted, deleted) || other.deleted == deleted));
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
+            (identical(other.deadline, deadline) ||
+                other.deadline == deadline) &&
+            (identical(other.reminderAt, reminderAt) ||
+                other.reminderAt == reminderAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, description,
-      completed, projectId, createdAt, updatedAt, deleted);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      description,
+      completed,
+      projectId,
+      createdAt,
+      updatedAt,
+      deleted,
+      deadline,
+      reminderAt);
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
+    return 'Task(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted, deadline: $deadline, reminderAt: $reminderAt)';
   }
 }
 
@@ -73,7 +89,9 @@ abstract mixin class $TaskCopyWith<$Res> {
       String? projectId,
       int createdAt,
       int updatedAt,
-      bool deleted});
+      bool deleted,
+      int? deadline,
+      int? reminderAt});
 }
 
 /// @nodoc
@@ -96,6 +114,8 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? deleted = null,
+    Object? deadline = freezed,
+    Object? reminderAt = freezed,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -130,6 +150,14 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
           ? _self.deleted
           : deleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      deadline: freezed == deadline
+          ? _self.deadline
+          : deadline // ignore: cast_nullable_to_non_nullable
+              as int?,
+      reminderAt: freezed == reminderAt
+          ? _self.reminderAt
+          : reminderAt // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -235,7 +263,9 @@ extension TaskPatterns on Task {
             String? projectId,
             int createdAt,
             int updatedAt,
-            bool deleted)?
+            bool deleted,
+            int? deadline,
+            int? reminderAt)?
         $default, {
     required TResult orElse(),
   }) {
@@ -250,7 +280,9 @@ extension TaskPatterns on Task {
             _that.projectId,
             _that.createdAt,
             _that.updatedAt,
-            _that.deleted);
+            _that.deleted,
+            _that.deadline,
+            _that.reminderAt);
       case _:
         return orElse();
     }
@@ -279,7 +311,9 @@ extension TaskPatterns on Task {
             String? projectId,
             int createdAt,
             int updatedAt,
-            bool deleted)
+            bool deleted,
+            int? deadline,
+            int? reminderAt)
         $default,
   ) {
     final _that = this;
@@ -293,7 +327,9 @@ extension TaskPatterns on Task {
             _that.projectId,
             _that.createdAt,
             _that.updatedAt,
-            _that.deleted);
+            _that.deleted,
+            _that.deadline,
+            _that.reminderAt);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -321,7 +357,9 @@ extension TaskPatterns on Task {
             String? projectId,
             int createdAt,
             int updatedAt,
-            bool deleted)?
+            bool deleted,
+            int? deadline,
+            int? reminderAt)?
         $default,
   ) {
     final _that = this;
@@ -335,7 +373,9 @@ extension TaskPatterns on Task {
             _that.projectId,
             _that.createdAt,
             _that.updatedAt,
-            _that.deleted);
+            _that.deleted,
+            _that.deadline,
+            _that.reminderAt);
       case _:
         return null;
     }
@@ -353,7 +393,9 @@ class _Task implements Task {
       this.projectId,
       required this.createdAt,
       required this.updatedAt,
-      required this.deleted});
+      required this.deleted,
+      this.deadline,
+      this.reminderAt});
 
   @override
   final String id;
@@ -371,6 +413,10 @@ class _Task implements Task {
   final int updatedAt;
   @override
   final bool deleted;
+  @override
+  final int? deadline;
+  @override
+  final int? reminderAt;
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.
@@ -397,16 +443,30 @@ class _Task implements Task {
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.deleted, deleted) || other.deleted == deleted));
+            (identical(other.deleted, deleted) || other.deleted == deleted) &&
+            (identical(other.deadline, deadline) ||
+                other.deadline == deadline) &&
+            (identical(other.reminderAt, reminderAt) ||
+                other.reminderAt == reminderAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, description,
-      completed, projectId, createdAt, updatedAt, deleted);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      description,
+      completed,
+      projectId,
+      createdAt,
+      updatedAt,
+      deleted,
+      deadline,
+      reminderAt);
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
+    return 'Task(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted, deadline: $deadline, reminderAt: $reminderAt)';
   }
 }
 
@@ -424,7 +484,9 @@ abstract mixin class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       String? projectId,
       int createdAt,
       int updatedAt,
-      bool deleted});
+      bool deleted,
+      int? deadline,
+      int? reminderAt});
 }
 
 /// @nodoc
@@ -447,6 +509,8 @@ class __$TaskCopyWithImpl<$Res> implements _$TaskCopyWith<$Res> {
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? deleted = null,
+    Object? deadline = freezed,
+    Object? reminderAt = freezed,
   }) {
     return _then(_Task(
       id: null == id
@@ -481,6 +545,14 @@ class __$TaskCopyWithImpl<$Res> implements _$TaskCopyWith<$Res> {
           ? _self.deleted
           : deleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      deadline: freezed == deadline
+          ? _self.deadline
+          : deadline // ignore: cast_nullable_to_non_nullable
+              as int?,
+      reminderAt: freezed == reminderAt
+          ? _self.reminderAt
+          : reminderAt // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }

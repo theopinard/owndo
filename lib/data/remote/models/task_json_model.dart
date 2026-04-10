@@ -16,6 +16,8 @@ class TaskJsonModel {
     required this.updatedAt,
     required this.deleted,
     this.subtasks = const [],
+    this.deadline,
+    this.reminderAt,
   });
 
   final String id;
@@ -28,6 +30,8 @@ class TaskJsonModel {
   final bool deleted;
   @JsonKey(defaultValue: [])
   final List<SubtaskJsonModel> subtasks;
+  final int? deadline;
+  final int? reminderAt;
 
   factory TaskJsonModel.fromJson(Map<String, dynamic> json) =>
       _$TaskJsonModelFromJson(json);
@@ -43,6 +47,8 @@ class TaskJsonModel {
         createdAt: createdAt,
         updatedAt: updatedAt,
         deleted: deleted,
+        deadline: deadline,
+        reminderAt: reminderAt,
       );
 
   factory TaskJsonModel.fromDomain(
@@ -59,5 +65,7 @@ class TaskJsonModel {
         updatedAt: task.updatedAt,
         deleted: task.deleted,
         subtasks: subtasks,
+        deadline: task.deadline,
+        reminderAt: task.reminderAt,
       );
 }

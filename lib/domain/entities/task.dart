@@ -14,12 +14,16 @@ abstract class Task with _$Task {
     required int createdAt,
     required int updatedAt,
     required bool deleted,
+    int? deadline,
+    int? reminderAt,
   }) = _Task;
 
   factory Task.create({
     required String title,
     String? description,
     String? projectId,
+    int? deadline,
+    int? reminderAt,
   }) {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     return Task(
@@ -31,6 +35,8 @@ abstract class Task with _$Task {
       createdAt: now,
       updatedAt: now,
       deleted: false,
+      deadline: deadline,
+      reminderAt: reminderAt,
     );
   }
 }

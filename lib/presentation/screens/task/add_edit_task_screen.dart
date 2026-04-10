@@ -160,6 +160,21 @@ class _AddEditTaskScreenState extends ConsumerState<AddEditTaskScreen> {
                 );
               },
             ),
+            const SizedBox(height: 8),
+            _DatePickerRow(
+              label: 'Deadline',
+              icon: Icons.event,
+              timestamp: editState.deadline,
+              onChanged: notifier.updateDeadline,
+            ),
+            const SizedBox(height: 8),
+            _DatePickerRow(
+              label: 'Reminder',
+              icon: Icons.notifications_outlined,
+              timestamp: editState.reminderAt,
+              onChanged: notifier.updateReminderAt,
+              includeTime: true,
+            ),
             if (widget.existingTask != null) ...[
               const SizedBox(height: 24),
               _SubtaskSection(taskId: widget.existingTask!.id),
@@ -167,6 +182,87 @@ class _AddEditTaskScreenState extends ConsumerState<AddEditTaskScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DatePickerRow extends StatelessWidget {
+  const _DatePickerRow({
+    required this.label,
+    required this.icon,
+    required this.timestamp,
+    required this.onChanged,
+    this.includeTime = false,
+  });
+
+  final String label;
+  final IconData icon;
+  final int? timestamp;
+  final ValueChanged<int?> onChanged;
+  final bool includeTime;
+
+  String _format(int ts) {
+    final d = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
+    final date =
+        '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
+    if (!includeTime) return date;
+    return '$date  ${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _pick(BuildContext context) async {
+    final now = DateTime.now();
+    final initial = timestamp != null
+        ? DateTime.fromMillisecondsSinceEpoch(timestamp! * 1000)
+        : now;
+
+    final date = await showDatePicker(
+      context: context,
+      initialDate: initial,
+      firstDate: now.subtract(const Duration(days: 365)),
+      lastDate: now.add(const Duration(days: 365 * 5)),
+    );
+    if (date == null) return;
+
+    DateTime result = date;
+    if (includeTime && context.mounted) {
+      final time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(initial),
+      );
+      if (time == null) return;
+      result = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    }
+    onChanged(result.millisecondsSinceEpoch ~/ 1000);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            timestamp != null ? _format(timestamp!) : label,
+            style: timestamp != null
+                ? Theme.of(context).textTheme.bodyMedium
+                : Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: Theme.of(context).hintColor),
+          ),
+        ),
+        if (timestamp != null)
+          IconButton(
+            icon: const Icon(Icons.close, size: 18),
+            onPressed: () => onChanged(null),
+            tooltip: 'Clear',
+          ),
+        TextButton(
+          onPressed: () => _pick(context),
+          child: Text(timestamp != null ? 'Change' : 'Set'),
+        ),
+      ],
     );
   }
 }
