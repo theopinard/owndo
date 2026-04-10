@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>owndo — Offline-first to-do with Dropbox sync</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #22c55e;
+      --green-dark: #16a34a;
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #f0f0f0;
+      --muted: #888;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(15,15,15,0.85);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--green); }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+    nav ul a {
+      color: var(--muted);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 100px 24px 80px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 999px;
+      padding: 4px 14px;
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--green);
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: opacity 0.2s, transform 0.1s;
+      cursor: pointer;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); text-decoration: none; }
+    .btn-primary {
+      background: var(--green);
+      color: #000;
+    }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* ── Features ── */
+    .section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 48px;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+    .feature:hover { border-color: rgba(34,197,94,0.4); }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+    .feature h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .feature p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── How it works ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      counter-reset: step;
+    }
+    .step { counter-increment: step; }
+    .step::before {
+      content: counter(step);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(34,197,94,0.15);
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .step h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .step p { font-size: 14px; color: var(--muted); }
+
+    /* ── Platforms ── */
+    .platforms {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .platform {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ── CTA ── */
+    .cta {
+      text-align: center;
+      padding: 80px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .cta h2 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .cta p { color: var(--muted); margin-bottom: 32px; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer p { font-size: 13px; color: var(--muted); }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-links a { font-size: 13px; color: var(--muted); }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <span class="nav-logo">own<span>do</span></span>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="https://github.com/theopinard/owndo" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">Open source · Free</div>
+    <h1>Your tasks,<br><em>your data.</em></h1>
+    <p>An offline-first to-do app that syncs across your devices via Dropbox — no subscription, no tracking, no cloud lock-in.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/theopinard/owndo/releases" target="_blank">
+        ↓ Download
+      </a>
+      <a class="btn btn-secondary" href="https://github.com/theopinard/owndo" target="_blank">
+        View on GitHub
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="section-label">Features</div>
+    <h2>Everything you need, nothing you don't.</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">📋</div>
+        <h3>Tasks &amp; Projects</h3>
+        <p>Organize tasks in your Inbox or group them into projects. Add descriptions, subtasks, and manage everything in one place.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">☑️</div>
+        <h3>Subtasks</h3>
+        <p>Break down complex tasks into subtasks. Check them off inline from the task list without leaving the screen.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📅</div>
+        <h3>Deadlines &amp; Reminders</h3>
+        <p>Set a deadline and get a notification reminder. Deadlines show as human-friendly labels — "Today", "Tomorrow", "3 days ago".</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">☁️</div>
+        <h3>Dropbox Sync</h3>
+        <p>Your data syncs to your own Dropbox account. Last-write-wins merge keeps everything consistent across devices.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✈️</div>
+        <h3>Works Offline</h3>
+        <p>All data lives locally in SQLite. Create and complete tasks with no connection — changes sync automatically when you're back online.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Private by Default</h3>
+        <p>No analytics, no telemetry, no accounts. Your tasks go straight to your Dropbox and nowhere else.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- How it works -->
+  <section class="section" id="how-it-works">
+    <div class="section-label">How it works</div>
+    <h2>Simple setup, instant sync.</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>Download the app</h3>
+        <p>Install owndo on Android, Linux, or macOS from the GitHub releases page.</p>
+      </div>
+      <div class="step">
+        <h3>Connect Dropbox</h3>
+        <p>Sign in with your Dropbox account. owndo stores only your access token — your password never leaves Dropbox.</p>
+      </div>
+      <div class="step">
+        <h3>Start capturing tasks</h3>
+        <p>Add tasks to your Inbox or any project. Changes sync automatically in the background every 45 seconds.</p>
+      </div>
+      <div class="step">
+        <h3>Access anywhere</h3>
+        <p>Install on another device and sign in with the same Dropbox account — your tasks appear instantly.</p>
+      </div>
+    </div>
+
+    <div class="platforms">
+      <div class="platform">🤖 Android</div>
+      <div class="platform">🐧 Linux</div>
+      <div class="platform">🍎 macOS</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Ready to own your tasks?</h2>
+    <p>Free and open source. No account required beyond Dropbox.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/theopinard/owndo/releases" target="_blank">
+        ↓ Download
+      </a>
+      <a class="btn btn-secondary" href="https://github.com/theopinard/owndo" target="_blank">
+        View source
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 owndo. Open source under MIT license.</p>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="https://github.com/theopinard/owndo" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+</body>
+</html>

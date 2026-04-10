@@ -50,3 +50,4 @@ devtools_options.yaml
 # Secrets — NEVER commit
 *.env
 secrets.dart
+secrets.json
