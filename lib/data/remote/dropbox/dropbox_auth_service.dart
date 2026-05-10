@@ -6,18 +6,89 @@ import 'package:app_links/app_links.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:owndo/core/constants.dart';
+import 'package:owndo/core/env.dart';
 import 'package:owndo/core/errors.dart';
+
+/// Simple key-value storage backed by a JSON file.
+/// Used on desktop where the Keychain requires code-signing entitlements.
+class _FileTokenStorage {
+  _FileTokenStorage();
+
+  File? _file;
+
+  Future<File> _getFile() async {
+    if (_file != null) return _file!;
+    final dir = await getApplicationSupportDirectory();
+    _file = File('${dir.path}/auth_tokens.json');
+    return _file!;
+  }
+
+  Future<Map<String, String>> _readAll() async {
+    final file = await _getFile();
+    if (!file.existsSync()) return {};
+    final content = await file.readAsString();
+    if (content.isEmpty) return {};
+    return Map<String, String>.from(jsonDecode(content) as Map);
+  }
+
+  Future<void> _writeAll(Map<String, String> data) async {
+    final file = await _getFile();
+    await file.writeAsString(jsonEncode(data));
+  }
+
+  Future<String?> read({required String key}) async {
+    final data = await _readAll();
+    return data[key];
+  }
+
+  Future<void> write({required String key, required String value}) async {
+    final data = await _readAll();
+    data[key] = value;
+    await _writeAll(data);
+  }
+
+  Future<void> delete({required String key}) async {
+    final data = await _readAll();
+    data.remove(key);
+    await _writeAll(data);
+  }
+}
+
+/// Unified token storage interface that works on all platforms.
+/// Uses [FlutterSecureStorage] on mobile, file-based storage on desktop.
+class _TokenStorage {
+  _TokenStorage()
+      : _isDesktop = Platform.isMacOS || Platform.isLinux || Platform.isWindows,
+        _secureStorage = const FlutterSecureStorage(),
+        _fileStorage = _FileTokenStorage();
+
+  final bool _isDesktop;
+  final FlutterSecureStorage _secureStorage;
+  final _FileTokenStorage _fileStorage;
+
+  Future<String?> read({required String key}) =>
+      _isDesktop ? _fileStorage.read(key: key) : _secureStorage.read(key: key);
+
+  Future<void> write({required String key, required String value}) =>
+      _isDesktop
+          ? _fileStorage.write(key: key, value: value)
+          : _secureStorage.write(key: key, value: value);
+
+  Future<void> delete({required String key}) => _isDesktop
+      ? _fileStorage.delete(key: key)
+      : _secureStorage.delete(key: key);
+}
 
 class DropboxAuthService {
   DropboxAuthService({
-    FlutterSecureStorage? storage,
     http.Client? httpClient,
-  })  : _storage = storage ?? const FlutterSecureStorage(),
+  })  : _storage = _TokenStorage(),
         _client = httpClient ?? http.Client();
 
-  final FlutterSecureStorage _storage;
+  final _TokenStorage _storage;
   final http.Client _client;
 
   static const _accessTokenKey = 'dropbox_access_token';
@@ -37,16 +108,16 @@ class DropboxAuthService {
   /// **Android / iOS / macOS**: opens the system browser via `url_launcher`,
   /// then waits for the `owndo://oauth-callback` deep link via `app_links`.
   Future<void> authenticate() async {
-    if (Platform.isLinux) {
-      await _authenticateLinux();
+    if (Platform.isLinux || Platform.isMacOS) {
+      await _authenticateDesktop();
     } else {
       await _authenticateMobile();
     }
   }
 
-  // ── Linux: pure Dart localhost server ─────────────────────────────────────
+  // ── Desktop: pure Dart localhost server (Linux & macOS) ────────────────────
 
-  Future<void> _authenticateLinux() async {
+  Future<void> _authenticateDesktop() async {
     final verifier = _generateCodeVerifier();
     final challenge = _generateCodeChallenge(verifier);
     final state = _generateState();
@@ -58,7 +129,7 @@ class DropboxAuthService {
     const redirectUri = AppConstants.dropboxLinuxRedirectUri;
 
     final authUrl = Uri.https('www.dropbox.com', '/oauth2/authorize', {
-      'client_id': AppConstants.dropboxAppKey,
+      'client_id': Env.dropboxAppKey,
       'response_type': 'code',
       'redirect_uri': redirectUri,
       'code_challenge': challenge,
@@ -128,7 +199,7 @@ class DropboxAuthService {
     final state = _generateState();
 
     final authUrl = Uri.https('www.dropbox.com', '/oauth2/authorize', {
-      'client_id': AppConstants.dropboxAppKey,
+      'client_id': Env.dropboxAppKey,
       'response_type': 'code',
       'redirect_uri': AppConstants.dropboxRedirectUri,
       'code_challenge': challenge,
@@ -184,8 +255,8 @@ class DropboxAuthService {
       body: {
         'code': code,
         'grant_type': 'authorization_code',
-        'client_id': AppConstants.dropboxAppKey,
-        'client_secret': AppConstants.dropboxAppSecret,
+        'client_id': Env.dropboxAppKey,
+        'client_secret': Env.dropboxAppSecret,
         'redirect_uri': redirectUri,
         'code_verifier': verifier,
       },
@@ -225,8 +296,8 @@ class DropboxAuthService {
       body: {
         'grant_type': 'refresh_token',
         'refresh_token': refreshToken,
-        'client_id': AppConstants.dropboxAppKey,
-        'client_secret': AppConstants.dropboxAppSecret,
+        'client_id': Env.dropboxAppKey,
+        'client_secret': Env.dropboxAppSecret,
       },
     );
 

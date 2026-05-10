@@ -1,11 +1,4 @@
 abstract final class AppConstants {
-  // Dropbox OAuth2 credentials — pass via --dart-define at build/run time:
-  //   flutter run --dart-define=DROPBOX_APP_KEY=xxx --dart-define=DROPBOX_APP_SECRET=yyy
-  static const String dropboxAppKey =
-      String.fromEnvironment('DROPBOX_APP_KEY');
-  static const String dropboxAppSecret =
-      String.fromEnvironment('DROPBOX_APP_SECRET');
-
   static const String dropboxRedirectUri = 'owndo://oauth-callback';
 
   // Fixed port for the Linux localhost OAuth callback.

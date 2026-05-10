@@ -40,22 +40,30 @@ flutter create . \
 3. Under **OAuth 2**, add redirect URI: `owndo://oauth-callback`
 4. Note your **App key** and **App secret**
 
-### 4. Install dependencies & generate code
+### 4. Configure secrets
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and fill in your Dropbox **App key** and **App secret**.
+
+### 5. Install dependencies & generate code
 
 ```bash
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-### 5. Run the app
+The code generator reads `.env` and produces `lib/core/env.g.dart` with obfuscated secrets (via the `envied` package). This file is gitignored — each developer generates it locally.
+
+### 6. Run the app
 
 ```bash
-flutter run -d macos \
-  --dart-define=DROPBOX_APP_KEY=your_app_key \
-  --dart-define=DROPBOX_APP_SECRET=your_app_secret
+flutter run -d macos
 ```
 
-Replace `-d macos` with `-d linux`, `-d android`, or `-d ios` as needed.
+Replace `-d macos` with `-d linux`, `-d android`, or `-d ios` as needed. No `--dart-define` flags are needed — secrets are baked in during code generation.
 
 ### Platform-specific configuration
 
