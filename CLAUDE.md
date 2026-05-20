@@ -8,7 +8,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Install dependencies
 flutter pub get
 
-# Run code generation (Drift, Riverpod, Freezed, JSON serialization)
+# Configure secrets (first time only)
+cp .env.example .env   # then fill in your Dropbox credentials
+
+# Run code generation (Drift, Riverpod, Freezed, JSON serialization, Envied)
 dart run build_runner build --delete-conflicting-outputs
 
 # Watch mode for code generation during development
@@ -23,13 +26,11 @@ flutter test
 # Run a single test file
 flutter test test/data/sync_engine_test.dart
 
-# Run on Linux (requires Dropbox credentials)
-flutter run -d linux \
-  --dart-define=DROPBOX_APP_KEY=xxx \
-  --dart-define=DROPBOX_APP_SECRET=yyy
+# Run on Linux
+flutter run -d linux
 ```
 
-Dropbox credentials are never committed — always passed via `--dart-define`.
+Dropbox credentials live in `.env` (gitignored) and are compiled into the binary via the `envied` package with obfuscation. The generated `lib/core/env.g.dart` is also gitignored. Re-run `build_runner` after changing `.env`.
 
 ### Dropbox app setup
 
@@ -67,13 +68,14 @@ domain/ → data/ → application/ → presentation/
 
 ## Code generation
 
-Four generators run via `build_runner`:
+Five generators run via `build_runner`:
 - **Drift** — generates `app_database.g.dart` and `*.g.dart` for each DAO
 - **Riverpod** — generates `*.g.dart` for each provider/notifier file
 - **Freezed** — generates `*.freezed.dart` for `Task`, `Project`, `TaskEditState`
 - **json_serializable** — generates `*.g.dart` for `TaskJsonModel`, `ProjectJsonModel`
+- **Envied** — generates `lib/core/env.g.dart` with obfuscated Dropbox credentials (read from `.env`)
 
-All generated files are committed. Re-run after any change to annotated classes.
+All generated files are committed except `lib/core/env.g.dart` (gitignored, contains secrets). Re-run after any change to annotated classes or `.env`.
 
 ## Key data design decisions
 

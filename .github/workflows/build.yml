@@ -1,0 +1,157 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Create .env for code generation
+        run: |
+          echo "DROPBOX_APP_KEY=${{ secrets.DROPBOX_APP_KEY }}" >> .env
+          echo "DROPBOX_APP_SECRET=${{ secrets.DROPBOX_APP_SECRET }}" >> .env
+
+      - run: dart run build_runner build --delete-conflicting-outputs
+
+      - run: flutter build apk --release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Create .env for code generation
+        run: |
+          echo "DROPBOX_APP_KEY=${{ secrets.DROPBOX_APP_KEY }}" >> .env
+          echo "DROPBOX_APP_SECRET=${{ secrets.DROPBOX_APP_SECRET }}" >> .env
+
+      - run: dart run build_runner build --delete-conflicting-outputs
+
+      - run: flutter build macos --release
+
+      - name: Zip macOS app
+        run: cd build/macos/Build/Products/Release && zip -r owndo-macos.zip owndo.app
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-app
+          path: build/macos/Build/Products/Release/owndo-macos.zip
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Create .env for code generation
+        run: |
+          echo "DROPBOX_APP_KEY=${{ secrets.DROPBOX_APP_KEY }}" >> .env
+          echo "DROPBOX_APP_SECRET=${{ secrets.DROPBOX_APP_SECRET }}" >> .env
+
+      - run: dart run build_runner build --delete-conflicting-outputs
+
+      - run: flutter build ios --release --no-codesign
+
+      - name: Zip iOS app
+        run: cd build/ios/iphoneos && zip -r owndo-ios.zip Runner.app
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-app
+          path: build/ios/iphoneos/owndo-ios.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build libgtk-3-dev libsqlite3-dev libsecret-1-dev
+
+      - run: flutter pub get
+
+      - name: Create .env for code generation
+        run: |
+          echo "DROPBOX_APP_KEY=${{ secrets.DROPBOX_APP_KEY }}" >> .env
+          echo "DROPBOX_APP_SECRET=${{ secrets.DROPBOX_APP_SECRET }}" >> .env
+
+      - run: dart run build_runner build --delete-conflicting-outputs
+
+      - run: flutter build linux --release
+
+      - name: Tar Linux bundle
+        run: tar -czf owndo-linux-x64.tar.gz -C build/linux/x64/release/bundle .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-bundle
+          path: owndo-linux-x64.tar.gz
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build-android, build-ios, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Rename artifacts
+        run: |
+          mv artifacts/android-apk/app-release.apk artifacts/owndo-android.apk
+          mv artifacts/ios-app/owndo-ios.zip artifacts/owndo-ios.zip
+          mv artifacts/macos-app/owndo-macos.zip artifacts/owndo-macos.zip
+          mv artifacts/linux-bundle/owndo-linux-x64.tar.gz artifacts/owndo-linux-x64.tar.gz
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            artifacts/owndo-android.apk
+            artifacts/owndo-ios.zip
+            artifacts/owndo-macos.zip
+            artifacts/owndo-linux-x64.tar.gz

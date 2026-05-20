@@ -32,6 +32,7 @@ dependencies:
 
   # Secure token storage
   flutter_secure_storage: ^10.0.0
+  path_provider: ^2.1.0
 
   # Routing
   go_router: ^17.2.0
@@ -46,6 +47,9 @@ dependencies:
   freezed_annotation: ^3.1.0
   crypto: ^3.0.3
 
+  # Compile-time secret obfuscation
+  envied: ^1.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,6 +61,7 @@ dev_dependencies:
   riverpod_generator: ^4.0.3
   freezed: ^3.2.5
   json_serializable: ^6.8.0
+  envied_generator: ^1.1.1
 
   # Testing
   mocktail: ^1.0.4

@@ -5,9 +5,11 @@
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
+.swiftpm/
 migrate_working_dir/
 
 # IntelliJ related
@@ -28,6 +30,18 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+.metadata
+
+# Platform generated files
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Release.xcconfig
+ios/Podfile.lock
+macos/Flutter/Flutter-Debug.xcconfig
+macos/Flutter/Flutter-Release.xcconfig
+macos/Podfile.lock
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugin_registrant.h
+windows/flutter/generated_plugins.cmake
 
 # Symbolication related
 app.*.symbols
@@ -51,3 +65,4 @@ devtools_options.yaml
 *.env
 secrets.dart
 secrets.json
+lib/core/env.g.dart
