@@ -12,8 +12,6 @@ import 'package:owndo/core/constants.dart';
 import 'package:owndo/core/env.dart';
 import 'package:owndo/core/errors.dart';
 
-/// Simple key-value storage backed by a JSON file.
-/// Used on desktop where the Keychain requires code-signing entitlements.
 class _FileTokenStorage {
   _FileTokenStorage();
 
@@ -57,8 +55,6 @@ class _FileTokenStorage {
   }
 }
 
-/// Unified token storage interface that works on all platforms.
-/// Uses [FlutterSecureStorage] on mobile, file-based storage on desktop.
 class _TokenStorage {
   _TokenStorage()
       : _isDesktop = Platform.isMacOS || Platform.isLinux || Platform.isWindows,
@@ -100,13 +96,6 @@ class DropboxAuthService {
     return token != null && token.isNotEmpty;
   }
 
-  /// Starts the Dropbox OAuth2 PKCE flow.
-  ///
-  /// **Linux**: opens the system browser, catches the callback on a temporary
-  /// `dart:io` localhost HTTP server — no webkit2gtk / webview required.
-  ///
-  /// **Android / iOS / macOS**: opens the system browser via `url_launcher`,
-  /// then waits for the `owndo://oauth-callback` deep link via `app_links`.
   Future<void> authenticate() async {
     if (Platform.isLinux || Platform.isMacOS) {
       await _authenticateDesktop();
@@ -115,58 +104,28 @@ class DropboxAuthService {
     }
   }
 
-  // ── Desktop: pure Dart localhost server (Linux & macOS) ────────────────────
+  // ── Desktop: localhost HTTP server callback (Linux & macOS) ────────────────
 
   Future<void> _authenticateDesktop() async {
-    final verifier = _generateCodeVerifier();
-    final challenge = _generateCodeChallenge(verifier);
-    final state = _generateState();
+    const redirectUri = AppConstants.dropboxLinuxRedirectUri;
+    final pkce = _generatePkce();
 
-    // Bind to the fixed port registered in the Dropbox app console.
-    // See AppConstants.dropboxLinuxRedirectUri.
     final server = await HttpServer.bind(
         InternetAddress.loopbackIPv4, AppConstants.dropboxLinuxCallbackPort);
-    const redirectUri = AppConstants.dropboxLinuxRedirectUri;
 
-    final authUrl = Uri.https('www.dropbox.com', '/oauth2/authorize', {
-      'client_id': Env.dropboxAppKey,
-      'response_type': 'code',
-      'redirect_uri': redirectUri,
-      'code_challenge': challenge,
-      'code_challenge_method': 'S256',
-      'state': state,
-      'token_access_type': 'offline',
-    });
-
-    if (!await launchUrl(authUrl, mode: LaunchMode.externalApplication)) {
+    if (!await _launchAuthUrl(redirectUri: redirectUri, pkce: pkce)) {
       await server.close(force: true);
       throw const AuthException('Could not open browser for Dropbox login');
     }
 
     try {
       final callbackUri = await _waitForCallback(server);
-
-      final returnedState = callbackUri.queryParameters['state'];
-      if (returnedState != state) {
-        throw const AuthException(
-            'OAuth2 state mismatch — possible CSRF attack');
-      }
-
-      final code = callbackUri.queryParameters['code'];
-      if (code == null) {
-        final error = callbackUri.queryParameters['error'] ?? 'unknown';
-        throw AuthException('Dropbox auth denied: $error');
-      }
-
-      await _exchangeCodeForTokens(
-          code: code, verifier: verifier, redirectUri: redirectUri);
+      await _handleCallback(callbackUri, pkce: pkce, redirectUri: redirectUri);
     } finally {
       await server.close(force: true);
     }
   }
 
-  /// Waits for the OAuth callback on [server], shows a success page, and
-  /// returns the callback URI containing the code/state parameters.
   Future<Uri> _waitForCallback(HttpServer server) async {
     final completer = Completer<Uri>();
 
@@ -191,25 +150,13 @@ class DropboxAuthService {
     );
   }
 
-  // ── Mobile / macOS: url_launcher + app_links deep link ────────────────────
+  // ── Mobile: deep link callback (iOS / Android) ────────────────────────────
 
   Future<void> _authenticateMobile() async {
-    final verifier = _generateCodeVerifier();
-    final challenge = _generateCodeChallenge(verifier);
-    final state = _generateState();
+    const redirectUri = AppConstants.dropboxRedirectUri;
+    final pkce = _generatePkce();
 
-    final authUrl = Uri.https('www.dropbox.com', '/oauth2/authorize', {
-      'client_id': Env.dropboxAppKey,
-      'response_type': 'code',
-      'redirect_uri': AppConstants.dropboxRedirectUri,
-      'code_challenge': challenge,
-      'code_challenge_method': 'S256',
-      'state': state,
-      'token_access_type': 'offline',
-    });
-
-    // Start listening for the deep link BEFORE opening the browser so we
-    // don't miss the callback if the OS delivers it quickly.
+    // Listen for the deep link BEFORE opening the browser.
     final appLinks = AppLinks();
     final linkFuture = appLinks.uriLinkStream
         .where((uri) => uri.scheme == 'owndo')
@@ -220,14 +167,39 @@ class DropboxAuthService {
               throw const AuthException('Dropbox login timed out (5 min)'),
         );
 
-    if (!await launchUrl(authUrl, mode: LaunchMode.externalApplication)) {
+    if (!await _launchAuthUrl(redirectUri: redirectUri, pkce: pkce)) {
       throw const AuthException('Could not open browser for Dropbox login');
     }
 
     final callbackUri = await linkFuture;
+    await _handleCallback(callbackUri, pkce: pkce, redirectUri: redirectUri);
+  }
 
+  // ── Shared OAuth helpers ──────────────────────────────────────────────────
+
+  Future<bool> _launchAuthUrl({
+    required String redirectUri,
+    required ({String verifier, String challenge, String state}) pkce,
+  }) {
+    final authUrl = Uri.https('www.dropbox.com', '/oauth2/authorize', {
+      'client_id': Env.dropboxAppKey,
+      'response_type': 'code',
+      'redirect_uri': redirectUri,
+      'code_challenge': pkce.challenge,
+      'code_challenge_method': 'S256',
+      'state': pkce.state,
+      'token_access_type': 'offline',
+    });
+    return launchUrl(authUrl, mode: LaunchMode.externalApplication);
+  }
+
+  Future<void> _handleCallback(
+    Uri callbackUri, {
+    required ({String verifier, String challenge, String state}) pkce,
+    required String redirectUri,
+  }) async {
     final returnedState = callbackUri.queryParameters['state'];
-    if (returnedState != state) {
+    if (returnedState != pkce.state) {
       throw const AuthException('OAuth2 state mismatch — possible CSRF attack');
     }
 
@@ -238,9 +210,7 @@ class DropboxAuthService {
     }
 
     await _exchangeCodeForTokens(
-        code: code,
-        verifier: verifier,
-        redirectUri: AppConstants.dropboxRedirectUri);
+        code: code, verifier: pkce.verifier, redirectUri: redirectUri);
   }
 
   // ── Shared ─────────────────────────────────────────────────────────────────
@@ -334,21 +304,15 @@ class DropboxAuthService {
 
   // ── PKCE helpers ───────────────────────────────────────────────────────────
 
-  String _generateCodeVerifier() {
+  ({String verifier, String challenge, String state}) _generatePkce() {
     final rng = Random.secure();
-    final bytes = List<int>.generate(32, (_) => rng.nextInt(256));
-    return base64UrlEncode(bytes).replaceAll('=', '');
-  }
-
-  String _generateCodeChallenge(String verifier) {
-    final bytes = utf8.encode(verifier);
-    final digest = sha256.convert(bytes);
-    return base64UrlEncode(digest.bytes).replaceAll('=', '');
-  }
-
-  String _generateState() {
-    final rng = Random.secure();
-    final bytes = List<int>.generate(16, (_) => rng.nextInt(256));
-    return base64UrlEncode(bytes).replaceAll('=', '');
+    final verifierBytes = List<int>.generate(32, (_) => rng.nextInt(256));
+    final verifier = base64UrlEncode(verifierBytes).replaceAll('=', '');
+    final challenge =
+        base64UrlEncode(sha256.convert(utf8.encode(verifier)).bytes)
+            .replaceAll('=', '');
+    final stateBytes = List<int>.generate(16, (_) => rng.nextInt(256));
+    final state = base64UrlEncode(stateBytes).replaceAll('=', '');
+    return (verifier: verifier, challenge: challenge, state: state);
   }
 }
