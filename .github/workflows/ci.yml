@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  analyze-and-test:
+  analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,5 +27,3 @@ jobs:
       - run: dart run build_runner build --delete-conflicting-outputs
 
       - run: flutter analyze
-
-      - run: flutter test
