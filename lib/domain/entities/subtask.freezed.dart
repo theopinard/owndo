@@ -17,7 +17,7 @@ mixin _$Subtask {
   String get id;
   String get taskId;
   String get title;
-  bool get completed;
+  int get currentStep;
   int get createdAt;
   int get updatedAt;
   bool get deleted;
@@ -37,8 +37,8 @@ mixin _$Subtask {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.taskId, taskId) || other.taskId == taskId) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.completed, completed) ||
-                other.completed == completed) &&
+            (identical(other.currentStep, currentStep) ||
+                other.currentStep == currentStep) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -47,12 +47,12 @@ mixin _$Subtask {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, taskId, title, completed, createdAt, updatedAt, deleted);
+  int get hashCode => Object.hash(runtimeType, id, taskId, title, currentStep,
+      createdAt, updatedAt, deleted);
 
   @override
   String toString() {
-    return 'Subtask(id: $id, taskId: $taskId, title: $title, completed: $completed, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
+    return 'Subtask(id: $id, taskId: $taskId, title: $title, currentStep: $currentStep, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
   }
 }
 
@@ -65,7 +65,7 @@ abstract mixin class $SubtaskCopyWith<$Res> {
       {String id,
       String taskId,
       String title,
-      bool completed,
+      int currentStep,
       int createdAt,
       int updatedAt,
       bool deleted});
@@ -86,7 +86,7 @@ class _$SubtaskCopyWithImpl<$Res> implements $SubtaskCopyWith<$Res> {
     Object? id = null,
     Object? taskId = null,
     Object? title = null,
-    Object? completed = null,
+    Object? currentStep = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? deleted = null,
@@ -104,10 +104,10 @@ class _$SubtaskCopyWithImpl<$Res> implements $SubtaskCopyWith<$Res> {
           ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      completed: null == completed
-          ? _self.completed
-          : completed // ignore: cast_nullable_to_non_nullable
-              as bool,
+      currentStep: null == currentStep
+          ? _self.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -217,7 +217,7 @@ extension SubtaskPatterns on Subtask {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String taskId, String title, bool completed,
+    TResult Function(String id, String taskId, String title, int currentStep,
             int createdAt, int updatedAt, bool deleted)?
         $default, {
     required TResult orElse(),
@@ -225,7 +225,7 @@ extension SubtaskPatterns on Subtask {
     final _that = this;
     switch (_that) {
       case _Subtask() when $default != null:
-        return $default(_that.id, _that.taskId, _that.title, _that.completed,
+        return $default(_that.id, _that.taskId, _that.title, _that.currentStep,
             _that.createdAt, _that.updatedAt, _that.deleted);
       case _:
         return orElse();
@@ -247,14 +247,14 @@ extension SubtaskPatterns on Subtask {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String id, String taskId, String title, bool completed,
+    TResult Function(String id, String taskId, String title, int currentStep,
             int createdAt, int updatedAt, bool deleted)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Subtask():
-        return $default(_that.id, _that.taskId, _that.title, _that.completed,
+        return $default(_that.id, _that.taskId, _that.title, _that.currentStep,
             _that.createdAt, _that.updatedAt, _that.deleted);
       case _:
         throw StateError('Unexpected subclass');
@@ -275,14 +275,14 @@ extension SubtaskPatterns on Subtask {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String taskId, String title, bool completed,
+    TResult? Function(String id, String taskId, String title, int currentStep,
             int createdAt, int updatedAt, bool deleted)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Subtask() when $default != null:
-        return $default(_that.id, _that.taskId, _that.title, _that.completed,
+        return $default(_that.id, _that.taskId, _that.title, _that.currentStep,
             _that.createdAt, _that.updatedAt, _that.deleted);
       case _:
         return null;
@@ -292,15 +292,16 @@ extension SubtaskPatterns on Subtask {
 
 /// @nodoc
 
-class _Subtask implements Subtask {
+class _Subtask extends Subtask {
   const _Subtask(
       {required this.id,
       required this.taskId,
       required this.title,
-      required this.completed,
+      this.currentStep = 0,
       required this.createdAt,
       required this.updatedAt,
-      required this.deleted});
+      required this.deleted})
+      : super._();
 
   @override
   final String id;
@@ -309,7 +310,8 @@ class _Subtask implements Subtask {
   @override
   final String title;
   @override
-  final bool completed;
+  @JsonKey()
+  final int currentStep;
   @override
   final int createdAt;
   @override
@@ -333,8 +335,8 @@ class _Subtask implements Subtask {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.taskId, taskId) || other.taskId == taskId) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.completed, completed) ||
-                other.completed == completed) &&
+            (identical(other.currentStep, currentStep) ||
+                other.currentStep == currentStep) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -343,12 +345,12 @@ class _Subtask implements Subtask {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, taskId, title, completed, createdAt, updatedAt, deleted);
+  int get hashCode => Object.hash(runtimeType, id, taskId, title, currentStep,
+      createdAt, updatedAt, deleted);
 
   @override
   String toString() {
-    return 'Subtask(id: $id, taskId: $taskId, title: $title, completed: $completed, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
+    return 'Subtask(id: $id, taskId: $taskId, title: $title, currentStep: $currentStep, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted)';
   }
 }
 
@@ -362,7 +364,7 @@ abstract mixin class _$SubtaskCopyWith<$Res> implements $SubtaskCopyWith<$Res> {
       {String id,
       String taskId,
       String title,
-      bool completed,
+      int currentStep,
       int createdAt,
       int updatedAt,
       bool deleted});
@@ -383,7 +385,7 @@ class __$SubtaskCopyWithImpl<$Res> implements _$SubtaskCopyWith<$Res> {
     Object? id = null,
     Object? taskId = null,
     Object? title = null,
-    Object? completed = null,
+    Object? currentStep = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? deleted = null,
@@ -401,10 +403,10 @@ class __$SubtaskCopyWithImpl<$Res> implements _$SubtaskCopyWith<$Res> {
           ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      completed: null == completed
-          ? _self.completed
-          : completed // ignore: cast_nullable_to_non_nullable
-              as bool,
+      currentStep: null == currentStep
+          ? _self.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable

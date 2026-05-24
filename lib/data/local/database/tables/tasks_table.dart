@@ -14,6 +14,7 @@ class TasksTable extends Table {
   BoolColumn get deleted => boolean().withDefault(const Constant(false))();
   IntColumn get deadline => integer().nullable()();
   IntColumn get reminderAt => integer().nullable()();
+  IntColumn get subtaskSteps => integer().withDefault(const Constant(1))();
 
   @override
   Set<Column> get primaryKey => {id};

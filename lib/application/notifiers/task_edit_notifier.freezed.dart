@@ -21,6 +21,7 @@ mixin _$TaskEditState {
   String? get existingTaskId;
   int? get deadline;
   int? get reminderAt;
+  int get subtaskSteps;
 
   /// Create a copy of TaskEditState
   /// with the given fields replaced by the non-null parameter values.
@@ -46,16 +47,18 @@ mixin _$TaskEditState {
             (identical(other.deadline, deadline) ||
                 other.deadline == deadline) &&
             (identical(other.reminderAt, reminderAt) ||
-                other.reminderAt == reminderAt));
+                other.reminderAt == reminderAt) &&
+            (identical(other.subtaskSteps, subtaskSteps) ||
+                other.subtaskSteps == subtaskSteps));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, title, description, projectId,
-      isNew, existingTaskId, deadline, reminderAt);
+      isNew, existingTaskId, deadline, reminderAt, subtaskSteps);
 
   @override
   String toString() {
-    return 'TaskEditState(title: $title, description: $description, projectId: $projectId, isNew: $isNew, existingTaskId: $existingTaskId, deadline: $deadline, reminderAt: $reminderAt)';
+    return 'TaskEditState(title: $title, description: $description, projectId: $projectId, isNew: $isNew, existingTaskId: $existingTaskId, deadline: $deadline, reminderAt: $reminderAt, subtaskSteps: $subtaskSteps)';
   }
 }
 
@@ -72,7 +75,8 @@ abstract mixin class $TaskEditStateCopyWith<$Res> {
       bool isNew,
       String? existingTaskId,
       int? deadline,
-      int? reminderAt});
+      int? reminderAt,
+      int subtaskSteps});
 }
 
 /// @nodoc
@@ -95,6 +99,7 @@ class _$TaskEditStateCopyWithImpl<$Res>
     Object? existingTaskId = freezed,
     Object? deadline = freezed,
     Object? reminderAt = freezed,
+    Object? subtaskSteps = null,
   }) {
     return _then(_self.copyWith(
       title: null == title
@@ -125,6 +130,10 @@ class _$TaskEditStateCopyWithImpl<$Res>
           ? _self.reminderAt
           : reminderAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      subtaskSteps: null == subtaskSteps
+          ? _self.subtaskSteps
+          : subtaskSteps // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -222,8 +231,15 @@ extension TaskEditStatePatterns on TaskEditState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String title, String? description, String? projectId,
-            bool isNew, String? existingTaskId, int? deadline, int? reminderAt)?
+    TResult Function(
+            String title,
+            String? description,
+            String? projectId,
+            bool isNew,
+            String? existingTaskId,
+            int? deadline,
+            int? reminderAt,
+            int subtaskSteps)?
         $default, {
     required TResult orElse(),
   }) {
@@ -237,7 +253,8 @@ extension TaskEditStatePatterns on TaskEditState {
             _that.isNew,
             _that.existingTaskId,
             _that.deadline,
-            _that.reminderAt);
+            _that.reminderAt,
+            _that.subtaskSteps);
       case _:
         return orElse();
     }
@@ -258,8 +275,15 @@ extension TaskEditStatePatterns on TaskEditState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String title, String? description, String? projectId,
-            bool isNew, String? existingTaskId, int? deadline, int? reminderAt)
+    TResult Function(
+            String title,
+            String? description,
+            String? projectId,
+            bool isNew,
+            String? existingTaskId,
+            int? deadline,
+            int? reminderAt,
+            int subtaskSteps)
         $default,
   ) {
     final _that = this;
@@ -272,7 +296,8 @@ extension TaskEditStatePatterns on TaskEditState {
             _that.isNew,
             _that.existingTaskId,
             _that.deadline,
-            _that.reminderAt);
+            _that.reminderAt,
+            _that.subtaskSteps);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -292,8 +317,15 @@ extension TaskEditStatePatterns on TaskEditState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String title, String? description, String? projectId,
-            bool isNew, String? existingTaskId, int? deadline, int? reminderAt)?
+    TResult? Function(
+            String title,
+            String? description,
+            String? projectId,
+            bool isNew,
+            String? existingTaskId,
+            int? deadline,
+            int? reminderAt,
+            int subtaskSteps)?
         $default,
   ) {
     final _that = this;
@@ -306,7 +338,8 @@ extension TaskEditStatePatterns on TaskEditState {
             _that.isNew,
             _that.existingTaskId,
             _that.deadline,
-            _that.reminderAt);
+            _that.reminderAt,
+            _that.subtaskSteps);
       case _:
         return null;
     }
@@ -323,7 +356,8 @@ class _TaskEditState implements TaskEditState {
       required this.isNew,
       this.existingTaskId,
       this.deadline,
-      this.reminderAt});
+      this.reminderAt,
+      this.subtaskSteps = 1});
 
   @override
   final String title;
@@ -339,6 +373,9 @@ class _TaskEditState implements TaskEditState {
   final int? deadline;
   @override
   final int? reminderAt;
+  @override
+  @JsonKey()
+  final int subtaskSteps;
 
   /// Create a copy of TaskEditState
   /// with the given fields replaced by the non-null parameter values.
@@ -364,16 +401,18 @@ class _TaskEditState implements TaskEditState {
             (identical(other.deadline, deadline) ||
                 other.deadline == deadline) &&
             (identical(other.reminderAt, reminderAt) ||
-                other.reminderAt == reminderAt));
+                other.reminderAt == reminderAt) &&
+            (identical(other.subtaskSteps, subtaskSteps) ||
+                other.subtaskSteps == subtaskSteps));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, title, description, projectId,
-      isNew, existingTaskId, deadline, reminderAt);
+      isNew, existingTaskId, deadline, reminderAt, subtaskSteps);
 
   @override
   String toString() {
-    return 'TaskEditState(title: $title, description: $description, projectId: $projectId, isNew: $isNew, existingTaskId: $existingTaskId, deadline: $deadline, reminderAt: $reminderAt)';
+    return 'TaskEditState(title: $title, description: $description, projectId: $projectId, isNew: $isNew, existingTaskId: $existingTaskId, deadline: $deadline, reminderAt: $reminderAt, subtaskSteps: $subtaskSteps)';
   }
 }
 
@@ -392,7 +431,8 @@ abstract mixin class _$TaskEditStateCopyWith<$Res>
       bool isNew,
       String? existingTaskId,
       int? deadline,
-      int? reminderAt});
+      int? reminderAt,
+      int subtaskSteps});
 }
 
 /// @nodoc
@@ -415,6 +455,7 @@ class __$TaskEditStateCopyWithImpl<$Res>
     Object? existingTaskId = freezed,
     Object? deadline = freezed,
     Object? reminderAt = freezed,
+    Object? subtaskSteps = null,
   }) {
     return _then(_TaskEditState(
       title: null == title
@@ -445,6 +486,10 @@ class __$TaskEditStateCopyWithImpl<$Res>
           ? _self.reminderAt
           : reminderAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      subtaskSteps: null == subtaskSteps
+          ? _self.subtaskSteps
+          : subtaskSteps // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }

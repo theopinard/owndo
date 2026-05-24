@@ -75,6 +75,14 @@ class $TasksTableTable extends TasksTable
   late final GeneratedColumn<int> reminderAt = GeneratedColumn<int>(
       'reminder_at', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _subtaskStepsMeta =
+      const VerificationMeta('subtaskSteps');
+  @override
+  late final GeneratedColumn<int> subtaskSteps = GeneratedColumn<int>(
+      'subtask_steps', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(1));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -86,7 +94,8 @@ class $TasksTableTable extends TasksTable
         updatedAt,
         deleted,
         deadline,
-        reminderAt
+        reminderAt,
+        subtaskSteps
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -149,6 +158,12 @@ class $TasksTableTable extends TasksTable
           reminderAt.isAcceptableOrUnknown(
               data['reminder_at']!, _reminderAtMeta));
     }
+    if (data.containsKey('subtask_steps')) {
+      context.handle(
+          _subtaskStepsMeta,
+          subtaskSteps.isAcceptableOrUnknown(
+              data['subtask_steps']!, _subtaskStepsMeta));
+    }
     return context;
   }
 
@@ -178,6 +193,8 @@ class $TasksTableTable extends TasksTable
           .read(DriftSqlType.int, data['${effectivePrefix}deadline']),
       reminderAt: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}reminder_at']),
+      subtaskSteps: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}subtask_steps'])!,
     );
   }
 
@@ -198,6 +215,7 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
   final bool deleted;
   final int? deadline;
   final int? reminderAt;
+  final int subtaskSteps;
   const TasksTableData(
       {required this.id,
       required this.title,
@@ -208,7 +226,8 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       required this.updatedAt,
       required this.deleted,
       this.deadline,
-      this.reminderAt});
+      this.reminderAt,
+      required this.subtaskSteps});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -230,6 +249,7 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
     if (!nullToAbsent || reminderAt != null) {
       map['reminder_at'] = Variable<int>(reminderAt);
     }
+    map['subtask_steps'] = Variable<int>(subtaskSteps);
     return map;
   }
 
@@ -253,6 +273,7 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       reminderAt: reminderAt == null && nullToAbsent
           ? const Value.absent()
           : Value(reminderAt),
+      subtaskSteps: Value(subtaskSteps),
     );
   }
 
@@ -270,6 +291,7 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       deleted: serializer.fromJson<bool>(json['deleted']),
       deadline: serializer.fromJson<int?>(json['deadline']),
       reminderAt: serializer.fromJson<int?>(json['reminderAt']),
+      subtaskSteps: serializer.fromJson<int>(json['subtaskSteps']),
     );
   }
   @override
@@ -286,6 +308,7 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       'deleted': serializer.toJson<bool>(deleted),
       'deadline': serializer.toJson<int?>(deadline),
       'reminderAt': serializer.toJson<int?>(reminderAt),
+      'subtaskSteps': serializer.toJson<int>(subtaskSteps),
     };
   }
 
@@ -299,7 +322,8 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
           int? updatedAt,
           bool? deleted,
           Value<int?> deadline = const Value.absent(),
-          Value<int?> reminderAt = const Value.absent()}) =>
+          Value<int?> reminderAt = const Value.absent(),
+          int? subtaskSteps}) =>
       TasksTableData(
         id: id ?? this.id,
         title: title ?? this.title,
@@ -311,6 +335,7 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
         deleted: deleted ?? this.deleted,
         deadline: deadline.present ? deadline.value : this.deadline,
         reminderAt: reminderAt.present ? reminderAt.value : this.reminderAt,
+        subtaskSteps: subtaskSteps ?? this.subtaskSteps,
       );
   TasksTableData copyWithCompanion(TasksTableCompanion data) {
     return TasksTableData(
@@ -326,6 +351,9 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
       deadline: data.deadline.present ? data.deadline.value : this.deadline,
       reminderAt:
           data.reminderAt.present ? data.reminderAt.value : this.reminderAt,
+      subtaskSteps: data.subtaskSteps.present
+          ? data.subtaskSteps.value
+          : this.subtaskSteps,
     );
   }
 
@@ -341,14 +369,15 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deleted: $deleted, ')
           ..write('deadline: $deadline, ')
-          ..write('reminderAt: $reminderAt')
+          ..write('reminderAt: $reminderAt, ')
+          ..write('subtaskSteps: $subtaskSteps')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(id, title, description, completed, projectId,
-      createdAt, updatedAt, deleted, deadline, reminderAt);
+      createdAt, updatedAt, deleted, deadline, reminderAt, subtaskSteps);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -362,7 +391,8 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
           other.updatedAt == this.updatedAt &&
           other.deleted == this.deleted &&
           other.deadline == this.deadline &&
-          other.reminderAt == this.reminderAt);
+          other.reminderAt == this.reminderAt &&
+          other.subtaskSteps == this.subtaskSteps);
 }
 
 class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
@@ -376,6 +406,7 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
   final Value<bool> deleted;
   final Value<int?> deadline;
   final Value<int?> reminderAt;
+  final Value<int> subtaskSteps;
   final Value<int> rowid;
   const TasksTableCompanion({
     this.id = const Value.absent(),
@@ -388,6 +419,7 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     this.deleted = const Value.absent(),
     this.deadline = const Value.absent(),
     this.reminderAt = const Value.absent(),
+    this.subtaskSteps = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   TasksTableCompanion.insert({
@@ -401,6 +433,7 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     this.deleted = const Value.absent(),
     this.deadline = const Value.absent(),
     this.reminderAt = const Value.absent(),
+    this.subtaskSteps = const Value.absent(),
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         title = Value(title),
@@ -417,6 +450,7 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     Expression<bool>? deleted,
     Expression<int>? deadline,
     Expression<int>? reminderAt,
+    Expression<int>? subtaskSteps,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -430,6 +464,7 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
       if (deleted != null) 'deleted': deleted,
       if (deadline != null) 'deadline': deadline,
       if (reminderAt != null) 'reminder_at': reminderAt,
+      if (subtaskSteps != null) 'subtask_steps': subtaskSteps,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -445,6 +480,7 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
       Value<bool>? deleted,
       Value<int?>? deadline,
       Value<int?>? reminderAt,
+      Value<int>? subtaskSteps,
       Value<int>? rowid}) {
     return TasksTableCompanion(
       id: id ?? this.id,
@@ -457,6 +493,7 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
       deleted: deleted ?? this.deleted,
       deadline: deadline ?? this.deadline,
       reminderAt: reminderAt ?? this.reminderAt,
+      subtaskSteps: subtaskSteps ?? this.subtaskSteps,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -494,6 +531,9 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     if (reminderAt.present) {
       map['reminder_at'] = Variable<int>(reminderAt.value);
     }
+    if (subtaskSteps.present) {
+      map['subtask_steps'] = Variable<int>(subtaskSteps.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -513,6 +553,7 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
           ..write('deleted: $deleted, ')
           ..write('deadline: $deadline, ')
           ..write('reminderAt: $reminderAt, ')
+          ..write('subtaskSteps: $subtaskSteps, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -850,16 +891,14 @@ class $SubtasksTableTable extends SubtasksTable
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'title', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _completedMeta =
-      const VerificationMeta('completed');
+  static const VerificationMeta _currentStepMeta =
+      const VerificationMeta('currentStep');
   @override
-  late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
-      'completed', aliasedName, false,
-      type: DriftSqlType.bool,
+  late final GeneratedColumn<int> currentStep = GeneratedColumn<int>(
+      'current_step', aliasedName, false,
+      type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'),
-      defaultValue: const Constant(false));
+      defaultValue: const Constant(0));
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -884,7 +923,7 @@ class $SubtasksTableTable extends SubtasksTable
       defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns =>
-      [id, taskId, title, completed, createdAt, updatedAt, deleted];
+      [id, taskId, title, currentStep, createdAt, updatedAt, deleted];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -912,9 +951,11 @@ class $SubtasksTableTable extends SubtasksTable
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    if (data.containsKey('completed')) {
-      context.handle(_completedMeta,
-          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
+    if (data.containsKey('current_step')) {
+      context.handle(
+          _currentStepMeta,
+          currentStep.isAcceptableOrUnknown(
+              data['current_step']!, _currentStepMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -947,8 +988,8 @@ class $SubtasksTableTable extends SubtasksTable
           .read(DriftSqlType.string, data['${effectivePrefix}task_id'])!,
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      completed: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
+      currentStep: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}current_step'])!,
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -969,7 +1010,7 @@ class SubtasksTableData extends DataClass
   final String id;
   final String taskId;
   final String title;
-  final bool completed;
+  final int currentStep;
   final int createdAt;
   final int updatedAt;
   final bool deleted;
@@ -977,7 +1018,7 @@ class SubtasksTableData extends DataClass
       {required this.id,
       required this.taskId,
       required this.title,
-      required this.completed,
+      required this.currentStep,
       required this.createdAt,
       required this.updatedAt,
       required this.deleted});
@@ -987,7 +1028,7 @@ class SubtasksTableData extends DataClass
     map['id'] = Variable<String>(id);
     map['task_id'] = Variable<String>(taskId);
     map['title'] = Variable<String>(title);
-    map['completed'] = Variable<bool>(completed);
+    map['current_step'] = Variable<int>(currentStep);
     map['created_at'] = Variable<int>(createdAt);
     map['updated_at'] = Variable<int>(updatedAt);
     map['deleted'] = Variable<bool>(deleted);
@@ -999,7 +1040,7 @@ class SubtasksTableData extends DataClass
       id: Value(id),
       taskId: Value(taskId),
       title: Value(title),
-      completed: Value(completed),
+      currentStep: Value(currentStep),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deleted: Value(deleted),
@@ -1013,7 +1054,7 @@ class SubtasksTableData extends DataClass
       id: serializer.fromJson<String>(json['id']),
       taskId: serializer.fromJson<String>(json['taskId']),
       title: serializer.fromJson<String>(json['title']),
-      completed: serializer.fromJson<bool>(json['completed']),
+      currentStep: serializer.fromJson<int>(json['currentStep']),
       createdAt: serializer.fromJson<int>(json['createdAt']),
       updatedAt: serializer.fromJson<int>(json['updatedAt']),
       deleted: serializer.fromJson<bool>(json['deleted']),
@@ -1026,7 +1067,7 @@ class SubtasksTableData extends DataClass
       'id': serializer.toJson<String>(id),
       'taskId': serializer.toJson<String>(taskId),
       'title': serializer.toJson<String>(title),
-      'completed': serializer.toJson<bool>(completed),
+      'currentStep': serializer.toJson<int>(currentStep),
       'createdAt': serializer.toJson<int>(createdAt),
       'updatedAt': serializer.toJson<int>(updatedAt),
       'deleted': serializer.toJson<bool>(deleted),
@@ -1037,7 +1078,7 @@ class SubtasksTableData extends DataClass
           {String? id,
           String? taskId,
           String? title,
-          bool? completed,
+          int? currentStep,
           int? createdAt,
           int? updatedAt,
           bool? deleted}) =>
@@ -1045,7 +1086,7 @@ class SubtasksTableData extends DataClass
         id: id ?? this.id,
         taskId: taskId ?? this.taskId,
         title: title ?? this.title,
-        completed: completed ?? this.completed,
+        currentStep: currentStep ?? this.currentStep,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         deleted: deleted ?? this.deleted,
@@ -1055,7 +1096,8 @@ class SubtasksTableData extends DataClass
       id: data.id.present ? data.id.value : this.id,
       taskId: data.taskId.present ? data.taskId.value : this.taskId,
       title: data.title.present ? data.title.value : this.title,
-      completed: data.completed.present ? data.completed.value : this.completed,
+      currentStep:
+          data.currentStep.present ? data.currentStep.value : this.currentStep,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deleted: data.deleted.present ? data.deleted.value : this.deleted,
@@ -1068,7 +1110,7 @@ class SubtasksTableData extends DataClass
           ..write('id: $id, ')
           ..write('taskId: $taskId, ')
           ..write('title: $title, ')
-          ..write('completed: $completed, ')
+          ..write('currentStep: $currentStep, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deleted: $deleted')
@@ -1077,8 +1119,8 @@ class SubtasksTableData extends DataClass
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, taskId, title, completed, createdAt, updatedAt, deleted);
+  int get hashCode => Object.hash(
+      id, taskId, title, currentStep, createdAt, updatedAt, deleted);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1086,7 +1128,7 @@ class SubtasksTableData extends DataClass
           other.id == this.id &&
           other.taskId == this.taskId &&
           other.title == this.title &&
-          other.completed == this.completed &&
+          other.currentStep == this.currentStep &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.deleted == this.deleted);
@@ -1096,7 +1138,7 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
   final Value<String> id;
   final Value<String> taskId;
   final Value<String> title;
-  final Value<bool> completed;
+  final Value<int> currentStep;
   final Value<int> createdAt;
   final Value<int> updatedAt;
   final Value<bool> deleted;
@@ -1105,7 +1147,7 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
     this.id = const Value.absent(),
     this.taskId = const Value.absent(),
     this.title = const Value.absent(),
-    this.completed = const Value.absent(),
+    this.currentStep = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deleted = const Value.absent(),
@@ -1115,7 +1157,7 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
     required String id,
     required String taskId,
     required String title,
-    this.completed = const Value.absent(),
+    this.currentStep = const Value.absent(),
     required int createdAt,
     required int updatedAt,
     this.deleted = const Value.absent(),
@@ -1129,7 +1171,7 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
     Expression<String>? id,
     Expression<String>? taskId,
     Expression<String>? title,
-    Expression<bool>? completed,
+    Expression<int>? currentStep,
     Expression<int>? createdAt,
     Expression<int>? updatedAt,
     Expression<bool>? deleted,
@@ -1139,7 +1181,7 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
       if (id != null) 'id': id,
       if (taskId != null) 'task_id': taskId,
       if (title != null) 'title': title,
-      if (completed != null) 'completed': completed,
+      if (currentStep != null) 'current_step': currentStep,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deleted != null) 'deleted': deleted,
@@ -1151,7 +1193,7 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
       {Value<String>? id,
       Value<String>? taskId,
       Value<String>? title,
-      Value<bool>? completed,
+      Value<int>? currentStep,
       Value<int>? createdAt,
       Value<int>? updatedAt,
       Value<bool>? deleted,
@@ -1160,7 +1202,7 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
       id: id ?? this.id,
       taskId: taskId ?? this.taskId,
       title: title ?? this.title,
-      completed: completed ?? this.completed,
+      currentStep: currentStep ?? this.currentStep,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       deleted: deleted ?? this.deleted,
@@ -1180,8 +1222,8 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
     if (title.present) {
       map['title'] = Variable<String>(title.value);
     }
-    if (completed.present) {
-      map['completed'] = Variable<bool>(completed.value);
+    if (currentStep.present) {
+      map['current_step'] = Variable<int>(currentStep.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<int>(createdAt.value);
@@ -1204,7 +1246,7 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
           ..write('id: $id, ')
           ..write('taskId: $taskId, ')
           ..write('title: $title, ')
-          ..write('completed: $completed, ')
+          ..write('currentStep: $currentStep, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('deleted: $deleted, ')
@@ -1567,6 +1609,7 @@ typedef $$TasksTableTableCreateCompanionBuilder = TasksTableCompanion Function({
   Value<bool> deleted,
   Value<int?> deadline,
   Value<int?> reminderAt,
+  Value<int> subtaskSteps,
   Value<int> rowid,
 });
 typedef $$TasksTableTableUpdateCompanionBuilder = TasksTableCompanion Function({
@@ -1580,6 +1623,7 @@ typedef $$TasksTableTableUpdateCompanionBuilder = TasksTableCompanion Function({
   Value<bool> deleted,
   Value<int?> deadline,
   Value<int?> reminderAt,
+  Value<int> subtaskSteps,
   Value<int> rowid,
 });
 
@@ -1621,6 +1665,9 @@ class $$TasksTableTableFilterComposer
 
   ColumnFilters<int> get reminderAt => $composableBuilder(
       column: $table.reminderAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get subtaskSteps => $composableBuilder(
+      column: $table.subtaskSteps, builder: (column) => ColumnFilters(column));
 }
 
 class $$TasksTableTableOrderingComposer
@@ -1661,6 +1708,10 @@ class $$TasksTableTableOrderingComposer
 
   ColumnOrderings<int> get reminderAt => $composableBuilder(
       column: $table.reminderAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get subtaskSteps => $composableBuilder(
+      column: $table.subtaskSteps,
+      builder: (column) => ColumnOrderings(column));
 }
 
 class $$TasksTableTableAnnotationComposer
@@ -1701,6 +1752,9 @@ class $$TasksTableTableAnnotationComposer
 
   GeneratedColumn<int> get reminderAt => $composableBuilder(
       column: $table.reminderAt, builder: (column) => column);
+
+  GeneratedColumn<int> get subtaskSteps => $composableBuilder(
+      column: $table.subtaskSteps, builder: (column) => column);
 }
 
 class $$TasksTableTableTableManager extends RootTableManager<
@@ -1739,6 +1793,7 @@ class $$TasksTableTableTableManager extends RootTableManager<
             Value<bool> deleted = const Value.absent(),
             Value<int?> deadline = const Value.absent(),
             Value<int?> reminderAt = const Value.absent(),
+            Value<int> subtaskSteps = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               TasksTableCompanion(
@@ -1752,6 +1807,7 @@ class $$TasksTableTableTableManager extends RootTableManager<
             deleted: deleted,
             deadline: deadline,
             reminderAt: reminderAt,
+            subtaskSteps: subtaskSteps,
             rowid: rowid,
           ),
           createCompanionCallback: ({
@@ -1765,6 +1821,7 @@ class $$TasksTableTableTableManager extends RootTableManager<
             Value<bool> deleted = const Value.absent(),
             Value<int?> deadline = const Value.absent(),
             Value<int?> reminderAt = const Value.absent(),
+            Value<int> subtaskSteps = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               TasksTableCompanion.insert(
@@ -1778,6 +1835,7 @@ class $$TasksTableTableTableManager extends RootTableManager<
             deleted: deleted,
             deadline: deadline,
             reminderAt: reminderAt,
+            subtaskSteps: subtaskSteps,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
@@ -1980,7 +2038,7 @@ typedef $$SubtasksTableTableCreateCompanionBuilder = SubtasksTableCompanion
   required String id,
   required String taskId,
   required String title,
-  Value<bool> completed,
+  Value<int> currentStep,
   required int createdAt,
   required int updatedAt,
   Value<bool> deleted,
@@ -1991,7 +2049,7 @@ typedef $$SubtasksTableTableUpdateCompanionBuilder = SubtasksTableCompanion
   Value<String> id,
   Value<String> taskId,
   Value<String> title,
-  Value<bool> completed,
+  Value<int> currentStep,
   Value<int> createdAt,
   Value<int> updatedAt,
   Value<bool> deleted,
@@ -2016,8 +2074,8 @@ class $$SubtasksTableTableFilterComposer
   ColumnFilters<String> get title => $composableBuilder(
       column: $table.title, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<bool> get completed => $composableBuilder(
-      column: $table.completed, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get currentStep => $composableBuilder(
+      column: $table.currentStep, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -2047,8 +2105,8 @@ class $$SubtasksTableTableOrderingComposer
   ColumnOrderings<String> get title => $composableBuilder(
       column: $table.title, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<bool> get completed => $composableBuilder(
-      column: $table.completed, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get currentStep => $composableBuilder(
+      column: $table.currentStep, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
@@ -2078,8 +2136,8 @@ class $$SubtasksTableTableAnnotationComposer
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
 
-  GeneratedColumn<bool> get completed =>
-      $composableBuilder(column: $table.completed, builder: (column) => column);
+  GeneratedColumn<int> get currentStep => $composableBuilder(
+      column: $table.currentStep, builder: (column) => column);
 
   GeneratedColumn<int> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -2120,7 +2178,7 @@ class $$SubtasksTableTableTableManager extends RootTableManager<
             Value<String> id = const Value.absent(),
             Value<String> taskId = const Value.absent(),
             Value<String> title = const Value.absent(),
-            Value<bool> completed = const Value.absent(),
+            Value<int> currentStep = const Value.absent(),
             Value<int> createdAt = const Value.absent(),
             Value<int> updatedAt = const Value.absent(),
             Value<bool> deleted = const Value.absent(),
@@ -2130,7 +2188,7 @@ class $$SubtasksTableTableTableManager extends RootTableManager<
             id: id,
             taskId: taskId,
             title: title,
-            completed: completed,
+            currentStep: currentStep,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deleted: deleted,
@@ -2140,7 +2198,7 @@ class $$SubtasksTableTableTableManager extends RootTableManager<
             required String id,
             required String taskId,
             required String title,
-            Value<bool> completed = const Value.absent(),
+            Value<int> currentStep = const Value.absent(),
             required int createdAt,
             required int updatedAt,
             Value<bool> deleted = const Value.absent(),
@@ -2150,7 +2208,7 @@ class $$SubtasksTableTableTableManager extends RootTableManager<
             id: id,
             taskId: taskId,
             title: title,
-            completed: completed,
+            currentStep: currentStep,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deleted: deleted,

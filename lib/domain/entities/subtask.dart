@@ -9,11 +9,15 @@ abstract class Subtask with _$Subtask {
     required String id,
     required String taskId,
     required String title,
-    required bool completed,
+    @Default(0) int currentStep,
     required int createdAt,
     required int updatedAt,
     required bool deleted,
   }) = _Subtask;
+
+  const Subtask._();
+
+  bool isCompleted(int totalSteps) => currentStep >= totalSteps;
 
   factory Subtask.create({required String taskId, required String title}) {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -21,7 +25,7 @@ abstract class Subtask with _$Subtask {
       id: UuidFactory.generate(),
       taskId: taskId,
       title: title,
-      completed: false,
+      currentStep: 0,
       createdAt: now,
       updatedAt: now,
       deleted: false,

@@ -31,12 +31,15 @@ class SubtaskListNotifier extends _$SubtaskListNotifier {
     notifySyncWrite(ref);
   }
 
-  Future<void> toggleComplete(Subtask subtask) async {
+  /// Advance the subtask's step. Wraps back to 0 after reaching totalSteps.
+  Future<void> advanceStep(Subtask subtask, int totalSteps) async {
     final db = ref.read(appDatabaseProvider);
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final nextStep =
+        subtask.currentStep >= totalSteps ? 0 : subtask.currentStep + 1;
     await db.subtasksDao.upsertSubtaskWithParentPendingChange(
       SubtaskMapper.toRow(
-        subtask.copyWith(completed: !subtask.completed, updatedAt: now),
+        subtask.copyWith(currentStep: nextStep, updatedAt: now),
       ),
       _parentPendingChange(subtask.taskId, now),
     );

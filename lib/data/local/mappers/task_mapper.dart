@@ -14,6 +14,7 @@ abstract final class TaskMapper {
       deleted: row.deleted,
       deadline: row.deadline,
       reminderAt: row.reminderAt,
+      subtaskSteps: row.subtaskSteps,
     );
   }
 
@@ -29,6 +30,7 @@ abstract final class TaskMapper {
       deleted: task.deleted,
       deadline: task.deadline,
       reminderAt: task.reminderAt,
+      subtaskSteps: task.subtaskSteps,
     );
   }
 }

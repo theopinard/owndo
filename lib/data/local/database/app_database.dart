@@ -22,7 +22,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.connection);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -37,6 +37,16 @@ class AppDatabase extends _$AppDatabase {
           if (from < 4) {
             await m.addColumn(tasksTable, tasksTable.deadline);
             await m.addColumn(tasksTable, tasksTable.reminderAt);
+          }
+          if (from < 5) {
+            await m.addColumn(tasksTable, tasksTable.subtaskSteps);
+            await m.addColumn(subtasksTable, subtasksTable.currentStep);
+            // Migrate: set currentStep = 1 for previously completed subtasks.
+            await customStatement(
+              'UPDATE subtasks SET current_step = 1 WHERE completed = 1',
+            );
+            // Drop the old completed column is not straightforward in SQLite,
+            // so we leave it (Drift ignores columns not in the schema).
           }
         },
       );

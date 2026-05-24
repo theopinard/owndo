@@ -16,6 +16,7 @@ abstract class Task with _$Task {
     required bool deleted,
     int? deadline,
     int? reminderAt,
+    @Default(1) int subtaskSteps,
   }) = _Task;
 
   factory Task.create({

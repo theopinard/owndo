@@ -9,7 +9,7 @@ class SubtaskJsonModel {
     required this.id,
     required this.taskId,
     required this.title,
-    required this.completed,
+    this.currentStep = 0,
     required this.createdAt,
     required this.updatedAt,
     required this.deleted,
@@ -18,7 +18,8 @@ class SubtaskJsonModel {
   final String id;
   final String taskId;
   final String title;
-  final bool completed;
+  @JsonKey(defaultValue: 0)
+  final int currentStep;
   final int createdAt;
   final int updatedAt;
   final bool deleted;
@@ -32,7 +33,7 @@ class SubtaskJsonModel {
         id: id,
         taskId: taskId,
         title: title,
-        completed: completed,
+        currentStep: currentStep,
         createdAt: createdAt,
         updatedAt: updatedAt,
         deleted: deleted,
@@ -42,7 +43,7 @@ class SubtaskJsonModel {
         id: subtask.id,
         taskId: subtask.taskId,
         title: subtask.title,
-        completed: subtask.completed,
+        currentStep: subtask.currentStep,
         createdAt: subtask.createdAt,
         updatedAt: subtask.updatedAt,
         deleted: subtask.deleted,
