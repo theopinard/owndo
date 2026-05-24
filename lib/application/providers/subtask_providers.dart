@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:owndo/application/providers/database_provider.dart';
+import 'package:owndo/application/providers/sync_provider.dart';
 import 'package:owndo/core/utils/uuid_factory.dart';
 import 'package:owndo/core/constants.dart';
 import 'package:owndo/data/local/database/app_database.dart';
@@ -27,6 +28,7 @@ class SubtaskListNotifier extends _$SubtaskListNotifier {
       SubtaskMapper.toRow(subtask),
       _parentPendingChange(taskId, now),
     );
+    notifySyncWrite(ref);
   }
 
   Future<void> toggleComplete(Subtask subtask) async {
@@ -38,6 +40,7 @@ class SubtaskListNotifier extends _$SubtaskListNotifier {
       ),
       _parentPendingChange(subtask.taskId, now),
     );
+    notifySyncWrite(ref);
   }
 
   Future<void> deleteSubtask(Subtask subtask) async {
@@ -47,6 +50,7 @@ class SubtaskListNotifier extends _$SubtaskListNotifier {
       SubtaskMapper.toRow(subtask.copyWith(deleted: true, updatedAt: now)),
       _parentPendingChange(subtask.taskId, now),
     );
+    notifySyncWrite(ref);
   }
 
   // Records a pending change on the parent task so its JSON (with subtasks)

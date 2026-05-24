@@ -17,6 +17,11 @@ import 'package:owndo/domain/sync/sync_adapter.dart';
 
 enum SyncStatus { idle, syncing, error }
 
+class SyncResult {
+  const SyncResult({this.hadRemoteChanges = false});
+  final bool hadRemoteChanges;
+}
+
 // Regex that matches Dropbox conflict-copy filenames:
 //   "<uuid> (conflicted copy 2024-01-01).json"
 final _conflictPattern = RegExp(
@@ -55,8 +60,9 @@ class SyncEngine {
 
   /// Run a full push + pull sync cycle.
   /// Calling while already syncing is a no-op.
-  Future<void> sync() async {
-    if (_isSyncing) return;
+  /// Returns a [SyncResult] indicating whether remote changes were found.
+  Future<SyncResult> sync() async {
+    if (_isSyncing) return const SyncResult();
     _isSyncing = true;
     _emit(SyncStatus.syncing);
 
@@ -69,17 +75,20 @@ class SyncEngine {
         // ignore: avoid_print
         print('[SyncEngine] push phase failed: $e');
       }
-      await _pullPhase();
+      final hadChanges = await _pullPhase();
       _emit(SyncStatus.idle);
+      return SyncResult(hadRemoteChanges: hadChanges);
     } on AuthException catch (e, st) {
       // ignore: avoid_print
       print('[SyncEngine] auth expired: $e\n$st');
       _emit(SyncStatus.error);
       onAuthExpired?.call();
+      return const SyncResult();
     } catch (e, st) {
       // ignore: avoid_print
       print('[SyncEngine] sync error: $e\n$st');
       _emit(SyncStatus.error);
+      return const SyncResult();
     } finally {
       _isSyncing = false;
     }
@@ -145,18 +154,22 @@ class SyncEngine {
 
   // ── Pull Phase ─────────────────────────────────────────────────────────────
 
-  Future<void> _pullPhase() async {
-    await Future.wait([_pullTasks(), _pullProjects()]);
+  /// Returns true if any remote changes were applied locally.
+  Future<bool> _pullPhase() async {
+    final results = await Future.wait([_pullTasks(), _pullProjects()]);
+    return results.any((hadChanges) => hadChanges);
   }
 
-  Future<void> _pullTasks() async {
+  Future<bool> _pullTasks() async {
     final files = await _adapter.listFiles('/tasks/');
+    var hadChanges = false;
 
     for (final filename in files) {
       // Handle conflict copies
       final conflictMatch = _conflictPattern.firstMatch(filename);
       if (conflictMatch != null) {
         await _resolveTaskConflict(filename, conflictMatch.group(1)!);
+        hadChanges = true;
         continue;
       }
 
@@ -172,9 +185,9 @@ class SyncEngine {
         final localRow = await _tasksDao.getTaskById(remote.id);
         if (localRow == null || remote.updatedAt > localRow.updatedAt) {
           await _tasksDao.upsertFromSync(TaskMapper.toRow(remote));
+          hadChanges = true;
         }
         // Merge subtasks individually — last write wins per subtask.
-        // Fetch all local subtasks once (not once per subtask).
         if (remoteModel.subtasks.isNotEmpty) {
           final localSubtaskRows =
               await _subtasksDao.getSubtasksByTask(remote.id);
@@ -184,6 +197,7 @@ class SyncEngine {
             final local = localById[subtask.id];
             if (local == null || subtask.updatedAt > local.updatedAt) {
               await _subtasksDao.upsertFromSync(SubtaskMapper.toRow(subtask));
+              hadChanges = true;
             }
           }
         }
@@ -192,15 +206,18 @@ class SyncEngine {
         print('[SyncEngine] pull task $filename failed: $e');
       }
     }
+    return hadChanges;
   }
 
-  Future<void> _pullProjects() async {
+  Future<bool> _pullProjects() async {
     final files = await _adapter.listFiles('/projects/');
+    var hadChanges = false;
 
     for (final filename in files) {
       final conflictMatch = _conflictPattern.firstMatch(filename);
       if (conflictMatch != null) {
         await _resolveProjectConflict(filename, conflictMatch.group(1)!);
+        hadChanges = true;
         continue;
       }
 
@@ -215,12 +232,14 @@ class SyncEngine {
         final localRow = await _projectsDao.getProjectById(remote.id);
         if (localRow == null || remote.updatedAt > localRow.updatedAt) {
           await _projectsDao.upsertFromSync(ProjectMapper.toRow(remote));
+          hadChanges = true;
         }
       } catch (e) {
         // ignore: avoid_print
         print('[SyncEngine] pull project $filename failed: $e');
       }
     }
+    return hadChanges;
   }
 
   // ── Conflict Resolution ────────────────────────────────────────────────────

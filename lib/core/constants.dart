@@ -11,7 +11,11 @@ abstract final class AppConstants {
   static const String projectsPath = '$dropboxRootPath/projects';
   static const String syncMetaPath = '$dropboxRootPath/sync_meta.json';
 
-  static const Duration syncInterval = Duration(seconds: 45);
+  static const Duration syncBaseInterval = Duration(seconds: 60);
+  static const Duration syncMaxInterval = Duration(minutes: 5);
+  static const Duration syncPushDebounce = Duration(seconds: 2);
+  static const Duration syncBaseRetryDelay = Duration(seconds: 10);
+  static const Duration syncMaxRetryDelay = Duration(minutes: 5);
 
   // Pending-change entity type constants
   static const String entityTypeTask = 'task';

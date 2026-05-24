@@ -42,3 +42,8 @@ SyncScheduler syncScheduler(Ref ref) {
 Stream<SyncStatus> syncStatus(Ref ref) {
   return ref.watch(syncEngineProvider).statusStream;
 }
+
+/// Notify that a local write happened, triggering a debounced sync.
+void notifySyncWrite(Ref ref) {
+  ref.read(syncSchedulerProvider).notifyLocalWrite();
+}

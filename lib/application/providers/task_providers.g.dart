@@ -48,7 +48,7 @@ final class TaskRepositoryProvider
   }
 }
 
-String _$taskRepositoryHash() => r'a4efc2375477ce9d79fbd6a43441f790aea3ac99';
+String _$taskRepositoryHash() => r'33d3f5738f0c83442b3f7eac3e87f371a77bda21';
 
 @ProviderFor(inboxTasks)
 final inboxTasksProvider = InboxTasksProvider._();

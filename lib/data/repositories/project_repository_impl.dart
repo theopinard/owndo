@@ -7,9 +7,10 @@ import 'package:owndo/domain/entities/project.dart';
 import 'package:owndo/domain/repositories/project_repository.dart';
 
 class ProjectRepositoryImpl implements ProjectRepository {
-  const ProjectRepositoryImpl(this._projectsDao);
+  const ProjectRepositoryImpl(this._projectsDao, {this.onWrite});
 
   final ProjectsDao _projectsDao;
+  final void Function()? onWrite;
 
   @override
   Stream<List<Project>> watchProjects() {
@@ -39,6 +40,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
       ProjectMapper.toRow(project),
       change,
     );
+    onWrite?.call();
   }
 
   @override
@@ -62,5 +64,6 @@ class ProjectRepositoryImpl implements ProjectRepository {
       ProjectMapper.toRow(deleted),
       change,
     );
+    onWrite?.call();
   }
 }

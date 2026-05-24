@@ -50,7 +50,7 @@ final class ProjectRepositoryProvider extends $FunctionalProvider<
   }
 }
 
-String _$projectRepositoryHash() => r'49ec8c771b041c30e39e62c1b7f4bf82b19b538f';
+String _$projectRepositoryHash() => r'1ddd17ae60d59fc11285ef7c5e1d285ab6f32645';
 
 @ProviderFor(projectList)
 final projectListProvider = ProjectListProvider._();
