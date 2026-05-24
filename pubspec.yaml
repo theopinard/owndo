@@ -33,6 +33,7 @@ dependencies:
   # Secure token storage
   flutter_secure_storage: ^10.0.0
   path_provider: ^2.1.0
+  path_provider_android: ">=2.2.0 <2.3.0"
 
   # Routing
   go_router: ^17.2.0

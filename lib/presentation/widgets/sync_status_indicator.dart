@@ -13,13 +13,13 @@ class SyncStatusIndicator extends ConsumerWidget {
 
     return IconButton(
       tooltip: switch (status) {
-        SyncStatus.idle => 'Synced',
+        SyncStatus.idle => 'Tap to sync',
         SyncStatus.syncing => 'Syncing…',
         SyncStatus.error => 'Sync error — tap to retry',
       },
-      onPressed: status == SyncStatus.error
-          ? () => ref.read(syncEngineProvider).sync()
-          : null,
+      onPressed: status == SyncStatus.syncing
+          ? null
+          : () => ref.read(syncEngineProvider).sync(),
       icon: AnimatedSwitcher(
         duration: const Duration(milliseconds: 200),
         child: switch (status) {

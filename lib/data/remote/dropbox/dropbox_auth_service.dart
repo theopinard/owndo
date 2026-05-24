@@ -87,6 +87,10 @@ class DropboxAuthService {
   final _TokenStorage _storage;
   final http.Client _client;
 
+  // In-memory cache to avoid hitting secure storage on every API call.
+  String? _cachedToken;
+  int? _cachedExpiresAt;
+
   static const _accessTokenKey = 'dropbox_access_token';
   static const _refreshTokenKey = 'dropbox_refresh_token';
   static const _expiresAtKey = 'dropbox_token_expires_at';
@@ -240,16 +244,24 @@ class DropboxAuthService {
     await _storeTokens(body);
   }
 
-  /// Returns a valid access token, refreshing silently if expired.
   Future<String> getValidAccessToken() async {
-    final expiresAtStr = await _storage.read(key: _expiresAtKey);
-    final expiresAt = expiresAtStr != null ? int.tryParse(expiresAtStr) : null;
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-    // Refresh 60 seconds before expiry to avoid edge cases.
+    // Return cached token if still valid (60s buffer).
+    if (_cachedToken != null && _cachedExpiresAt != null && now < _cachedExpiresAt! - 60) {
+      return _cachedToken!;
+    }
+
+    // Try loading from storage.
+    final expiresAtStr = await _storage.read(key: _expiresAtKey);
+    final expiresAt = expiresAtStr != null ? int.tryParse(expiresAtStr) : null;
     if (expiresAt != null && now < expiresAt - 60) {
       final token = await _storage.read(key: _accessTokenKey);
-      if (token != null) return token;
+      if (token != null) {
+        _cachedToken = token;
+        _cachedExpiresAt = expiresAt;
+        return token;
+      }
     }
 
     return _refreshAccessToken();
@@ -272,6 +284,11 @@ class DropboxAuthService {
     );
 
     if (response.statusCode != 200) {
+      // If the refresh token is revoked/invalid, clear stored tokens
+      // so the user is redirected to re-authenticate.
+      if (response.body.contains('invalid_grant')) {
+        await signOut();
+      }
       throw AuthException('Token refresh failed: ${response.body}');
     }
 
@@ -289,6 +306,9 @@ class DropboxAuthService {
     final expiresAt =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000) + expiresIn;
 
+    _cachedToken = accessToken;
+    _cachedExpiresAt = expiresAt;
+
     await _storage.write(key: _accessTokenKey, value: accessToken);
     await _storage.write(key: _expiresAtKey, value: expiresAt.toString());
     if (refreshToken != null) {
@@ -297,6 +317,8 @@ class DropboxAuthService {
   }
 
   Future<void> signOut() async {
+    _cachedToken = null;
+    _cachedExpiresAt = null;
     await _storage.delete(key: _accessTokenKey);
     await _storage.delete(key: _refreshTokenKey);
     await _storage.delete(key: _expiresAtKey);

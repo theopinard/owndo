@@ -8,7 +8,7 @@ DropboxAuthService dropboxAuth(Ref ref) {
   return DropboxAuthService();
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<bool> isAuthenticated(Ref ref) {
   return ref.watch(dropboxAuthProvider).isAuthenticated();
 }

@@ -62,7 +62,7 @@ final class IsAuthenticatedProvider
           argument: null,
           retry: null,
           name: r'isAuthenticatedProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -81,4 +81,4 @@ final class IsAuthenticatedProvider
   }
 }
 
-String _$isAuthenticatedHash() => r'40c175ed0037199725a1f22a977643bc4eb83a7b';
+String _$isAuthenticatedHash() => r'c299502d505e97ea8dc9dfaf03a13ae8c6c533ea';

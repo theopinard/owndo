@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:owndo/core/constants.dart';
+import 'package:owndo/core/errors.dart';
 import 'package:owndo/data/local/database/daos/pending_changes_dao.dart';
 import 'package:owndo/data/local/database/daos/projects_dao.dart';
 import 'package:owndo/data/local/database/daos/subtasks_dao.dart';
@@ -30,11 +31,15 @@ class SyncEngine {
     required ProjectsDao projectsDao,
     required SubtasksDao subtasksDao,
     required PendingChangesDao pendingChangesDao,
+    this.onAuthExpired,
   })  : _adapter = adapter,
         _tasksDao = tasksDao,
         _projectsDao = projectsDao,
         _subtasksDao = subtasksDao,
         _pendingChangesDao = pendingChangesDao;
+
+  /// Called when sync fails due to expired/revoked credentials.
+  final void Function()? onAuthExpired;
 
   final SyncAdapter _adapter;
   final TasksDao _tasksDao;
@@ -56,9 +61,21 @@ class SyncEngine {
     _emit(SyncStatus.syncing);
 
     try {
-      await _pushPhase();
+      try {
+        await _pushPhase();
+      } on AuthException {
+        rethrow;
+      } catch (e) {
+        // ignore: avoid_print
+        print('[SyncEngine] push phase failed: $e');
+      }
       await _pullPhase();
       _emit(SyncStatus.idle);
+    } on AuthException catch (e, st) {
+      // ignore: avoid_print
+      print('[SyncEngine] auth expired: $e\n$st');
+      _emit(SyncStatus.error);
+      onAuthExpired?.call();
     } catch (e, st) {
       // ignore: avoid_print
       print('[SyncEngine] sync error: $e\n$st');
