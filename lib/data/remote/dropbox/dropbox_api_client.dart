@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:owndo/core/errors.dart';
 
-/// Raw HTTP client for the Dropbox API.
-/// All methods require a valid [accessToken].
 class DropboxApiClient {
   DropboxApiClient({http.Client? httpClient})
       : _client = httpClient ?? http.Client();
 
   final http.Client _client;
+  static const _timeout = Duration(seconds: 30);
 
   static const _contentBase = 'https://content.dropboxapi.com/2/files';
   static const _apiBase = 'https://api.dropboxapi.com/2/files';
@@ -29,7 +28,7 @@ class DropboxApiClient {
         'Content-Type': 'application/octet-stream',
       },
       body: utf8.encode(content),
-    );
+    ).timeout(_timeout);
     _checkStatus(response, 'upload');
   }
 
@@ -45,7 +44,7 @@ class DropboxApiClient {
         'Authorization': 'Bearer $accessToken',
         'Dropbox-API-Arg': arg,
       },
-    );
+    ).timeout(_timeout);
     if (response.statusCode == 409) {
       // path_not_found — file doesn't exist
       throw const NetworkException('File not found');
@@ -66,7 +65,7 @@ class DropboxApiClient {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({'path': folderPath}),
-    );
+    ).timeout(_timeout);
 
     if (response.statusCode == 409) {
       // Folder doesn't exist yet — treat as empty
@@ -95,7 +94,7 @@ class DropboxApiClient {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({'path': path}),
-    );
+    ).timeout(_timeout);
     if (response.statusCode == 409) return; // already deleted — OK
     _checkStatus(response, 'delete');
   }
@@ -112,7 +111,7 @@ class DropboxApiClient {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({'path': path}),
-    );
+    ).timeout(_timeout);
     if (response.statusCode == 409) return false;
     _checkStatus(response, 'get_metadata');
     return true;

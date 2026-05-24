@@ -92,7 +92,7 @@ final class SyncEngineProvider
   }
 }
 
-String _$syncEngineHash() => r'6ee0ba409a66b0897eb9caffec3a09884f6abd26';
+String _$syncEngineHash() => r'327c377256a6746b0ca71a3200c31ed9c9f8a34c';
 
 @ProviderFor(syncScheduler)
 final syncSchedulerProvider = SyncSchedulerProvider._();

@@ -24,6 +24,7 @@ SyncEngine syncEngine(Ref ref) {
     projectsDao: db.projectsDao,
     subtasksDao: db.subtasksDao,
     pendingChangesDao: db.pendingChangesDao,
+    onAuthExpired: () => ref.invalidate(isAuthenticatedProvider),
   );
   ref.onDispose(engine.dispose);
   return engine;
