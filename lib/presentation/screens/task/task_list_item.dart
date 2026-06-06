@@ -77,6 +77,27 @@ class TaskListItem extends ConsumerWidget {
     );
   }
 
+  void _showResetSheet(BuildContext context, SubtaskListNotifier notifier) {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.replay),
+              title: const Text('Reset all subtasks'),
+              onTap: () {
+                Navigator.pop(ctx);
+                notifier.resetAllSubtasks();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final subtasks =
@@ -125,6 +146,9 @@ class TaskListItem extends ConsumerWidget {
               ),
               title: GestureDetector(
                 onTap: onTap,
+                onLongPress: subtasks.any((s) => s.currentStep > 0)
+                    ? () => _showResetSheet(context, subtaskNotifier)
+                    : null,
                 child: titleWidget,
               ),
               children: subtasks.map((s) {

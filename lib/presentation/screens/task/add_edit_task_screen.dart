@@ -313,7 +313,46 @@ class _SubtaskSectionState extends ConsumerState<_SubtaskSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Subtasks', style: Theme.of(context).textTheme.titleSmall),
+        Row(
+          children: [
+            Text('Subtasks', style: Theme.of(context).textTheme.titleSmall),
+            const Spacer(),
+            subtasksAsync.when(
+              loading: () => const SizedBox.shrink(),
+              error: (_, __) => const SizedBox.shrink(),
+              data: (subtasks) =>
+                  subtasks.any((s) => s.currentStep > 0)
+                      ? IconButton(
+                          icon: const Icon(Icons.replay, size: 20),
+                          tooltip: 'Reset all subtasks',
+                          onPressed: () async {
+                            final confirmed = await showDialog<bool>(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text('Reset subtasks?'),
+                                content: const Text(
+                                    'All subtasks will be set back to step 0.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx, false),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx, true),
+                                    child: const Text('Reset'),
+                                  ),
+                                ],
+                              ),
+                            );
+                            if (confirmed == true) {
+                              await notifier.resetAllSubtasks();
+                            }
+                          },
+                        )
+                      : const SizedBox.shrink(),
+            ),
+          ],
+        ),
         const SizedBox(height: 8),
         subtasksAsync.when(
           loading: () => const SizedBox.shrink(),

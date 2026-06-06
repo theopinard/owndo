@@ -46,6 +46,23 @@ class SubtaskListNotifier extends _$SubtaskListNotifier {
     notifySyncWrite(ref);
   }
 
+  /// Reset all subtasks for this task back to step 0.
+  Future<void> resetAllSubtasks() async {
+    final db = ref.read(appDatabaseProvider);
+    final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final rows = await db.subtasksDao.getSubtasksByTask(taskId);
+    for (final row in rows) {
+      if (!row.deleted && row.currentStep > 0) {
+        final subtask = SubtaskMapper.fromRow(row);
+        await db.subtasksDao.upsertSubtaskWithParentPendingChange(
+          SubtaskMapper.toRow(subtask.copyWith(currentStep: 0, updatedAt: now)),
+          _parentPendingChange(taskId, now),
+        );
+      }
+    }
+    notifySyncWrite(ref);
+  }
+
   Future<void> deleteSubtask(Subtask subtask) async {
     final db = ref.read(appDatabaseProvider);
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
