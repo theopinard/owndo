@@ -22,6 +22,7 @@ TaskJsonModel _$TaskJsonModelFromJson(Map<String, dynamic> json) =>
           [],
       deadline: (json['deadline'] as num?)?.toInt(),
       reminderAt: (json['reminder_at'] as num?)?.toInt(),
+      subtaskSteps: (json['subtask_steps'] as num?)?.toInt() ?? 1,
     );
 
 Map<String, dynamic> _$TaskJsonModelToJson(TaskJsonModel instance) =>
@@ -37,4 +38,5 @@ Map<String, dynamic> _$TaskJsonModelToJson(TaskJsonModel instance) =>
       'subtasks': instance.subtasks,
       'deadline': instance.deadline,
       'reminder_at': instance.reminderAt,
+      'subtask_steps': instance.subtaskSteps,
     };

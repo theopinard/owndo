@@ -176,8 +176,16 @@ class _AddEditTaskScreenState extends ConsumerState<AddEditTaskScreen> {
               includeTime: true,
             ),
             if (widget.existingTask != null) ...[
+              const SizedBox(height: 16),
+              _StepsSelector(
+                value: editState.subtaskSteps,
+                onChanged: notifier.updateSubtaskSteps,
+              ),
               const SizedBox(height: 24),
-              _SubtaskSection(taskId: widget.existingTask!.id),
+              _SubtaskSection(
+                taskId: widget.existingTask!.id,
+                totalSteps: editState.subtaskSteps,
+              ),
             ],
           ],
         ),
@@ -268,8 +276,9 @@ class _DatePickerRow extends StatelessWidget {
 }
 
 class _SubtaskSection extends ConsumerStatefulWidget {
-  const _SubtaskSection({required this.taskId});
+  const _SubtaskSection({required this.taskId, required this.totalSteps});
   final String taskId;
+  final int totalSteps;
 
   @override
   ConsumerState<_SubtaskSection> createState() => _SubtaskSectionState();
@@ -304,7 +313,46 @@ class _SubtaskSectionState extends ConsumerState<_SubtaskSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Subtasks', style: Theme.of(context).textTheme.titleSmall),
+        Row(
+          children: [
+            Text('Subtasks', style: Theme.of(context).textTheme.titleSmall),
+            const Spacer(),
+            subtasksAsync.when(
+              loading: () => const SizedBox.shrink(),
+              error: (_, __) => const SizedBox.shrink(),
+              data: (subtasks) =>
+                  subtasks.any((s) => s.currentStep > 0)
+                      ? IconButton(
+                          icon: const Icon(Icons.replay, size: 20),
+                          tooltip: 'Reset all subtasks',
+                          onPressed: () async {
+                            final confirmed = await showDialog<bool>(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text('Reset subtasks?'),
+                                content: const Text(
+                                    'All subtasks will be set back to step 0.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx, false),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx, true),
+                                    child: const Text('Reset'),
+                                  ),
+                                ],
+                              ),
+                            );
+                            if (confirmed == true) {
+                              await notifier.resetAllSubtasks();
+                            }
+                          },
+                        )
+                      : const SizedBox.shrink(),
+            ),
+          ],
+        ),
         const SizedBox(height: 8),
         subtasksAsync.when(
           loading: () => const SizedBox.shrink(),
@@ -319,16 +367,20 @@ class _SubtaskSectionState extends ConsumerState<_SubtaskSection> {
                           contentPadding: EdgeInsets.zero,
                           title: Text(
                             s.title,
-                            style: s.completed
+                            style: s.isCompleted(widget.totalSteps)
                                 ? const TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     color: Colors.grey,
                                   )
                                 : null,
                           ),
-                          leading: Checkbox(
-                            value: s.completed,
-                            onChanged: (_) => notifier.toggleComplete(s),
+                          leading: _StepIndicator(
+                            currentStep: s.currentStep,
+                            totalSteps: widget.totalSteps,
+                            onTap: () => notifier.advanceStep(
+                              s,
+                              widget.totalSteps,
+                            ),
                           ),
                           trailing: IconButton(
                             icon: const Icon(Icons.close, size: 18),
@@ -360,6 +412,101 @@ class _SubtaskSectionState extends ConsumerState<_SubtaskSection> {
               onPressed: _submit,
             ),
           ],
+        ),
+      ],
+    );
+  }
+}
+
+class _StepIndicator extends StatelessWidget {
+  const _StepIndicator({
+    required this.currentStep,
+    required this.totalSteps,
+    required this.onTap,
+  });
+
+  final int currentStep;
+  final int totalSteps;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    // For single-step subtasks, render a normal checkbox.
+    if (totalSteps == 1) {
+      return Checkbox(
+        value: currentStep >= 1,
+        onChanged: (_) => onTap(),
+      );
+    }
+
+    // For multi-step, render a circular progress indicator.
+    final progress = currentStep / totalSteps;
+    final isComplete = currentStep >= totalSteps;
+    final activeColor = isComplete ? Colors.green : Theme.of(context).colorScheme.primary;
+    final trackColor = Theme.of(context).colorScheme.surfaceContainerHighest;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        width: 40,
+        height: 40,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            CircularProgressIndicator(
+              value: progress,
+              strokeWidth: 3,
+              backgroundColor: trackColor,
+              color: activeColor,
+            ),
+            if (totalSteps >= 5)
+              Text(
+                '$currentStep/$totalSteps',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: isComplete ? Colors.green : null,
+                    ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StepsSelector extends StatelessWidget {
+  const _StepsSelector({
+    required this.value,
+    required this.onChanged,
+  });
+
+  final int value;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          Icons.repeat,
+          size: 20,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            value == 1 ? 'Single check' : '$value steps per subtask',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.remove, size: 18),
+          onPressed: value > 1 ? () => onChanged(value - 1) : null,
+        ),
+        Text('$value', style: Theme.of(context).textTheme.bodyMedium),
+        IconButton(
+          icon: const Icon(Icons.add, size: 18),
+          onPressed: value < 10 ? () => onChanged(value + 1) : null,
         ),
       ],
     );

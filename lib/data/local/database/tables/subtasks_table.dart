@@ -7,7 +7,7 @@ class SubtasksTable extends Table {
   TextColumn get id => text()();
   TextColumn get taskId => text()();
   TextColumn get title => text()();
-  BoolColumn get completed => boolean().withDefault(const Constant(false))();
+  IntColumn get currentStep => integer().withDefault(const Constant(0))();
   IntColumn get createdAt => integer()();
   IntColumn get updatedAt => integer()();
   BoolColumn get deleted => boolean().withDefault(const Constant(false))();

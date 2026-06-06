@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:owndo/application/providers/database_provider.dart';
+import 'package:owndo/application/providers/sync_provider.dart';
 import 'package:owndo/core/utils/uuid_factory.dart';
 import 'package:owndo/core/constants.dart';
 import 'package:owndo/data/local/database/app_database.dart';
@@ -27,17 +28,39 @@ class SubtaskListNotifier extends _$SubtaskListNotifier {
       SubtaskMapper.toRow(subtask),
       _parentPendingChange(taskId, now),
     );
+    notifySyncWrite(ref);
   }
 
-  Future<void> toggleComplete(Subtask subtask) async {
+  /// Advance the subtask's step. Wraps back to 0 after reaching totalSteps.
+  Future<void> advanceStep(Subtask subtask, int totalSteps) async {
     final db = ref.read(appDatabaseProvider);
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final nextStep =
+        subtask.currentStep >= totalSteps ? 0 : subtask.currentStep + 1;
     await db.subtasksDao.upsertSubtaskWithParentPendingChange(
       SubtaskMapper.toRow(
-        subtask.copyWith(completed: !subtask.completed, updatedAt: now),
+        subtask.copyWith(currentStep: nextStep, updatedAt: now),
       ),
       _parentPendingChange(subtask.taskId, now),
     );
+    notifySyncWrite(ref);
+  }
+
+  /// Reset all subtasks for this task back to step 0.
+  Future<void> resetAllSubtasks() async {
+    final db = ref.read(appDatabaseProvider);
+    final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final rows = await db.subtasksDao.getSubtasksByTask(taskId);
+    for (final row in rows) {
+      if (!row.deleted && row.currentStep > 0) {
+        final subtask = SubtaskMapper.fromRow(row);
+        await db.subtasksDao.upsertSubtaskWithParentPendingChange(
+          SubtaskMapper.toRow(subtask.copyWith(currentStep: 0, updatedAt: now)),
+          _parentPendingChange(taskId, now),
+        );
+      }
+    }
+    notifySyncWrite(ref);
   }
 
   Future<void> deleteSubtask(Subtask subtask) async {
@@ -47,6 +70,7 @@ class SubtaskListNotifier extends _$SubtaskListNotifier {
       SubtaskMapper.toRow(subtask.copyWith(deleted: true, updatedAt: now)),
       _parentPendingChange(subtask.taskId, now),
     );
+    notifySyncWrite(ref);
   }
 
   // Records a pending change on the parent task so its JSON (with subtasks)

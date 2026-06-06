@@ -62,7 +62,7 @@ final class TaskEditNotifierProvider
   }
 }
 
-String _$taskEditNotifierHash() => r'd5725ef0dbe6b0beae1204f882649a4787242719';
+String _$taskEditNotifierHash() => r'c5743b425571fa4599ebf278d7955ac6e7582409';
 
 final class TaskEditNotifierFamily extends $Family
     with

@@ -51,7 +51,7 @@ final class SubtaskListNotifierProvider
 }
 
 String _$subtaskListNotifierHash() =>
-    r'4023eb7b642a6c65d791fd1a79b82af48a8ed00b';
+    r'89c38dfd339966cd5a5a975a6df7277ddafb2dda';
 
 final class SubtaskListNotifierFamily extends $Family
     with

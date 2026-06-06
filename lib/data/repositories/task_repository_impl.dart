@@ -7,9 +7,10 @@ import 'package:owndo/domain/entities/task.dart';
 import 'package:owndo/domain/repositories/task_repository.dart';
 
 class TaskRepositoryImpl implements TaskRepository {
-  const TaskRepositoryImpl(this._tasksDao);
+  const TaskRepositoryImpl(this._tasksDao, {this.onWrite});
 
   final TasksDao _tasksDao;
+  final void Function()? onWrite;
 
   @override
   Stream<List<Task>> watchInbox() {
@@ -43,6 +44,7 @@ class TaskRepositoryImpl implements TaskRepository {
       updatedAt: task.updatedAt,
     );
     await _tasksDao.upsertTaskWithPendingChange(TaskMapper.toRow(task), change);
+    onWrite?.call();
   }
 
   @override
@@ -66,5 +68,6 @@ class TaskRepositoryImpl implements TaskRepository {
       TaskMapper.toRow(deleted),
       change,
     );
+    onWrite?.call();
   }
 }

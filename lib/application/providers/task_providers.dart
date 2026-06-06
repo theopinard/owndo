@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:owndo/application/providers/database_provider.dart';
+import 'package:owndo/application/providers/sync_provider.dart';
 import 'package:owndo/data/repositories/task_repository_impl.dart';
 import 'package:owndo/domain/entities/task.dart';
 import 'package:owndo/domain/repositories/task_repository.dart';
@@ -9,7 +10,10 @@ part 'task_providers.g.dart';
 @riverpod
 TaskRepository taskRepository(Ref ref) {
   final db = ref.watch(appDatabaseProvider);
-  return TaskRepositoryImpl(db.tasksDao);
+  return TaskRepositoryImpl(
+    db.tasksDao,
+    onWrite: () => notifySyncWrite(ref),
+  );
 }
 
 @riverpod

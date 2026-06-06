@@ -77,6 +77,27 @@ class TaskListItem extends ConsumerWidget {
     );
   }
 
+  void _showResetSheet(BuildContext context, SubtaskListNotifier notifier) {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.replay),
+              title: const Text('Reset all subtasks'),
+              onTap: () {
+                Navigator.pop(ctx);
+                notifier.resetAllSubtasks();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final subtasks =
@@ -125,10 +146,14 @@ class TaskListItem extends ConsumerWidget {
               ),
               title: GestureDetector(
                 onTap: onTap,
+                onLongPress: subtasks.any((s) => s.currentStep > 0)
+                    ? () => _showResetSheet(context, subtaskNotifier)
+                    : null,
                 child: titleWidget,
               ),
               children: subtasks.map((s) {
-                final subtaskStyle = s.completed
+                final isComplete = s.isCompleted(task.subtaskSteps);
+                final subtaskStyle = isComplete
                     ? const TextStyle(
                         decoration: TextDecoration.lineThrough,
                         color: Colors.grey,
@@ -137,14 +162,70 @@ class TaskListItem extends ConsumerWidget {
                 return ListTile(
                   dense: true,
                   contentPadding: const EdgeInsets.only(left: 72, right: 16),
-                  leading: Checkbox(
-                    value: s.completed,
-                    onChanged: (_) => subtaskNotifier.toggleComplete(s),
-                  ),
+                  leading: task.subtaskSteps == 1
+                      ? Checkbox(
+                          value: isComplete,
+                          onChanged: (_) =>
+                              subtaskNotifier.advanceStep(s, task.subtaskSteps),
+                        )
+                      : _MiniStepIndicator(
+                          currentStep: s.currentStep,
+                          totalSteps: task.subtaskSteps,
+                          onTap: () =>
+                              subtaskNotifier.advanceStep(s, task.subtaskSteps),
+                        ),
                   title: Text(s.title, style: subtaskStyle),
                 );
               }).toList(),
             ),
+    );
+  }
+}
+
+class _MiniStepIndicator extends StatelessWidget {
+  const _MiniStepIndicator({
+    required this.currentStep,
+    required this.totalSteps,
+    required this.onTap,
+  });
+
+  final int currentStep;
+  final int totalSteps;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final isComplete = currentStep >= totalSteps;
+    final progress = currentStep / totalSteps;
+    final activeColor = isComplete ? Colors.green : Theme.of(context).colorScheme.primary;
+    final trackColor = Theme.of(context).colorScheme.outline.withValues(alpha: 0.3);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        width: 32,
+        height: 32,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            CircularProgressIndicator(
+              value: progress,
+              strokeWidth: 3,
+              backgroundColor: trackColor,
+              color: activeColor,
+            ),
+            if (totalSteps >= 5)
+              Text(
+                '$currentStep/$totalSteps',
+                style: TextStyle(
+                  fontSize: 9,
+                  fontWeight: FontWeight.bold,
+                  color: isComplete ? Colors.green : Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -22,6 +22,7 @@ dependencies:
 
   # Networking
   http: ^1.2.1
+  connectivity_plus: ^6.0.0
 
   # OAuth2 / browser launch
   # flutter_web_auth_2 removed: it pulls in desktop_webview_window on Linux

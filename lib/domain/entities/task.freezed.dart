@@ -24,6 +24,7 @@ mixin _$Task {
   bool get deleted;
   int? get deadline;
   int? get reminderAt;
+  int get subtaskSteps;
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.
@@ -53,7 +54,9 @@ mixin _$Task {
             (identical(other.deadline, deadline) ||
                 other.deadline == deadline) &&
             (identical(other.reminderAt, reminderAt) ||
-                other.reminderAt == reminderAt));
+                other.reminderAt == reminderAt) &&
+            (identical(other.subtaskSteps, subtaskSteps) ||
+                other.subtaskSteps == subtaskSteps));
   }
 
   @override
@@ -68,11 +71,12 @@ mixin _$Task {
       updatedAt,
       deleted,
       deadline,
-      reminderAt);
+      reminderAt,
+      subtaskSteps);
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted, deadline: $deadline, reminderAt: $reminderAt)';
+    return 'Task(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted, deadline: $deadline, reminderAt: $reminderAt, subtaskSteps: $subtaskSteps)';
   }
 }
 
@@ -91,7 +95,8 @@ abstract mixin class $TaskCopyWith<$Res> {
       int updatedAt,
       bool deleted,
       int? deadline,
-      int? reminderAt});
+      int? reminderAt,
+      int subtaskSteps});
 }
 
 /// @nodoc
@@ -116,6 +121,7 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
     Object? deleted = null,
     Object? deadline = freezed,
     Object? reminderAt = freezed,
+    Object? subtaskSteps = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -158,6 +164,10 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
           ? _self.reminderAt
           : reminderAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      subtaskSteps: null == subtaskSteps
+          ? _self.subtaskSteps
+          : subtaskSteps // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -265,7 +275,8 @@ extension TaskPatterns on Task {
             int updatedAt,
             bool deleted,
             int? deadline,
-            int? reminderAt)?
+            int? reminderAt,
+            int subtaskSteps)?
         $default, {
     required TResult orElse(),
   }) {
@@ -282,7 +293,8 @@ extension TaskPatterns on Task {
             _that.updatedAt,
             _that.deleted,
             _that.deadline,
-            _that.reminderAt);
+            _that.reminderAt,
+            _that.subtaskSteps);
       case _:
         return orElse();
     }
@@ -313,7 +325,8 @@ extension TaskPatterns on Task {
             int updatedAt,
             bool deleted,
             int? deadline,
-            int? reminderAt)
+            int? reminderAt,
+            int subtaskSteps)
         $default,
   ) {
     final _that = this;
@@ -329,7 +342,8 @@ extension TaskPatterns on Task {
             _that.updatedAt,
             _that.deleted,
             _that.deadline,
-            _that.reminderAt);
+            _that.reminderAt,
+            _that.subtaskSteps);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -359,7 +373,8 @@ extension TaskPatterns on Task {
             int updatedAt,
             bool deleted,
             int? deadline,
-            int? reminderAt)?
+            int? reminderAt,
+            int subtaskSteps)?
         $default,
   ) {
     final _that = this;
@@ -375,7 +390,8 @@ extension TaskPatterns on Task {
             _that.updatedAt,
             _that.deleted,
             _that.deadline,
-            _that.reminderAt);
+            _that.reminderAt,
+            _that.subtaskSteps);
       case _:
         return null;
     }
@@ -395,7 +411,8 @@ class _Task implements Task {
       required this.updatedAt,
       required this.deleted,
       this.deadline,
-      this.reminderAt});
+      this.reminderAt,
+      this.subtaskSteps = 1});
 
   @override
   final String id;
@@ -417,6 +434,9 @@ class _Task implements Task {
   final int? deadline;
   @override
   final int? reminderAt;
+  @override
+  @JsonKey()
+  final int subtaskSteps;
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.
@@ -447,7 +467,9 @@ class _Task implements Task {
             (identical(other.deadline, deadline) ||
                 other.deadline == deadline) &&
             (identical(other.reminderAt, reminderAt) ||
-                other.reminderAt == reminderAt));
+                other.reminderAt == reminderAt) &&
+            (identical(other.subtaskSteps, subtaskSteps) ||
+                other.subtaskSteps == subtaskSteps));
   }
 
   @override
@@ -462,11 +484,12 @@ class _Task implements Task {
       updatedAt,
       deleted,
       deadline,
-      reminderAt);
+      reminderAt,
+      subtaskSteps);
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted, deadline: $deadline, reminderAt: $reminderAt)';
+    return 'Task(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId, createdAt: $createdAt, updatedAt: $updatedAt, deleted: $deleted, deadline: $deadline, reminderAt: $reminderAt, subtaskSteps: $subtaskSteps)';
   }
 }
 
@@ -486,7 +509,8 @@ abstract mixin class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       int updatedAt,
       bool deleted,
       int? deadline,
-      int? reminderAt});
+      int? reminderAt,
+      int subtaskSteps});
 }
 
 /// @nodoc
@@ -511,6 +535,7 @@ class __$TaskCopyWithImpl<$Res> implements _$TaskCopyWith<$Res> {
     Object? deleted = null,
     Object? deadline = freezed,
     Object? reminderAt = freezed,
+    Object? subtaskSteps = null,
   }) {
     return _then(_Task(
       id: null == id
@@ -553,6 +578,10 @@ class __$TaskCopyWithImpl<$Res> implements _$TaskCopyWith<$Res> {
           ? _self.reminderAt
           : reminderAt // ignore: cast_nullable_to_non_nullable
               as int?,
+      subtaskSteps: null == subtaskSteps
+          ? _self.subtaskSteps
+          : subtaskSteps // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }

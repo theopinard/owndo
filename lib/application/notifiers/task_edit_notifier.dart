@@ -17,6 +17,7 @@ abstract class TaskEditState with _$TaskEditState {
     String? existingTaskId,
     int? deadline,
     int? reminderAt,
+    @Default(1) int subtaskSteps,
   }) = _TaskEditState;
 }
 
@@ -32,6 +33,7 @@ class TaskEditNotifier extends _$TaskEditNotifier {
       existingTaskId: existing?.id,
       deadline: existing?.deadline,
       reminderAt: existing?.reminderAt,
+      subtaskSteps: existing?.subtaskSteps ?? 1,
     );
   }
 
@@ -53,6 +55,10 @@ class TaskEditNotifier extends _$TaskEditNotifier {
     state = state.copyWith(projectId: projectId);
   }
 
+  void updateSubtaskSteps(int steps) {
+    state = state.copyWith(subtaskSteps: steps.clamp(1, 10));
+  }
+
   Future<void> save() async {
     final repo = ref.read(taskRepositoryProvider);
     final notifications = ref.read(notificationServiceProvider);
@@ -64,7 +70,7 @@ class TaskEditNotifier extends _$TaskEditNotifier {
         projectId: state.projectId,
         deadline: state.deadline,
         reminderAt: state.reminderAt,
-      );
+      ).copyWith(subtaskSteps: state.subtaskSteps);
       await repo.saveTask(saved);
     } else {
       final existing = await repo.getTaskById(state.existingTaskId!);
@@ -76,6 +82,7 @@ class TaskEditNotifier extends _$TaskEditNotifier {
         projectId: state.projectId,
         deadline: state.deadline,
         reminderAt: state.reminderAt,
+        subtaskSteps: state.subtaskSteps,
         updatedAt: now,
       );
       await repo.saveTask(saved);
