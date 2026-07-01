@@ -25,7 +25,7 @@ class NotificationService {
       macOS: darwinSettings,
       linux: linuxSettings,
     );
-    await _plugin.initialize(settings);
+    await _plugin.initialize(settings: settings);
   }
 
   Future<void> requestPermission() async {
@@ -48,13 +48,13 @@ class NotificationService {
     if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) return;
 
     await _plugin.zonedSchedule(
-      _idFor(task.id),
-      task.title,
-      task.deadline != null
+      id: _idFor(task.id),
+      title: task.title,
+      body: task.deadline != null
           ? 'Due ${_formatDate(DateTime.fromMillisecondsSinceEpoch(task.deadline! * 1000))}'
           : 'Task reminder',
-      scheduledDate,
-      const NotificationDetails(
+      scheduledDate: scheduledDate,
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'task_reminders',
           'Task Reminders',
@@ -66,13 +66,11 @@ class NotificationService {
         macOS: DarwinNotificationDetails(),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 
   Future<void> cancelReminder(String taskId) async {
-    await _plugin.cancel(_idFor(taskId));
+    await _plugin.cancel(id: _idFor(taskId));
   }
 
   int _idFor(String taskId) => taskId.hashCode & 0x7FFFFFFF;
