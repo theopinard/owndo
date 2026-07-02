@@ -136,7 +136,7 @@ class _AddEditTaskScreenState extends ConsumerState<AddEditTaskScreen> {
             const SizedBox(height: 16),
             projectsAsync.when(
               loading: () => const SizedBox.shrink(),
-              error: (_, __) => const SizedBox.shrink(),
+              error: (_, _) => const SizedBox.shrink(),
               data: (projects) {
                 return DropdownButtonFormField<String?>(
                   initialValue: editState.projectId,
@@ -319,7 +319,7 @@ class _SubtaskSectionState extends ConsumerState<_SubtaskSection> {
             const Spacer(),
             subtasksAsync.when(
               loading: () => const SizedBox.shrink(),
-              error: (_, __) => const SizedBox.shrink(),
+              error: (_, _) => const SizedBox.shrink(),
               data: (subtasks) =>
                   subtasks.any((s) => s.currentStep > 0)
                       ? IconButton(
