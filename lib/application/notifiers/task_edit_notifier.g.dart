@@ -14,20 +14,16 @@ final taskEditProvider = TaskEditNotifierFamily._();
 
 final class TaskEditNotifierProvider
     extends $NotifierProvider<TaskEditNotifier, TaskEditState> {
-  TaskEditNotifierProvider._(
-      {required TaskEditNotifierFamily super.from,
-      required ({
-        Task? existing,
-        String? initialProjectId,
-      })
-          super.argument})
-      : super(
-          retry: null,
-          name: r'taskEditProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  TaskEditNotifierProvider._({
+    required TaskEditNotifierFamily super.from,
+    required ({Task? existing, String? initialProjectId}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'taskEditProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$taskEditNotifierHash();
@@ -67,62 +63,55 @@ String _$taskEditNotifierHash() => r'c5743b425571fa4599ebf278d7955ac6e7582409';
 final class TaskEditNotifierFamily extends $Family
     with
         $ClassFamilyOverride<
-            TaskEditNotifier,
-            TaskEditState,
-            TaskEditState,
-            TaskEditState,
-            ({
-              Task? existing,
-              String? initialProjectId,
-            })> {
+          TaskEditNotifier,
+          TaskEditState,
+          TaskEditState,
+          TaskEditState,
+          ({Task? existing, String? initialProjectId})
+        > {
   TaskEditNotifierFamily._()
-      : super(
-          retry: null,
-          name: r'taskEditProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'taskEditProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  TaskEditNotifierProvider call({
-    Task? existing,
-    String? initialProjectId,
-  }) =>
-      TaskEditNotifierProvider._(argument: (
-        existing: existing,
-        initialProjectId: initialProjectId,
-      ), from: this);
+  TaskEditNotifierProvider call({Task? existing, String? initialProjectId}) =>
+      TaskEditNotifierProvider._(
+        argument: (existing: existing, initialProjectId: initialProjectId),
+        from: this,
+      );
 
   @override
   String toString() => r'taskEditProvider';
 }
 
 abstract class _$TaskEditNotifier extends $Notifier<TaskEditState> {
-  late final _$args = ref.$arg as ({
-    Task? existing,
-    String? initialProjectId,
-  });
+  late final _$args = ref.$arg as ({Task? existing, String? initialProjectId});
   Task? get existing => _$args.existing;
   String? get initialProjectId => _$args.initialProjectId;
 
-  TaskEditState build({
-    Task? existing,
-    String? initialProjectId,
-  });
+  TaskEditState build({Task? existing, String? initialProjectId});
   @$mustCallSuper
   @override
   void runBuild() {
     final ref = this.ref as $Ref<TaskEditState, TaskEditState>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<TaskEditState, TaskEditState>,
-        TaskEditState,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<TaskEditState, TaskEditState>,
+              TaskEditState,
+              Object?,
+              Object?
+            >;
     element.handleCreate(
-        ref,
-        () => build(
-              existing: _$args.existing,
-              initialProjectId: _$args.initialProjectId,
-            ));
+      ref,
+      () => build(
+        existing: _$args.existing,
+        initialProjectId: _$args.initialProjectId,
+      ),
+    );
   }
 }

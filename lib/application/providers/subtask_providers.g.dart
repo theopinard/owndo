@@ -14,16 +14,16 @@ final subtaskListProvider = SubtaskListNotifierFamily._();
 
 final class SubtaskListNotifierProvider
     extends $StreamNotifierProvider<SubtaskListNotifier, List<Subtask>> {
-  SubtaskListNotifierProvider._(
-      {required SubtaskListNotifierFamily super.from,
-      required String super.argument})
-      : super(
-          retry: null,
-          name: r'subtaskListProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  SubtaskListNotifierProvider._({
+    required SubtaskListNotifierFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'subtaskListProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$subtaskListNotifierHash();
@@ -55,20 +55,23 @@ String _$subtaskListNotifierHash() =>
 
 final class SubtaskListNotifierFamily extends $Family
     with
-        $ClassFamilyOverride<SubtaskListNotifier, AsyncValue<List<Subtask>>,
-            List<Subtask>, Stream<List<Subtask>>, String> {
+        $ClassFamilyOverride<
+          SubtaskListNotifier,
+          AsyncValue<List<Subtask>>,
+          List<Subtask>,
+          Stream<List<Subtask>>,
+          String
+        > {
   SubtaskListNotifierFamily._()
-      : super(
-          retry: null,
-          name: r'subtaskListProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'subtaskListProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  SubtaskListNotifierProvider call(
-    String taskId,
-  ) =>
+  SubtaskListNotifierProvider call(String taskId) =>
       SubtaskListNotifierProvider._(argument: taskId, from: this);
 
   @override
@@ -79,22 +82,19 @@ abstract class _$SubtaskListNotifier extends $StreamNotifier<List<Subtask>> {
   late final _$args = ref.$arg as String;
   String get taskId => _$args;
 
-  Stream<List<Subtask>> build(
-    String taskId,
-  );
+  Stream<List<Subtask>> build(String taskId);
   @$mustCallSuper
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<List<Subtask>>, List<Subtask>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<List<Subtask>>, List<Subtask>>,
-        AsyncValue<List<Subtask>>,
-        Object?,
-        Object?>;
-    element.handleCreate(
-        ref,
-        () => build(
-              _$args,
-            ));
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<Subtask>>, List<Subtask>>,
+              AsyncValue<List<Subtask>>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(_$args));
   }
 }

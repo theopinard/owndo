@@ -1,6 +1,9 @@
 # OwnDo
 
-Offline-first todo app with Dropbox sync. Available on Android, iOS, and macOS.
+Offline-first todo app with optional Dropbox sync. Available on Android, iOS, and macOS.
+
+OwnDo can be used fully offline without an account. Dropbox is optional and can
+be connected later to back up and sync existing local tasks across devices.
 
 ## Architecture
 
@@ -28,12 +31,14 @@ flutter --version  # requires >= 3.22
 ```bash
 flutter create . \
   --project-name owndo \
-  --org com.theodore.owndo \
+  --org com \
   --platforms android,ios,linux,macos \
   --description "Offline-first todo app with Dropbox sync"
 ```
 
 ### 3. Create a Dropbox App
+
+Dropbox is optional for users, but required if you want to test or develop sync.
 
 1. Go to https://www.dropbox.com/developers/apps
 2. Create a new app → **Scoped access** → **App folder**
@@ -78,11 +83,11 @@ sudo apt-get install -y \
 
 No URL scheme registration is needed on Linux. The OAuth2 flow uses a `localhost` redirect URI — add `http://localhost` to the allowed redirect URIs in your Dropbox app settings alongside `owndo://oauth-callback`.
 
-**Android** — `android/app/src/main/AndroidManifest.xml` (inside `<application>`):
+**Android** — `android/app/src/main/AndroidManifest.xml` declares the OAuth callback on `MainActivity`:
 ```xml
-<activity android:name="com.linusu.flutter_web_auth_2.CallbackActivity"
+<activity android:name=".MainActivity"
           android:exported="true">
-  <intent-filter android:label="flutter_web_auth_2">
+  <intent-filter android:autoVerify="false">
     <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
@@ -90,6 +95,25 @@ No URL scheme registration is needed on Linux. The OAuth2 flow uses a `localhost
   </intent-filter>
 </activity>
 ```
+
+The Android package name for Play publishing is `com.owndo`.
+
+### Android release signing
+
+Create a private upload keystore and keep it backed up outside the repository:
+
+```bash
+keytool -genkey -v -keystore android/app/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+cp android/key.properties.example android/key.properties
+```
+
+Edit `android/key.properties` with the keystore passwords before building a Play bundle:
+
+```bash
+flutter build appbundle --release
+```
+
+The signed bundle is written to `build/app/outputs/bundle/release/app-release.aab`.
 
 **iOS** — `ios/Runner/Info.plist`:
 ```xml
@@ -131,11 +155,13 @@ lib/
 └── presentation/   # Screens, router, widgets
 ```
 
-## Sync design
+## Offline and sync design
 
 - **Local DB is the source of truth**
+- Users can continue offline without signing in
 - Every local write records a `pending_change`
+- Sync starts only after Dropbox is connected
 - Sync engine: push all pending changes → pull all remote files → merge (last-write-wins on `updated_at`)
-- Sync runs on app start, every 45 seconds, and on foreground resume
+- After Dropbox is connected, sync runs on app start, every 45 seconds, and on foreground resume
 - Dropbox conflict copies are auto-resolved (newer `updated_at` wins)
 - Network errors don't block the UI — pending changes are retried next cycle

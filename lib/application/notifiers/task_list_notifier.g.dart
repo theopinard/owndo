@@ -15,15 +15,15 @@ final taskListProvider = TaskListNotifierProvider._();
 final class TaskListNotifierProvider
     extends $StreamNotifierProvider<TaskListNotifier, List<Task>> {
   TaskListNotifierProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'taskListProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'taskListProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$taskListNotifierHash();
@@ -41,11 +41,14 @@ abstract class _$TaskListNotifier extends $StreamNotifier<List<Task>> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<AsyncValue<List<Task>>, List<Task>>;
-    final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<List<Task>>, List<Task>>,
-        AsyncValue<List<Task>>,
-        Object?,
-        Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<Task>>, List<Task>>,
+              AsyncValue<List<Task>>,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

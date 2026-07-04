@@ -24,12 +24,11 @@ class SyncScheduler {
   /// Start the scheduler: runs sync immediately, then adaptively polls.
   /// Also triggers sync on app foreground resume and network reconnect.
   void start() {
+    stop();
     _attemptSync();
     _schedulePoll();
 
-    _lifecycleListener = AppLifecycleListener(
-      onResume: () => _attemptSync(),
-    );
+    _lifecycleListener = AppLifecycleListener(onResume: () => _attemptSync());
 
     _connectivitySub = Connectivity().onConnectivityChanged.listen((results) {
       final online = !results.every((r) => r == ConnectivityResult.none);

@@ -14,5 +14,7 @@ class PendingChangesDaoManager {
   PendingChangesDaoManager(this._db);
   $$PendingChangesTableTableTableManager get pendingChangesTable =>
       $$PendingChangesTableTableTableManager(
-          _db.attachedDatabase, _db.pendingChangesTable);
+        _db.attachedDatabase,
+        _db.pendingChangesTable,
+      );
 }

@@ -16,7 +16,8 @@ TaskJsonModel _$TaskJsonModelFromJson(Map<String, dynamic> json) =>
       createdAt: (json['created_at'] as num).toInt(),
       updatedAt: (json['updated_at'] as num).toInt(),
       deleted: json['deleted'] as bool,
-      subtasks: (json['subtasks'] as List<dynamic>?)
+      subtasks:
+          (json['subtasks'] as List<dynamic>?)
               ?.map((e) => SubtaskJsonModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],

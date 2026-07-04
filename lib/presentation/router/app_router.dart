@@ -12,16 +12,17 @@ part 'app_router.g.dart';
 
 @riverpod
 GoRouter appRouter(Ref ref) {
-  final authAsync = ref.watch(isAuthenticatedProvider);
+  final accessModeAsync = ref.watch(appAccessModeProvider);
 
   return GoRouter(
     initialLocation: '/inbox',
     redirect: (context, state) {
-      final isLoggedIn = authAsync.asData?.value ?? false;
+      final accessMode = accessModeAsync.asData?.value;
       final onLoginPage = state.matchedLocation == '/login';
 
-      if (!isLoggedIn && !onLoginPage) return '/login';
-      if (isLoggedIn && onLoginPage) return '/inbox';
+      if (accessMode == null) return onLoginPage ? null : '/login';
+      if (accessMode == AppAccessMode.unknown && !onLoginPage) return '/login';
+      if (accessMode != AppAccessMode.unknown && onLoginPage) return '/inbox';
       return null;
     },
     routes: [
@@ -29,10 +30,7 @@ GoRouter appRouter(Ref ref) {
         path: '/login',
         builder: (context, state) => const DropboxLoginScreen(),
       ),
-      GoRoute(
-        path: '/inbox',
-        builder: (context, state) => const InboxScreen(),
-      ),
+      GoRoute(path: '/inbox', builder: (context, state) => const InboxScreen()),
       GoRoute(
         path: '/projects',
         builder: (context, state) => const ProjectListScreen(),

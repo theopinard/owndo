@@ -45,5 +45,7 @@ Stream<SyncStatus> syncStatus(Ref ref) {
 
 /// Notify that a local write happened, triggering a debounced sync.
 void notifySyncWrite(Ref ref) {
-  ref.read(syncSchedulerProvider).notifyLocalWrite();
+  if (ref.read(isAuthenticatedProvider).asData?.value == true) {
+    ref.read(syncSchedulerProvider).notifyLocalWrite();
+  }
 }

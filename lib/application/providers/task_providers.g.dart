@@ -16,15 +16,15 @@ final class TaskRepositoryProvider
     extends $FunctionalProvider<TaskRepository, TaskRepository, TaskRepository>
     with $Provider<TaskRepository> {
   TaskRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'taskRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'taskRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$taskRepositoryHash();
@@ -53,19 +53,24 @@ String _$taskRepositoryHash() => r'33d3f5738f0c83442b3f7eac3e87f371a77bda21';
 @ProviderFor(inboxTasks)
 final inboxTasksProvider = InboxTasksProvider._();
 
-final class InboxTasksProvider extends $FunctionalProvider<
-        AsyncValue<List<Task>>, List<Task>, Stream<List<Task>>>
+final class InboxTasksProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Task>>,
+          List<Task>,
+          Stream<List<Task>>
+        >
     with $FutureModifier<List<Task>>, $StreamProvider<List<Task>> {
   InboxTasksProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'inboxTasksProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'inboxTasksProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$inboxTasksHash();
@@ -86,18 +91,24 @@ String _$inboxTasksHash() => r'ce4cf49b3ce055f81ab79deb3b9e4937d7ee3f9c';
 @ProviderFor(projectTasks)
 final projectTasksProvider = ProjectTasksFamily._();
 
-final class ProjectTasksProvider extends $FunctionalProvider<
-        AsyncValue<List<Task>>, List<Task>, Stream<List<Task>>>
+final class ProjectTasksProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Task>>,
+          List<Task>,
+          Stream<List<Task>>
+        >
     with $FutureModifier<List<Task>>, $StreamProvider<List<Task>> {
-  ProjectTasksProvider._(
-      {required ProjectTasksFamily super.from, required String super.argument})
-      : super(
-          retry: null,
-          name: r'projectTasksProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+  ProjectTasksProvider._({
+    required ProjectTasksFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'projectTasksProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$projectTasksHash();
@@ -117,10 +128,7 @@ final class ProjectTasksProvider extends $FunctionalProvider<
   @override
   Stream<List<Task>> create(Ref ref) {
     final argument = this.argument as String;
-    return projectTasks(
-      ref,
-      argument,
-    );
+    return projectTasks(ref, argument);
   }
 
   @override
@@ -139,17 +147,15 @@ String _$projectTasksHash() => r'f4a38eee4206323d71cb3bbf181b50a481b127de';
 final class ProjectTasksFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<Task>>, String> {
   ProjectTasksFamily._()
-      : super(
-          retry: null,
-          name: r'projectTasksProvider',
-          dependencies: null,
-          $allTransitiveDependencies: null,
-          isAutoDispose: true,
-        );
+    : super(
+        retry: null,
+        name: r'projectTasksProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
 
-  ProjectTasksProvider call(
-    String projectId,
-  ) =>
+  ProjectTasksProvider call(String projectId) =>
       ProjectTasksProvider._(argument: projectId, from: this);
 
   @override
