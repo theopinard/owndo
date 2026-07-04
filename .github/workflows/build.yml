@@ -30,12 +30,50 @@ jobs:
 
       - run: dart run build_runner build --delete-conflicting-outputs
 
-      - run: flutter build apk --release
+      - name: Prepare Android signing
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          if [ -z "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ] || \
+             [ -z "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" ] || \
+             [ -z "${{ secrets.ANDROID_KEY_PASSWORD }}" ] || \
+             [ -z "${{ secrets.ANDROID_KEY_ALIAS }}" ]; then
+            echo "Android signing secrets are required for tagged release builds." >&2
+            exit 1
+          fi
+
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=upload-keystore.jks
+          EOF
+
+      - name: Build unsigned debug APK
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        run: flutter build apk --debug
+
+      - name: Build signed release APK
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: flutter build apk --release
+
+      - name: Build signed release app bundle
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: flutter build appbundle --release
 
       - uses: actions/upload-artifact@v4
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         with:
-          name: android-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: android-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+
+      - uses: actions/upload-artifact@v4
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          name: android-release
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
 
   build-macos:
     runs-on: macos-latest
@@ -142,7 +180,8 @@ jobs:
 
       - name: Rename artifacts
         run: |
-          mv artifacts/android-apk/app-release.apk artifacts/owndo-android.apk
+          mv artifacts/android-release/app-release.apk artifacts/owndo-android.apk
+          mv artifacts/android-release/app-release.aab artifacts/owndo-android.aab
           mv artifacts/ios-app/owndo-ios.zip artifacts/owndo-ios.zip
           mv artifacts/macos-app/owndo-macos.zip artifacts/owndo-macos.zip
           mv artifacts/linux-bundle/owndo-linux-x64.tar.gz artifacts/owndo-linux-x64.tar.gz
@@ -152,6 +191,7 @@ jobs:
           generate_release_notes: true
           files: |
             artifacts/owndo-android.apk
+            artifacts/owndo-android.aab
             artifacts/owndo-ios.zip
             artifacts/owndo-macos.zip
             artifacts/owndo-linux-x64.tar.gz
