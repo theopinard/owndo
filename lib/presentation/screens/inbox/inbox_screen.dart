@@ -45,6 +45,7 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
             onPressed: () async {
               await ref.read(dropboxAuthProvider).signOut();
               ref.invalidate(isAuthenticatedProvider);
+              ref.invalidate(appAccessModeProvider);
               if (context.mounted) context.go('/login');
             },
           ),
@@ -77,7 +78,8 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
                     SnackBar(content: Text('"${task.title}" deleted')),
                   );
                 },
-                onTap: () => context.push('/tasks/${task.id}/edit', extra: task),
+                onTap: () =>
+                    context.push('/tasks/${task.id}/edit', extra: task),
               );
             },
           );

@@ -12,99 +12,153 @@ class $TasksTableTable extends TasksTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
   @override
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _completedMeta =
-      const VerificationMeta('completed');
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _completedMeta = const VerificationMeta(
+    'completed',
+  );
   @override
   late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
-      'completed', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'),
-      defaultValue: const Constant(false));
-  static const VerificationMeta _projectIdMeta =
-      const VerificationMeta('projectId');
+    'completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _projectIdMeta = const VerificationMeta(
+    'projectId',
+  );
   @override
   late final GeneratedColumn<String> projectId = GeneratedColumn<String>(
-      'project_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'project_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _deletedMeta =
-      const VerificationMeta('deleted');
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedMeta = const VerificationMeta(
+    'deleted',
+  );
   @override
   late final GeneratedColumn<bool> deleted = GeneratedColumn<bool>(
-      'deleted', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("deleted" IN (0, 1))'),
-      defaultValue: const Constant(false));
-  static const VerificationMeta _deadlineMeta =
-      const VerificationMeta('deadline');
+    'deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _deadlineMeta = const VerificationMeta(
+    'deadline',
+  );
   @override
   late final GeneratedColumn<int> deadline = GeneratedColumn<int>(
-      'deadline', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _reminderAtMeta =
-      const VerificationMeta('reminderAt');
+    'deadline',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _reminderAtMeta = const VerificationMeta(
+    'reminderAt',
+  );
   @override
   late final GeneratedColumn<int> reminderAt = GeneratedColumn<int>(
-      'reminder_at', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _subtaskStepsMeta =
-      const VerificationMeta('subtaskSteps');
+    'reminder_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _subtaskStepsMeta = const VerificationMeta(
+    'subtaskSteps',
+  );
   @override
   late final GeneratedColumn<int> subtaskSteps = GeneratedColumn<int>(
-      'subtask_steps', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(1));
+    'subtask_steps',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        id,
-        title,
-        description,
-        completed,
-        projectId,
-        createdAt,
-        updatedAt,
-        deleted,
-        deadline,
-        reminderAt,
-        subtaskSteps
-      ];
+    id,
+    title,
+    description,
+    completed,
+    projectId,
+    createdAt,
+    updatedAt,
+    deleted,
+    deadline,
+    reminderAt,
+    subtaskSteps,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'tasks';
   @override
-  VerificationContext validateIntegrity(Insertable<TasksTableData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<TasksTableData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -114,55 +168,75 @@ class $TasksTableTable extends TasksTable
     }
     if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
           _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
+        ),
+      );
     }
     if (data.containsKey('completed')) {
-      context.handle(_completedMeta,
-          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
+      context.handle(
+        _completedMeta,
+        completed.isAcceptableOrUnknown(data['completed']!, _completedMeta),
+      );
     }
     if (data.containsKey('project_id')) {
-      context.handle(_projectIdMeta,
-          projectId.isAcceptableOrUnknown(data['project_id']!, _projectIdMeta));
+      context.handle(
+        _projectIdMeta,
+        projectId.isAcceptableOrUnknown(data['project_id']!, _projectIdMeta),
+      );
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
     if (data.containsKey('deleted')) {
-      context.handle(_deletedMeta,
-          deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
+      context.handle(
+        _deletedMeta,
+        deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta),
+      );
     }
     if (data.containsKey('deadline')) {
-      context.handle(_deadlineMeta,
-          deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta));
+      context.handle(
+        _deadlineMeta,
+        deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta),
+      );
     }
     if (data.containsKey('reminder_at')) {
       context.handle(
-          _reminderAtMeta,
-          reminderAt.isAcceptableOrUnknown(
-              data['reminder_at']!, _reminderAtMeta));
+        _reminderAtMeta,
+        reminderAt.isAcceptableOrUnknown(data['reminder_at']!, _reminderAtMeta),
+      );
     }
     if (data.containsKey('subtask_steps')) {
       context.handle(
+        _subtaskStepsMeta,
+        subtaskSteps.isAcceptableOrUnknown(
+          data['subtask_steps']!,
           _subtaskStepsMeta,
-          subtaskSteps.isAcceptableOrUnknown(
-              data['subtask_steps']!, _subtaskStepsMeta));
+        ),
+      );
     }
     return context;
   }
@@ -173,28 +247,50 @@ class $TasksTableTable extends TasksTable
   TasksTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return TasksTableData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      completed: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
-      projectId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}project_id']),
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
-      deleted: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}deleted'])!,
-      deadline: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}deadline']),
-      reminderAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}reminder_at']),
-      subtaskSteps: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}subtask_steps'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      completed: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}completed'],
+      )!,
+      projectId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}project_id'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}deleted'],
+      )!,
+      deadline: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deadline'],
+      ),
+      reminderAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reminder_at'],
+      ),
+      subtaskSteps: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}subtask_steps'],
+      )!,
     );
   }
 
@@ -216,18 +312,19 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
   final int? deadline;
   final int? reminderAt;
   final int subtaskSteps;
-  const TasksTableData(
-      {required this.id,
-      required this.title,
-      this.description,
-      required this.completed,
-      this.projectId,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.deleted,
-      this.deadline,
-      this.reminderAt,
-      required this.subtaskSteps});
+  const TasksTableData({
+    required this.id,
+    required this.title,
+    this.description,
+    required this.completed,
+    this.projectId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deleted,
+    this.deadline,
+    this.reminderAt,
+    required this.subtaskSteps,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -277,8 +374,10 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
     );
   }
 
-  factory TasksTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory TasksTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TasksTableData(
       id: serializer.fromJson<String>(json['id']),
@@ -312,45 +411,47 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
     };
   }
 
-  TasksTableData copyWith(
-          {String? id,
-          String? title,
-          Value<String?> description = const Value.absent(),
-          bool? completed,
-          Value<String?> projectId = const Value.absent(),
-          int? createdAt,
-          int? updatedAt,
-          bool? deleted,
-          Value<int?> deadline = const Value.absent(),
-          Value<int?> reminderAt = const Value.absent(),
-          int? subtaskSteps}) =>
-      TasksTableData(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        description: description.present ? description.value : this.description,
-        completed: completed ?? this.completed,
-        projectId: projectId.present ? projectId.value : this.projectId,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deleted: deleted ?? this.deleted,
-        deadline: deadline.present ? deadline.value : this.deadline,
-        reminderAt: reminderAt.present ? reminderAt.value : this.reminderAt,
-        subtaskSteps: subtaskSteps ?? this.subtaskSteps,
-      );
+  TasksTableData copyWith({
+    String? id,
+    String? title,
+    Value<String?> description = const Value.absent(),
+    bool? completed,
+    Value<String?> projectId = const Value.absent(),
+    int? createdAt,
+    int? updatedAt,
+    bool? deleted,
+    Value<int?> deadline = const Value.absent(),
+    Value<int?> reminderAt = const Value.absent(),
+    int? subtaskSteps,
+  }) => TasksTableData(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    description: description.present ? description.value : this.description,
+    completed: completed ?? this.completed,
+    projectId: projectId.present ? projectId.value : this.projectId,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deleted: deleted ?? this.deleted,
+    deadline: deadline.present ? deadline.value : this.deadline,
+    reminderAt: reminderAt.present ? reminderAt.value : this.reminderAt,
+    subtaskSteps: subtaskSteps ?? this.subtaskSteps,
+  );
   TasksTableData copyWithCompanion(TasksTableCompanion data) {
     return TasksTableData(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
-      description:
-          data.description.present ? data.description.value : this.description,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
       completed: data.completed.present ? data.completed.value : this.completed,
       projectId: data.projectId.present ? data.projectId.value : this.projectId,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deleted: data.deleted.present ? data.deleted.value : this.deleted,
       deadline: data.deadline.present ? data.deadline.value : this.deadline,
-      reminderAt:
-          data.reminderAt.present ? data.reminderAt.value : this.reminderAt,
+      reminderAt: data.reminderAt.present
+          ? data.reminderAt.value
+          : this.reminderAt,
       subtaskSteps: data.subtaskSteps.present
           ? data.subtaskSteps.value
           : this.subtaskSteps,
@@ -376,8 +477,19 @@ class TasksTableData extends DataClass implements Insertable<TasksTableData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, title, description, completed, projectId,
-      createdAt, updatedAt, deleted, deadline, reminderAt, subtaskSteps);
+  int get hashCode => Object.hash(
+    id,
+    title,
+    description,
+    completed,
+    projectId,
+    createdAt,
+    updatedAt,
+    deleted,
+    deadline,
+    reminderAt,
+    subtaskSteps,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -435,10 +547,10 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     this.reminderAt = const Value.absent(),
     this.subtaskSteps = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        title = Value(title),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+  }) : id = Value(id),
+       title = Value(title),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
   static Insertable<TasksTableData> custom({
     Expression<String>? id,
     Expression<String>? title,
@@ -469,19 +581,20 @@ class TasksTableCompanion extends UpdateCompanion<TasksTableData> {
     });
   }
 
-  TasksTableCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? title,
-      Value<String?>? description,
-      Value<bool>? completed,
-      Value<String?>? projectId,
-      Value<int>? createdAt,
-      Value<int>? updatedAt,
-      Value<bool>? deleted,
-      Value<int?>? deadline,
-      Value<int?>? reminderAt,
-      Value<int>? subtaskSteps,
-      Value<int>? rowid}) {
+  TasksTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? title,
+    Value<String?>? description,
+    Value<bool>? completed,
+    Value<String?>? projectId,
+    Value<int>? createdAt,
+    Value<int>? updatedAt,
+    Value<bool>? deleted,
+    Value<int?>? deadline,
+    Value<int?>? reminderAt,
+    Value<int>? subtaskSteps,
+    Value<int>? rowid,
+  }) {
     return TasksTableCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -569,46 +682,76 @@ class $ProjectsTableTable extends ProjectsTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _deletedMeta =
-      const VerificationMeta('deleted');
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedMeta = const VerificationMeta(
+    'deleted',
+  );
   @override
   late final GeneratedColumn<bool> deleted = GeneratedColumn<bool>(
-      'deleted', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("deleted" IN (0, 1))'),
-      defaultValue: const Constant(false));
+    'deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, name, createdAt, updatedAt, deleted];
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    createdAt,
+    updatedAt,
+    deleted,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'projects';
   @override
-  VerificationContext validateIntegrity(Insertable<ProjectsTableData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<ProjectsTableData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -618,25 +761,33 @@ class $ProjectsTableTable extends ProjectsTable
     }
     if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
     if (data.containsKey('deleted')) {
-      context.handle(_deletedMeta,
-          deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
+      context.handle(
+        _deletedMeta,
+        deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta),
+      );
     }
     return context;
   }
@@ -647,16 +798,26 @@ class $ProjectsTableTable extends ProjectsTable
   ProjectsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ProjectsTableData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
-      deleted: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}deleted'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}deleted'],
+      )!,
     );
   }
 
@@ -673,12 +834,13 @@ class ProjectsTableData extends DataClass
   final int createdAt;
   final int updatedAt;
   final bool deleted;
-  const ProjectsTableData(
-      {required this.id,
-      required this.name,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.deleted});
+  const ProjectsTableData({
+    required this.id,
+    required this.name,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deleted,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -700,8 +862,10 @@ class ProjectsTableData extends DataClass
     );
   }
 
-  factory ProjectsTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory ProjectsTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ProjectsTableData(
       id: serializer.fromJson<String>(json['id']),
@@ -723,19 +887,19 @@ class ProjectsTableData extends DataClass
     };
   }
 
-  ProjectsTableData copyWith(
-          {String? id,
-          String? name,
-          int? createdAt,
-          int? updatedAt,
-          bool? deleted}) =>
-      ProjectsTableData(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deleted: deleted ?? this.deleted,
-      );
+  ProjectsTableData copyWith({
+    String? id,
+    String? name,
+    int? createdAt,
+    int? updatedAt,
+    bool? deleted,
+  }) => ProjectsTableData(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deleted: deleted ?? this.deleted,
+  );
   ProjectsTableData copyWithCompanion(ProjectsTableCompanion data) {
     return ProjectsTableData(
       id: data.id.present ? data.id.value : this.id,
@@ -793,10 +957,10 @@ class ProjectsTableCompanion extends UpdateCompanion<ProjectsTableData> {
     required int updatedAt,
     this.deleted = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        name = Value(name),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+  }) : id = Value(id),
+       name = Value(name),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
   static Insertable<ProjectsTableData> custom({
     Expression<String>? id,
     Expression<String>? name,
@@ -815,13 +979,14 @@ class ProjectsTableCompanion extends UpdateCompanion<ProjectsTableData> {
     });
   }
 
-  ProjectsTableCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? name,
-      Value<int>? createdAt,
-      Value<int>? updatedAt,
-      Value<bool>? deleted,
-      Value<int>? rowid}) {
+  ProjectsTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<int>? createdAt,
+    Value<int>? updatedAt,
+    Value<bool>? deleted,
+    Value<int>? rowid,
+  }) {
     return ProjectsTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -879,59 +1044,99 @@ class $SubtasksTableTable extends SubtasksTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
   @override
   late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
-      'task_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'task_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _currentStepMeta =
-      const VerificationMeta('currentStep');
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _currentStepMeta = const VerificationMeta(
+    'currentStep',
+  );
   @override
   late final GeneratedColumn<int> currentStep = GeneratedColumn<int>(
-      'current_step', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'current_step',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _deletedMeta =
-      const VerificationMeta('deleted');
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deletedMeta = const VerificationMeta(
+    'deleted',
+  );
   @override
   late final GeneratedColumn<bool> deleted = GeneratedColumn<bool>(
-      'deleted', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("deleted" IN (0, 1))'),
-      defaultValue: const Constant(false));
+    'deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, taskId, title, currentStep, createdAt, updatedAt, deleted];
+  List<GeneratedColumn> get $columns => [
+    id,
+    taskId,
+    title,
+    currentStep,
+    createdAt,
+    updatedAt,
+    deleted,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'subtasks';
   @override
-  VerificationContext validateIntegrity(Insertable<SubtasksTableData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<SubtasksTableData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -940,38 +1145,51 @@ class $SubtasksTableTable extends SubtasksTable
       context.missing(_idMeta);
     }
     if (data.containsKey('task_id')) {
-      context.handle(_taskIdMeta,
-          taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta));
+      context.handle(
+        _taskIdMeta,
+        taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_taskIdMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('current_step')) {
       context.handle(
+        _currentStepMeta,
+        currentStep.isAcceptableOrUnknown(
+          data['current_step']!,
           _currentStepMeta,
-          currentStep.isAcceptableOrUnknown(
-              data['current_step']!, _currentStepMeta));
+        ),
+      );
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
     if (data.containsKey('deleted')) {
-      context.handle(_deletedMeta,
-          deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta));
+      context.handle(
+        _deletedMeta,
+        deleted.isAcceptableOrUnknown(data['deleted']!, _deletedMeta),
+      );
     }
     return context;
   }
@@ -982,20 +1200,34 @@ class $SubtasksTableTable extends SubtasksTable
   SubtasksTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SubtasksTableData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      taskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}task_id'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      currentStep: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}current_step'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
-      deleted: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}deleted'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      taskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      currentStep: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}current_step'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      deleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}deleted'],
+      )!,
     );
   }
 
@@ -1014,14 +1246,15 @@ class SubtasksTableData extends DataClass
   final int createdAt;
   final int updatedAt;
   final bool deleted;
-  const SubtasksTableData(
-      {required this.id,
-      required this.taskId,
-      required this.title,
-      required this.currentStep,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.deleted});
+  const SubtasksTableData({
+    required this.id,
+    required this.taskId,
+    required this.title,
+    required this.currentStep,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deleted,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1047,8 +1280,10 @@ class SubtasksTableData extends DataClass
     );
   }
 
-  factory SubtasksTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory SubtasksTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SubtasksTableData(
       id: serializer.fromJson<String>(json['id']),
@@ -1074,30 +1309,31 @@ class SubtasksTableData extends DataClass
     };
   }
 
-  SubtasksTableData copyWith(
-          {String? id,
-          String? taskId,
-          String? title,
-          int? currentStep,
-          int? createdAt,
-          int? updatedAt,
-          bool? deleted}) =>
-      SubtasksTableData(
-        id: id ?? this.id,
-        taskId: taskId ?? this.taskId,
-        title: title ?? this.title,
-        currentStep: currentStep ?? this.currentStep,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deleted: deleted ?? this.deleted,
-      );
+  SubtasksTableData copyWith({
+    String? id,
+    String? taskId,
+    String? title,
+    int? currentStep,
+    int? createdAt,
+    int? updatedAt,
+    bool? deleted,
+  }) => SubtasksTableData(
+    id: id ?? this.id,
+    taskId: taskId ?? this.taskId,
+    title: title ?? this.title,
+    currentStep: currentStep ?? this.currentStep,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    deleted: deleted ?? this.deleted,
+  );
   SubtasksTableData copyWithCompanion(SubtasksTableCompanion data) {
     return SubtasksTableData(
       id: data.id.present ? data.id.value : this.id,
       taskId: data.taskId.present ? data.taskId.value : this.taskId,
       title: data.title.present ? data.title.value : this.title,
-      currentStep:
-          data.currentStep.present ? data.currentStep.value : this.currentStep,
+      currentStep: data.currentStep.present
+          ? data.currentStep.value
+          : this.currentStep,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deleted: data.deleted.present ? data.deleted.value : this.deleted,
@@ -1120,7 +1356,14 @@ class SubtasksTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(
-      id, taskId, title, currentStep, createdAt, updatedAt, deleted);
+    id,
+    taskId,
+    title,
+    currentStep,
+    createdAt,
+    updatedAt,
+    deleted,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1162,11 +1405,11 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
     required int updatedAt,
     this.deleted = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        taskId = Value(taskId),
-        title = Value(title),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+  }) : id = Value(id),
+       taskId = Value(taskId),
+       title = Value(title),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
   static Insertable<SubtasksTableData> custom({
     Expression<String>? id,
     Expression<String>? taskId,
@@ -1189,15 +1432,16 @@ class SubtasksTableCompanion extends UpdateCompanion<SubtasksTableData> {
     });
   }
 
-  SubtasksTableCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? taskId,
-      Value<String>? title,
-      Value<int>? currentStep,
-      Value<int>? createdAt,
-      Value<int>? updatedAt,
-      Value<bool>? deleted,
-      Value<int>? rowid}) {
+  SubtasksTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? taskId,
+    Value<String>? title,
+    Value<int>? currentStep,
+    Value<int>? createdAt,
+    Value<int>? updatedAt,
+    Value<bool>? deleted,
+    Value<int>? rowid,
+  }) {
     return SubtasksTableCompanion(
       id: id ?? this.id,
       taskId: taskId ?? this.taskId,
@@ -1265,35 +1509,64 @@ class $PendingChangesTableTable extends PendingChangesTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _entityTypeMeta =
-      const VerificationMeta('entityType');
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityTypeMeta = const VerificationMeta(
+    'entityType',
+  );
   @override
   late final GeneratedColumn<String> entityType = GeneratedColumn<String>(
-      'entity_type', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _entityIdMeta =
-      const VerificationMeta('entityId');
+    'entity_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityIdMeta = const VerificationMeta(
+    'entityId',
+  );
   @override
   late final GeneratedColumn<String> entityId = GeneratedColumn<String>(
-      'entity_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _operationMeta =
-      const VerificationMeta('operation');
+    'entity_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _operationMeta = const VerificationMeta(
+    'operation',
+  );
   @override
   late final GeneratedColumn<String> operation = GeneratedColumn<String>(
-      'operation', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'operation',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, entityType, entityId, operation, updatedAt];
+  List<GeneratedColumn> get $columns => [
+    id,
+    entityType,
+    entityId,
+    operation,
+    updatedAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1301,8 +1574,9 @@ class $PendingChangesTableTable extends PendingChangesTable
   static const String $name = 'pending_changes';
   @override
   VerificationContext validateIntegrity(
-      Insertable<PendingChangesTableData> instance,
-      {bool isInserting = false}) {
+    Insertable<PendingChangesTableData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1312,27 +1586,33 @@ class $PendingChangesTableTable extends PendingChangesTable
     }
     if (data.containsKey('entity_type')) {
       context.handle(
-          _entityTypeMeta,
-          entityType.isAcceptableOrUnknown(
-              data['entity_type']!, _entityTypeMeta));
+        _entityTypeMeta,
+        entityType.isAcceptableOrUnknown(data['entity_type']!, _entityTypeMeta),
+      );
     } else if (isInserting) {
       context.missing(_entityTypeMeta);
     }
     if (data.containsKey('entity_id')) {
-      context.handle(_entityIdMeta,
-          entityId.isAcceptableOrUnknown(data['entity_id']!, _entityIdMeta));
+      context.handle(
+        _entityIdMeta,
+        entityId.isAcceptableOrUnknown(data['entity_id']!, _entityIdMeta),
+      );
     } else if (isInserting) {
       context.missing(_entityIdMeta);
     }
     if (data.containsKey('operation')) {
-      context.handle(_operationMeta,
-          operation.isAcceptableOrUnknown(data['operation']!, _operationMeta));
+      context.handle(
+        _operationMeta,
+        operation.isAcceptableOrUnknown(data['operation']!, _operationMeta),
+      );
     } else if (isInserting) {
       context.missing(_operationMeta);
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
@@ -1343,23 +1623,35 @@ class $PendingChangesTableTable extends PendingChangesTable
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-        {entityType, entityId},
-      ];
+    {entityType, entityId},
+  ];
   @override
-  PendingChangesTableData map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
+  PendingChangesTableData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return PendingChangesTableData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      entityType: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}entity_type'])!,
-      entityId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}entity_id'])!,
-      operation: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}operation'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      entityType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_type'],
+      )!,
+      entityId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_id'],
+      )!,
+      operation: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}operation'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}updated_at'],
+      )!,
     );
   }
 
@@ -1376,12 +1668,13 @@ class PendingChangesTableData extends DataClass
   final String entityId;
   final String operation;
   final int updatedAt;
-  const PendingChangesTableData(
-      {required this.id,
-      required this.entityType,
-      required this.entityId,
-      required this.operation,
-      required this.updatedAt});
+  const PendingChangesTableData({
+    required this.id,
+    required this.entityType,
+    required this.entityId,
+    required this.operation,
+    required this.updatedAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1403,8 +1696,10 @@ class PendingChangesTableData extends DataClass
     );
   }
 
-  factory PendingChangesTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory PendingChangesTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return PendingChangesTableData(
       id: serializer.fromJson<String>(json['id']),
@@ -1426,24 +1721,25 @@ class PendingChangesTableData extends DataClass
     };
   }
 
-  PendingChangesTableData copyWith(
-          {String? id,
-          String? entityType,
-          String? entityId,
-          String? operation,
-          int? updatedAt}) =>
-      PendingChangesTableData(
-        id: id ?? this.id,
-        entityType: entityType ?? this.entityType,
-        entityId: entityId ?? this.entityId,
-        operation: operation ?? this.operation,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  PendingChangesTableData copyWith({
+    String? id,
+    String? entityType,
+    String? entityId,
+    String? operation,
+    int? updatedAt,
+  }) => PendingChangesTableData(
+    id: id ?? this.id,
+    entityType: entityType ?? this.entityType,
+    entityId: entityId ?? this.entityId,
+    operation: operation ?? this.operation,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
   PendingChangesTableData copyWithCompanion(PendingChangesTableCompanion data) {
     return PendingChangesTableData(
       id: data.id.present ? data.id.value : this.id,
-      entityType:
-          data.entityType.present ? data.entityType.value : this.entityType,
+      entityType: data.entityType.present
+          ? data.entityType.value
+          : this.entityType,
       entityId: data.entityId.present ? data.entityId.value : this.entityId,
       operation: data.operation.present ? data.operation.value : this.operation,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
@@ -1499,11 +1795,11 @@ class PendingChangesTableCompanion
     required String operation,
     required int updatedAt,
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        entityType = Value(entityType),
-        entityId = Value(entityId),
-        operation = Value(operation),
-        updatedAt = Value(updatedAt);
+  }) : id = Value(id),
+       entityType = Value(entityType),
+       entityId = Value(entityId),
+       operation = Value(operation),
+       updatedAt = Value(updatedAt);
   static Insertable<PendingChangesTableData> custom({
     Expression<String>? id,
     Expression<String>? entityType,
@@ -1522,13 +1818,14 @@ class PendingChangesTableCompanion
     });
   }
 
-  PendingChangesTableCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? entityType,
-      Value<String>? entityId,
-      Value<String>? operation,
-      Value<int>? updatedAt,
-      Value<int>? rowid}) {
+  PendingChangesTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? entityType,
+    Value<String>? entityId,
+    Value<String>? operation,
+    Value<int>? updatedAt,
+    Value<int>? rowid,
+  }) {
     return PendingChangesTableCompanion(
       id: id ?? this.id,
       entityType: entityType ?? this.entityType,
@@ -1588,44 +1885,51 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final TasksDao tasksDao = TasksDao(this as AppDatabase);
   late final ProjectsDao projectsDao = ProjectsDao(this as AppDatabase);
   late final SubtasksDao subtasksDao = SubtasksDao(this as AppDatabase);
-  late final PendingChangesDao pendingChangesDao =
-      PendingChangesDao(this as AppDatabase);
+  late final PendingChangesDao pendingChangesDao = PendingChangesDao(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [tasksTable, projectsTable, subtasksTable, pendingChangesTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    tasksTable,
+    projectsTable,
+    subtasksTable,
+    pendingChangesTable,
+  ];
 }
 
-typedef $$TasksTableTableCreateCompanionBuilder = TasksTableCompanion Function({
-  required String id,
-  required String title,
-  Value<String?> description,
-  Value<bool> completed,
-  Value<String?> projectId,
-  required int createdAt,
-  required int updatedAt,
-  Value<bool> deleted,
-  Value<int?> deadline,
-  Value<int?> reminderAt,
-  Value<int> subtaskSteps,
-  Value<int> rowid,
-});
-typedef $$TasksTableTableUpdateCompanionBuilder = TasksTableCompanion Function({
-  Value<String> id,
-  Value<String> title,
-  Value<String?> description,
-  Value<bool> completed,
-  Value<String?> projectId,
-  Value<int> createdAt,
-  Value<int> updatedAt,
-  Value<bool> deleted,
-  Value<int?> deadline,
-  Value<int?> reminderAt,
-  Value<int> subtaskSteps,
-  Value<int> rowid,
-});
+typedef $$TasksTableTableCreateCompanionBuilder =
+    TasksTableCompanion Function({
+      required String id,
+      required String title,
+      Value<String?> description,
+      Value<bool> completed,
+      Value<String?> projectId,
+      required int createdAt,
+      required int updatedAt,
+      Value<bool> deleted,
+      Value<int?> deadline,
+      Value<int?> reminderAt,
+      Value<int> subtaskSteps,
+      Value<int> rowid,
+    });
+typedef $$TasksTableTableUpdateCompanionBuilder =
+    TasksTableCompanion Function({
+      Value<String> id,
+      Value<String> title,
+      Value<String?> description,
+      Value<bool> completed,
+      Value<String?> projectId,
+      Value<int> createdAt,
+      Value<int> updatedAt,
+      Value<bool> deleted,
+      Value<int?> deadline,
+      Value<int?> reminderAt,
+      Value<int> subtaskSteps,
+      Value<int> rowid,
+    });
 
 class $$TasksTableTableFilterComposer
     extends Composer<_$AppDatabase, $TasksTableTable> {
@@ -1637,37 +1941,59 @@ class $$TasksTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnFilters(column));
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get completed => $composableBuilder(
-      column: $table.completed, builder: (column) => ColumnFilters(column));
+    column: $table.completed,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get projectId => $composableBuilder(
-      column: $table.projectId, builder: (column) => ColumnFilters(column));
+    column: $table.projectId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get deleted => $composableBuilder(
-      column: $table.deleted, builder: (column) => ColumnFilters(column));
+    column: $table.deleted,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get deadline => $composableBuilder(
-      column: $table.deadline, builder: (column) => ColumnFilters(column));
+    column: $table.deadline,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get reminderAt => $composableBuilder(
-      column: $table.reminderAt, builder: (column) => ColumnFilters(column));
+    column: $table.reminderAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get subtaskSteps => $composableBuilder(
-      column: $table.subtaskSteps, builder: (column) => ColumnFilters(column));
+    column: $table.subtaskSteps,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$TasksTableTableOrderingComposer
@@ -1680,38 +2006,59 @@ class $$TasksTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnOrderings(column));
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get completed => $composableBuilder(
-      column: $table.completed, builder: (column) => ColumnOrderings(column));
+    column: $table.completed,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get projectId => $composableBuilder(
-      column: $table.projectId, builder: (column) => ColumnOrderings(column));
+    column: $table.projectId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get deleted => $composableBuilder(
-      column: $table.deleted, builder: (column) => ColumnOrderings(column));
+    column: $table.deleted,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get deadline => $composableBuilder(
-      column: $table.deadline, builder: (column) => ColumnOrderings(column));
+    column: $table.deadline,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get reminderAt => $composableBuilder(
-      column: $table.reminderAt, builder: (column) => ColumnOrderings(column));
+    column: $table.reminderAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get subtaskSteps => $composableBuilder(
-      column: $table.subtaskSteps,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.subtaskSteps,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$TasksTableTableAnnotationComposer
@@ -1730,7 +2077,9 @@ class $$TasksTableTableAnnotationComposer
       $composableBuilder(column: $table.title, builder: (column) => column);
 
   GeneratedColumn<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => column);
+    column: $table.description,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<bool> get completed =>
       $composableBuilder(column: $table.completed, builder: (column) => column);
@@ -1751,29 +2100,37 @@ class $$TasksTableTableAnnotationComposer
       $composableBuilder(column: $table.deadline, builder: (column) => column);
 
   GeneratedColumn<int> get reminderAt => $composableBuilder(
-      column: $table.reminderAt, builder: (column) => column);
+    column: $table.reminderAt,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get subtaskSteps => $composableBuilder(
-      column: $table.subtaskSteps, builder: (column) => column);
+    column: $table.subtaskSteps,
+    builder: (column) => column,
+  );
 }
 
-class $$TasksTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $TasksTableTable,
-    TasksTableData,
-    $$TasksTableTableFilterComposer,
-    $$TasksTableTableOrderingComposer,
-    $$TasksTableTableAnnotationComposer,
-    $$TasksTableTableCreateCompanionBuilder,
-    $$TasksTableTableUpdateCompanionBuilder,
-    (
-      TasksTableData,
-      BaseReferences<_$AppDatabase, $TasksTableTable, TasksTableData>
-    ),
-    TasksTableData,
-    PrefetchHooks Function()> {
+class $$TasksTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TasksTableTable,
+          TasksTableData,
+          $$TasksTableTableFilterComposer,
+          $$TasksTableTableOrderingComposer,
+          $$TasksTableTableAnnotationComposer,
+          $$TasksTableTableCreateCompanionBuilder,
+          $$TasksTableTableUpdateCompanionBuilder,
+          (
+            TasksTableData,
+            BaseReferences<_$AppDatabase, $TasksTableTable, TasksTableData>,
+          ),
+          TasksTableData,
+          PrefetchHooks Function()
+        > {
   $$TasksTableTableTableManager(_$AppDatabase db, $TasksTableTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -1782,102 +2139,105 @@ class $$TasksTableTableTableManager extends RootTableManager<
               $$TasksTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$TasksTableTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> title = const Value.absent(),
-            Value<String?> description = const Value.absent(),
-            Value<bool> completed = const Value.absent(),
-            Value<String?> projectId = const Value.absent(),
-            Value<int> createdAt = const Value.absent(),
-            Value<int> updatedAt = const Value.absent(),
-            Value<bool> deleted = const Value.absent(),
-            Value<int?> deadline = const Value.absent(),
-            Value<int?> reminderAt = const Value.absent(),
-            Value<int> subtaskSteps = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              TasksTableCompanion(
-            id: id,
-            title: title,
-            description: description,
-            completed: completed,
-            projectId: projectId,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deleted: deleted,
-            deadline: deadline,
-            reminderAt: reminderAt,
-            subtaskSteps: subtaskSteps,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String title,
-            Value<String?> description = const Value.absent(),
-            Value<bool> completed = const Value.absent(),
-            Value<String?> projectId = const Value.absent(),
-            required int createdAt,
-            required int updatedAt,
-            Value<bool> deleted = const Value.absent(),
-            Value<int?> deadline = const Value.absent(),
-            Value<int?> reminderAt = const Value.absent(),
-            Value<int> subtaskSteps = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              TasksTableCompanion.insert(
-            id: id,
-            title: title,
-            description: description,
-            completed: completed,
-            projectId: projectId,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deleted: deleted,
-            deadline: deadline,
-            reminderAt: reminderAt,
-            subtaskSteps: subtaskSteps,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<bool> completed = const Value.absent(),
+                Value<String?> projectId = const Value.absent(),
+                Value<int> createdAt = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<bool> deleted = const Value.absent(),
+                Value<int?> deadline = const Value.absent(),
+                Value<int?> reminderAt = const Value.absent(),
+                Value<int> subtaskSteps = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TasksTableCompanion(
+                id: id,
+                title: title,
+                description: description,
+                completed: completed,
+                projectId: projectId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deleted: deleted,
+                deadline: deadline,
+                reminderAt: reminderAt,
+                subtaskSteps: subtaskSteps,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String title,
+                Value<String?> description = const Value.absent(),
+                Value<bool> completed = const Value.absent(),
+                Value<String?> projectId = const Value.absent(),
+                required int createdAt,
+                required int updatedAt,
+                Value<bool> deleted = const Value.absent(),
+                Value<int?> deadline = const Value.absent(),
+                Value<int?> reminderAt = const Value.absent(),
+                Value<int> subtaskSteps = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TasksTableCompanion.insert(
+                id: id,
+                title: title,
+                description: description,
+                completed: completed,
+                projectId: projectId,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deleted: deleted,
+                deadline: deadline,
+                reminderAt: reminderAt,
+                subtaskSteps: subtaskSteps,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$TasksTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $TasksTableTable,
-    TasksTableData,
-    $$TasksTableTableFilterComposer,
-    $$TasksTableTableOrderingComposer,
-    $$TasksTableTableAnnotationComposer,
-    $$TasksTableTableCreateCompanionBuilder,
-    $$TasksTableTableUpdateCompanionBuilder,
-    (
+typedef $$TasksTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TasksTableTable,
       TasksTableData,
-      BaseReferences<_$AppDatabase, $TasksTableTable, TasksTableData>
-    ),
-    TasksTableData,
-    PrefetchHooks Function()>;
-typedef $$ProjectsTableTableCreateCompanionBuilder = ProjectsTableCompanion
-    Function({
-  required String id,
-  required String name,
-  required int createdAt,
-  required int updatedAt,
-  Value<bool> deleted,
-  Value<int> rowid,
-});
-typedef $$ProjectsTableTableUpdateCompanionBuilder = ProjectsTableCompanion
-    Function({
-  Value<String> id,
-  Value<String> name,
-  Value<int> createdAt,
-  Value<int> updatedAt,
-  Value<bool> deleted,
-  Value<int> rowid,
-});
+      $$TasksTableTableFilterComposer,
+      $$TasksTableTableOrderingComposer,
+      $$TasksTableTableAnnotationComposer,
+      $$TasksTableTableCreateCompanionBuilder,
+      $$TasksTableTableUpdateCompanionBuilder,
+      (
+        TasksTableData,
+        BaseReferences<_$AppDatabase, $TasksTableTable, TasksTableData>,
+      ),
+      TasksTableData,
+      PrefetchHooks Function()
+    >;
+typedef $$ProjectsTableTableCreateCompanionBuilder =
+    ProjectsTableCompanion Function({
+      required String id,
+      required String name,
+      required int createdAt,
+      required int updatedAt,
+      Value<bool> deleted,
+      Value<int> rowid,
+    });
+typedef $$ProjectsTableTableUpdateCompanionBuilder =
+    ProjectsTableCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<int> createdAt,
+      Value<int> updatedAt,
+      Value<bool> deleted,
+      Value<int> rowid,
+    });
 
 class $$ProjectsTableTableFilterComposer
     extends Composer<_$AppDatabase, $ProjectsTableTable> {
@@ -1889,19 +2249,29 @@ class $$ProjectsTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnFilters(column));
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get deleted => $composableBuilder(
-      column: $table.deleted, builder: (column) => ColumnFilters(column));
+    column: $table.deleted,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$ProjectsTableTableOrderingComposer
@@ -1914,19 +2284,29 @@ class $$ProjectsTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnOrderings(column));
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get deleted => $composableBuilder(
-      column: $table.deleted, builder: (column) => ColumnOrderings(column));
+    column: $table.deleted,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ProjectsTableTableAnnotationComposer
@@ -1954,23 +2334,31 @@ class $$ProjectsTableTableAnnotationComposer
       $composableBuilder(column: $table.deleted, builder: (column) => column);
 }
 
-class $$ProjectsTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $ProjectsTableTable,
-    ProjectsTableData,
-    $$ProjectsTableTableFilterComposer,
-    $$ProjectsTableTableOrderingComposer,
-    $$ProjectsTableTableAnnotationComposer,
-    $$ProjectsTableTableCreateCompanionBuilder,
-    $$ProjectsTableTableUpdateCompanionBuilder,
-    (
-      ProjectsTableData,
-      BaseReferences<_$AppDatabase, $ProjectsTableTable, ProjectsTableData>
-    ),
-    ProjectsTableData,
-    PrefetchHooks Function()> {
+class $$ProjectsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ProjectsTableTable,
+          ProjectsTableData,
+          $$ProjectsTableTableFilterComposer,
+          $$ProjectsTableTableOrderingComposer,
+          $$ProjectsTableTableAnnotationComposer,
+          $$ProjectsTableTableCreateCompanionBuilder,
+          $$ProjectsTableTableUpdateCompanionBuilder,
+          (
+            ProjectsTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $ProjectsTableTable,
+              ProjectsTableData
+            >,
+          ),
+          ProjectsTableData,
+          PrefetchHooks Function()
+        > {
   $$ProjectsTableTableTableManager(_$AppDatabase db, $ProjectsTableTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -1979,82 +2367,85 @@ class $$ProjectsTableTableTableManager extends RootTableManager<
               $$ProjectsTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$ProjectsTableTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> name = const Value.absent(),
-            Value<int> createdAt = const Value.absent(),
-            Value<int> updatedAt = const Value.absent(),
-            Value<bool> deleted = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              ProjectsTableCompanion(
-            id: id,
-            name: name,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deleted: deleted,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String name,
-            required int createdAt,
-            required int updatedAt,
-            Value<bool> deleted = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              ProjectsTableCompanion.insert(
-            id: id,
-            name: name,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deleted: deleted,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> createdAt = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<bool> deleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ProjectsTableCompanion(
+                id: id,
+                name: name,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deleted: deleted,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String name,
+                required int createdAt,
+                required int updatedAt,
+                Value<bool> deleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ProjectsTableCompanion.insert(
+                id: id,
+                name: name,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deleted: deleted,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$ProjectsTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $ProjectsTableTable,
-    ProjectsTableData,
-    $$ProjectsTableTableFilterComposer,
-    $$ProjectsTableTableOrderingComposer,
-    $$ProjectsTableTableAnnotationComposer,
-    $$ProjectsTableTableCreateCompanionBuilder,
-    $$ProjectsTableTableUpdateCompanionBuilder,
-    (
+typedef $$ProjectsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ProjectsTableTable,
       ProjectsTableData,
-      BaseReferences<_$AppDatabase, $ProjectsTableTable, ProjectsTableData>
-    ),
-    ProjectsTableData,
-    PrefetchHooks Function()>;
-typedef $$SubtasksTableTableCreateCompanionBuilder = SubtasksTableCompanion
-    Function({
-  required String id,
-  required String taskId,
-  required String title,
-  Value<int> currentStep,
-  required int createdAt,
-  required int updatedAt,
-  Value<bool> deleted,
-  Value<int> rowid,
-});
-typedef $$SubtasksTableTableUpdateCompanionBuilder = SubtasksTableCompanion
-    Function({
-  Value<String> id,
-  Value<String> taskId,
-  Value<String> title,
-  Value<int> currentStep,
-  Value<int> createdAt,
-  Value<int> updatedAt,
-  Value<bool> deleted,
-  Value<int> rowid,
-});
+      $$ProjectsTableTableFilterComposer,
+      $$ProjectsTableTableOrderingComposer,
+      $$ProjectsTableTableAnnotationComposer,
+      $$ProjectsTableTableCreateCompanionBuilder,
+      $$ProjectsTableTableUpdateCompanionBuilder,
+      (
+        ProjectsTableData,
+        BaseReferences<_$AppDatabase, $ProjectsTableTable, ProjectsTableData>,
+      ),
+      ProjectsTableData,
+      PrefetchHooks Function()
+    >;
+typedef $$SubtasksTableTableCreateCompanionBuilder =
+    SubtasksTableCompanion Function({
+      required String id,
+      required String taskId,
+      required String title,
+      Value<int> currentStep,
+      required int createdAt,
+      required int updatedAt,
+      Value<bool> deleted,
+      Value<int> rowid,
+    });
+typedef $$SubtasksTableTableUpdateCompanionBuilder =
+    SubtasksTableCompanion Function({
+      Value<String> id,
+      Value<String> taskId,
+      Value<String> title,
+      Value<int> currentStep,
+      Value<int> createdAt,
+      Value<int> updatedAt,
+      Value<bool> deleted,
+      Value<int> rowid,
+    });
 
 class $$SubtasksTableTableFilterComposer
     extends Composer<_$AppDatabase, $SubtasksTableTable> {
@@ -2066,25 +2457,39 @@ class $$SubtasksTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get taskId => $composableBuilder(
-      column: $table.taskId, builder: (column) => ColumnFilters(column));
+    column: $table.taskId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get currentStep => $composableBuilder(
-      column: $table.currentStep, builder: (column) => ColumnFilters(column));
+    column: $table.currentStep,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<bool> get deleted => $composableBuilder(
-      column: $table.deleted, builder: (column) => ColumnFilters(column));
+    column: $table.deleted,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SubtasksTableTableOrderingComposer
@@ -2097,25 +2502,39 @@ class $$SubtasksTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get taskId => $composableBuilder(
-      column: $table.taskId, builder: (column) => ColumnOrderings(column));
+    column: $table.taskId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get currentStep => $composableBuilder(
-      column: $table.currentStep, builder: (column) => ColumnOrderings(column));
+    column: $table.currentStep,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<bool> get deleted => $composableBuilder(
-      column: $table.deleted, builder: (column) => ColumnOrderings(column));
+    column: $table.deleted,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SubtasksTableTableAnnotationComposer
@@ -2137,7 +2556,9 @@ class $$SubtasksTableTableAnnotationComposer
       $composableBuilder(column: $table.title, builder: (column) => column);
 
   GeneratedColumn<int> get currentStep => $composableBuilder(
-      column: $table.currentStep, builder: (column) => column);
+    column: $table.currentStep,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -2149,23 +2570,31 @@ class $$SubtasksTableTableAnnotationComposer
       $composableBuilder(column: $table.deleted, builder: (column) => column);
 }
 
-class $$SubtasksTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $SubtasksTableTable,
-    SubtasksTableData,
-    $$SubtasksTableTableFilterComposer,
-    $$SubtasksTableTableOrderingComposer,
-    $$SubtasksTableTableAnnotationComposer,
-    $$SubtasksTableTableCreateCompanionBuilder,
-    $$SubtasksTableTableUpdateCompanionBuilder,
-    (
-      SubtasksTableData,
-      BaseReferences<_$AppDatabase, $SubtasksTableTable, SubtasksTableData>
-    ),
-    SubtasksTableData,
-    PrefetchHooks Function()> {
+class $$SubtasksTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SubtasksTableTable,
+          SubtasksTableData,
+          $$SubtasksTableTableFilterComposer,
+          $$SubtasksTableTableOrderingComposer,
+          $$SubtasksTableTableAnnotationComposer,
+          $$SubtasksTableTableCreateCompanionBuilder,
+          $$SubtasksTableTableUpdateCompanionBuilder,
+          (
+            SubtasksTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $SubtasksTableTable,
+              SubtasksTableData
+            >,
+          ),
+          SubtasksTableData,
+          PrefetchHooks Function()
+        > {
   $$SubtasksTableTableTableManager(_$AppDatabase db, $SubtasksTableTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -2174,86 +2603,89 @@ class $$SubtasksTableTableTableManager extends RootTableManager<
               $$SubtasksTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$SubtasksTableTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> taskId = const Value.absent(),
-            Value<String> title = const Value.absent(),
-            Value<int> currentStep = const Value.absent(),
-            Value<int> createdAt = const Value.absent(),
-            Value<int> updatedAt = const Value.absent(),
-            Value<bool> deleted = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              SubtasksTableCompanion(
-            id: id,
-            taskId: taskId,
-            title: title,
-            currentStep: currentStep,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deleted: deleted,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String taskId,
-            required String title,
-            Value<int> currentStep = const Value.absent(),
-            required int createdAt,
-            required int updatedAt,
-            Value<bool> deleted = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              SubtasksTableCompanion.insert(
-            id: id,
-            taskId: taskId,
-            title: title,
-            currentStep: currentStep,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deleted: deleted,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> taskId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<int> currentStep = const Value.absent(),
+                Value<int> createdAt = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<bool> deleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SubtasksTableCompanion(
+                id: id,
+                taskId: taskId,
+                title: title,
+                currentStep: currentStep,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deleted: deleted,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String taskId,
+                required String title,
+                Value<int> currentStep = const Value.absent(),
+                required int createdAt,
+                required int updatedAt,
+                Value<bool> deleted = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SubtasksTableCompanion.insert(
+                id: id,
+                taskId: taskId,
+                title: title,
+                currentStep: currentStep,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deleted: deleted,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$SubtasksTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $SubtasksTableTable,
-    SubtasksTableData,
-    $$SubtasksTableTableFilterComposer,
-    $$SubtasksTableTableOrderingComposer,
-    $$SubtasksTableTableAnnotationComposer,
-    $$SubtasksTableTableCreateCompanionBuilder,
-    $$SubtasksTableTableUpdateCompanionBuilder,
-    (
+typedef $$SubtasksTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SubtasksTableTable,
       SubtasksTableData,
-      BaseReferences<_$AppDatabase, $SubtasksTableTable, SubtasksTableData>
-    ),
-    SubtasksTableData,
-    PrefetchHooks Function()>;
-typedef $$PendingChangesTableTableCreateCompanionBuilder
-    = PendingChangesTableCompanion Function({
-  required String id,
-  required String entityType,
-  required String entityId,
-  required String operation,
-  required int updatedAt,
-  Value<int> rowid,
-});
-typedef $$PendingChangesTableTableUpdateCompanionBuilder
-    = PendingChangesTableCompanion Function({
-  Value<String> id,
-  Value<String> entityType,
-  Value<String> entityId,
-  Value<String> operation,
-  Value<int> updatedAt,
-  Value<int> rowid,
-});
+      $$SubtasksTableTableFilterComposer,
+      $$SubtasksTableTableOrderingComposer,
+      $$SubtasksTableTableAnnotationComposer,
+      $$SubtasksTableTableCreateCompanionBuilder,
+      $$SubtasksTableTableUpdateCompanionBuilder,
+      (
+        SubtasksTableData,
+        BaseReferences<_$AppDatabase, $SubtasksTableTable, SubtasksTableData>,
+      ),
+      SubtasksTableData,
+      PrefetchHooks Function()
+    >;
+typedef $$PendingChangesTableTableCreateCompanionBuilder =
+    PendingChangesTableCompanion Function({
+      required String id,
+      required String entityType,
+      required String entityId,
+      required String operation,
+      required int updatedAt,
+      Value<int> rowid,
+    });
+typedef $$PendingChangesTableTableUpdateCompanionBuilder =
+    PendingChangesTableCompanion Function({
+      Value<String> id,
+      Value<String> entityType,
+      Value<String> entityId,
+      Value<String> operation,
+      Value<int> updatedAt,
+      Value<int> rowid,
+    });
 
 class $$PendingChangesTableTableFilterComposer
     extends Composer<_$AppDatabase, $PendingChangesTableTable> {
@@ -2265,19 +2697,29 @@ class $$PendingChangesTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get entityType => $composableBuilder(
-      column: $table.entityType, builder: (column) => ColumnFilters(column));
+    column: $table.entityType,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get entityId => $composableBuilder(
-      column: $table.entityId, builder: (column) => ColumnFilters(column));
+    column: $table.entityId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get operation => $composableBuilder(
-      column: $table.operation, builder: (column) => ColumnFilters(column));
+    column: $table.operation,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$PendingChangesTableTableOrderingComposer
@@ -2290,19 +2732,29 @@ class $$PendingChangesTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get entityType => $composableBuilder(
-      column: $table.entityType, builder: (column) => ColumnOrderings(column));
+    column: $table.entityType,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get entityId => $composableBuilder(
-      column: $table.entityId, builder: (column) => ColumnOrderings(column));
+    column: $table.entityId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get operation => $composableBuilder(
-      column: $table.operation, builder: (column) => ColumnOrderings(column));
+    column: $table.operation,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$PendingChangesTableTableAnnotationComposer
@@ -2318,7 +2770,9 @@ class $$PendingChangesTableTableAnnotationComposer
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get entityType => $composableBuilder(
-      column: $table.entityType, builder: (column) => column);
+    column: $table.entityType,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get entityId =>
       $composableBuilder(column: $table.entityId, builder: (column) => column);
@@ -2330,90 +2784,108 @@ class $$PendingChangesTableTableAnnotationComposer
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 }
 
-class $$PendingChangesTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $PendingChangesTableTable,
-    PendingChangesTableData,
-    $$PendingChangesTableTableFilterComposer,
-    $$PendingChangesTableTableOrderingComposer,
-    $$PendingChangesTableTableAnnotationComposer,
-    $$PendingChangesTableTableCreateCompanionBuilder,
-    $$PendingChangesTableTableUpdateCompanionBuilder,
-    (
-      PendingChangesTableData,
-      BaseReferences<_$AppDatabase, $PendingChangesTableTable,
-          PendingChangesTableData>
-    ),
-    PendingChangesTableData,
-    PrefetchHooks Function()> {
+class $$PendingChangesTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PendingChangesTableTable,
+          PendingChangesTableData,
+          $$PendingChangesTableTableFilterComposer,
+          $$PendingChangesTableTableOrderingComposer,
+          $$PendingChangesTableTableAnnotationComposer,
+          $$PendingChangesTableTableCreateCompanionBuilder,
+          $$PendingChangesTableTableUpdateCompanionBuilder,
+          (
+            PendingChangesTableData,
+            BaseReferences<
+              _$AppDatabase,
+              $PendingChangesTableTable,
+              PendingChangesTableData
+            >,
+          ),
+          PendingChangesTableData,
+          PrefetchHooks Function()
+        > {
   $$PendingChangesTableTableTableManager(
-      _$AppDatabase db, $PendingChangesTableTable table)
-      : super(TableManagerState(
+    _$AppDatabase db,
+    $PendingChangesTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$PendingChangesTableTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
               $$PendingChangesTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$PendingChangesTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> entityType = const Value.absent(),
-            Value<String> entityId = const Value.absent(),
-            Value<String> operation = const Value.absent(),
-            Value<int> updatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              PendingChangesTableCompanion(
-            id: id,
-            entityType: entityType,
-            entityId: entityId,
-            operation: operation,
-            updatedAt: updatedAt,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String entityType,
-            required String entityId,
-            required String operation,
-            required int updatedAt,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              PendingChangesTableCompanion.insert(
-            id: id,
-            entityType: entityType,
-            entityId: entityId,
-            operation: operation,
-            updatedAt: updatedAt,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> entityType = const Value.absent(),
+                Value<String> entityId = const Value.absent(),
+                Value<String> operation = const Value.absent(),
+                Value<int> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PendingChangesTableCompanion(
+                id: id,
+                entityType: entityType,
+                entityId: entityId,
+                operation: operation,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String entityType,
+                required String entityId,
+                required String operation,
+                required int updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => PendingChangesTableCompanion.insert(
+                id: id,
+                entityType: entityType,
+                entityId: entityId,
+                operation: operation,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$PendingChangesTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $PendingChangesTableTable,
-    PendingChangesTableData,
-    $$PendingChangesTableTableFilterComposer,
-    $$PendingChangesTableTableOrderingComposer,
-    $$PendingChangesTableTableAnnotationComposer,
-    $$PendingChangesTableTableCreateCompanionBuilder,
-    $$PendingChangesTableTableUpdateCompanionBuilder,
-    (
+typedef $$PendingChangesTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PendingChangesTableTable,
       PendingChangesTableData,
-      BaseReferences<_$AppDatabase, $PendingChangesTableTable,
-          PendingChangesTableData>
-    ),
-    PendingChangesTableData,
-    PrefetchHooks Function()>;
+      $$PendingChangesTableTableFilterComposer,
+      $$PendingChangesTableTableOrderingComposer,
+      $$PendingChangesTableTableAnnotationComposer,
+      $$PendingChangesTableTableCreateCompanionBuilder,
+      $$PendingChangesTableTableUpdateCompanionBuilder,
+      (
+        PendingChangesTableData,
+        BaseReferences<
+          _$AppDatabase,
+          $PendingChangesTableTable,
+          PendingChangesTableData
+        >,
+      ),
+      PendingChangesTableData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;

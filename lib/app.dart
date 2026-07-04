@@ -19,6 +19,8 @@ class _OwnDoAppState extends ConsumerState<OwnDoApp> {
     ref.listenManual(isAuthenticatedProvider, (_, next) {
       if (next.asData?.value == true) {
         ref.read(syncSchedulerProvider).start();
+      } else if (next.hasValue) {
+        ref.read(syncSchedulerProvider).stop();
       }
     });
   }

@@ -12,20 +12,24 @@ part of 'sync_provider.dart';
 @ProviderFor(dropboxSyncAdapter)
 final dropboxSyncAdapterProvider = DropboxSyncAdapterProvider._();
 
-final class DropboxSyncAdapterProvider extends $FunctionalProvider<
-    DropboxSyncAdapter,
-    DropboxSyncAdapter,
-    DropboxSyncAdapter> with $Provider<DropboxSyncAdapter> {
+final class DropboxSyncAdapterProvider
+    extends
+        $FunctionalProvider<
+          DropboxSyncAdapter,
+          DropboxSyncAdapter,
+          DropboxSyncAdapter
+        >
+    with $Provider<DropboxSyncAdapter> {
   DropboxSyncAdapterProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'dropboxSyncAdapterProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dropboxSyncAdapterProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$dropboxSyncAdapterHash();
@@ -33,8 +37,8 @@ final class DropboxSyncAdapterProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<DropboxSyncAdapter> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   DropboxSyncAdapter create(Ref ref) {
@@ -60,15 +64,15 @@ final class SyncEngineProvider
     extends $FunctionalProvider<SyncEngine, SyncEngine, SyncEngine>
     with $Provider<SyncEngine> {
   SyncEngineProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'syncEngineProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'syncEngineProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$syncEngineHash();
@@ -101,15 +105,15 @@ final class SyncSchedulerProvider
     extends $FunctionalProvider<SyncScheduler, SyncScheduler, SyncScheduler>
     with $Provider<SyncScheduler> {
   SyncSchedulerProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'syncSchedulerProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'syncSchedulerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$syncSchedulerHash();
@@ -138,19 +142,24 @@ String _$syncSchedulerHash() => r'4ab18f603b06b2cefc2d6e8e633d6c91101b558f';
 @ProviderFor(syncStatus)
 final syncStatusProvider = SyncStatusProvider._();
 
-final class SyncStatusProvider extends $FunctionalProvider<
-        AsyncValue<SyncStatus>, SyncStatus, Stream<SyncStatus>>
+final class SyncStatusProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<SyncStatus>,
+          SyncStatus,
+          Stream<SyncStatus>
+        >
     with $FutureModifier<SyncStatus>, $StreamProvider<SyncStatus> {
   SyncStatusProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'syncStatusProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'syncStatusProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$syncStatusHash();

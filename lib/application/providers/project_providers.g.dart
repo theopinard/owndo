@@ -12,20 +12,24 @@ part of 'project_providers.dart';
 @ProviderFor(projectRepository)
 final projectRepositoryProvider = ProjectRepositoryProvider._();
 
-final class ProjectRepositoryProvider extends $FunctionalProvider<
-    ProjectRepository,
-    ProjectRepository,
-    ProjectRepository> with $Provider<ProjectRepository> {
+final class ProjectRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ProjectRepository,
+          ProjectRepository,
+          ProjectRepository
+        >
+    with $Provider<ProjectRepository> {
   ProjectRepositoryProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'projectRepositoryProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'projectRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$projectRepositoryHash();
@@ -33,8 +37,8 @@ final class ProjectRepositoryProvider extends $FunctionalProvider<
   @$internal
   @override
   $ProviderElement<ProjectRepository> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   ProjectRepository create(Ref ref) {
@@ -55,19 +59,24 @@ String _$projectRepositoryHash() => r'1ddd17ae60d59fc11285ef7c5e1d285ab6f32645';
 @ProviderFor(projectList)
 final projectListProvider = ProjectListProvider._();
 
-final class ProjectListProvider extends $FunctionalProvider<
-        AsyncValue<List<Project>>, List<Project>, Stream<List<Project>>>
+final class ProjectListProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Project>>,
+          List<Project>,
+          Stream<List<Project>>
+        >
     with $FutureModifier<List<Project>>, $StreamProvider<List<Project>> {
   ProjectListProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'projectListProvider',
-          isAutoDispose: true,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'projectListProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$projectListHash();
@@ -75,8 +84,8 @@ final class ProjectListProvider extends $FunctionalProvider<
   @$internal
   @override
   $StreamProviderElement<List<Project>> $createElement(
-          $ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
   Stream<List<Project>> create(Ref ref) {

@@ -1,4 +1,4 @@
-package com.theodore.owndo.owndo
+package com.owndo
 
 import io.flutter.embedding.android.FlutterActivity
 

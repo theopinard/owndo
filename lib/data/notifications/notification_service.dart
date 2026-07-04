@@ -10,15 +10,17 @@ class NotificationService {
   Future<void> initialize() async {
     tz.initializeTimeZones();
 
-    const androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
     const darwinSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
     );
-    const linuxSettings =
-        LinuxInitializationSettings(defaultActionName: 'Open');
+    const linuxSettings = LinuxInitializationSettings(
+      defaultActionName: 'Open',
+    );
     const settings = InitializationSettings(
       android: androidSettings,
       iOS: darwinSettings,
@@ -29,13 +31,21 @@ class NotificationService {
   }
 
   Future<void> requestPermission() async {
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
+    final android = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
     await android?.requestNotificationsPermission();
-    await android?.requestExactAlarmsPermission();
+    final canScheduleExactAlarms =
+        await android?.canScheduleExactNotifications() ?? false;
+    if (!canScheduleExactAlarms) {
+      await android?.requestExactAlarmsPermission();
+    }
 
-    final darwin = _plugin.resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>();
+    final darwin = _plugin
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >();
     await darwin?.requestPermissions(alert: true, badge: true, sound: true);
   }
 
@@ -46,6 +56,13 @@ class NotificationService {
       task.reminderAt! * 1000,
     );
     if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) return;
+
+    final android = _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    final canScheduleExactAlarms =
+        await android?.canScheduleExactNotifications() ?? false;
 
     await _plugin.zonedSchedule(
       id: _idFor(task.id),
@@ -65,7 +82,9 @@ class NotificationService {
         iOS: DarwinNotificationDetails(),
         macOS: DarwinNotificationDetails(),
       ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      androidScheduleMode: canScheduleExactAlarms
+          ? AndroidScheduleMode.exactAllowWhileIdle
+          : AndroidScheduleMode.inexactAllowWhileIdle,
     );
   }
 

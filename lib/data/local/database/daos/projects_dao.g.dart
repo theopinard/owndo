@@ -17,5 +17,7 @@ class ProjectsDaoManager {
       $$ProjectsTableTableTableManager(_db.attachedDatabase, _db.projectsTable);
   $$PendingChangesTableTableTableManager get pendingChangesTable =>
       $$PendingChangesTableTableTableManager(
-          _db.attachedDatabase, _db.pendingChangesTable);
+        _db.attachedDatabase,
+        _db.pendingChangesTable,
+      );
 }

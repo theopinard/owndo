@@ -28,7 +28,7 @@ flutter --version  # requires >= 3.22
 ```bash
 flutter create . \
   --project-name owndo \
-  --org com.theodore.owndo \
+  --org com \
   --platforms android,ios,linux,macos \
   --description "Offline-first todo app with Dropbox sync"
 ```
@@ -78,11 +78,11 @@ sudo apt-get install -y \
 
 No URL scheme registration is needed on Linux. The OAuth2 flow uses a `localhost` redirect URI — add `http://localhost` to the allowed redirect URIs in your Dropbox app settings alongside `owndo://oauth-callback`.
 
-**Android** — `android/app/src/main/AndroidManifest.xml` (inside `<application>`):
+**Android** — `android/app/src/main/AndroidManifest.xml` declares the OAuth callback on `MainActivity`:
 ```xml
-<activity android:name="com.linusu.flutter_web_auth_2.CallbackActivity"
+<activity android:name=".MainActivity"
           android:exported="true">
-  <intent-filter android:label="flutter_web_auth_2">
+  <intent-filter android:autoVerify="false">
     <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
@@ -90,6 +90,25 @@ No URL scheme registration is needed on Linux. The OAuth2 flow uses a `localhost
   </intent-filter>
 </activity>
 ```
+
+The Android package name for Play publishing is `com.owndo`.
+
+### Android release signing
+
+Create a private upload keystore and keep it backed up outside the repository:
+
+```bash
+keytool -genkey -v -keystore android/app/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+cp android/key.properties.example android/key.properties
+```
+
+Edit `android/key.properties` with the keystore passwords before building a Play bundle:
+
+```bash
+flutter build appbundle --release
+```
+
+The signed bundle is written to `build/app/outputs/bundle/release/app-release.aab`.
 
 **iOS** — `ios/Runner/Info.plist`:
 ```xml

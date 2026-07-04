@@ -23,12 +23,19 @@ class _DropboxLoginScreenState extends ConsumerState<DropboxLoginScreen> {
     try {
       await ref.read(dropboxAuthProvider).authenticate();
       ref.invalidate(isAuthenticatedProvider);
+      ref.invalidate(appAccessModeProvider);
       if (mounted) context.go('/inbox');
     } catch (e) {
       setState(() => _error = e.toString());
     } finally {
       if (mounted) setState(() => _loading = false);
     }
+  }
+
+  Future<void> _continueOffline() async {
+    await ref.read(dropboxAuthProvider).enableOfflineMode();
+    ref.invalidate(appAccessModeProvider);
+    if (mounted) context.go('/inbox');
   }
 
   @override
@@ -43,10 +50,7 @@ class _DropboxLoginScreenState extends ConsumerState<DropboxLoginScreen> {
               children: [
                 const Icon(Icons.check_circle_outline, size: 72),
                 const SizedBox(height: 24),
-                Text(
-                  'OwnDo',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
+                Text('OwnDo', style: Theme.of(context).textTheme.headlineLarge),
                 const SizedBox(height: 8),
                 Text(
                   'Your offline-first todo app.\nSync privately with Dropbox.',
@@ -76,6 +80,15 @@ class _DropboxLoginScreenState extends ConsumerState<DropboxLoginScreen> {
                           )
                         : const Icon(Icons.cloud),
                     label: const Text('Connect Dropbox'),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _loading ? null : _continueOffline,
+                    icon: const Icon(Icons.offline_pin_outlined),
+                    label: const Text('Continue offline'),
                   ),
                 ),
               ],

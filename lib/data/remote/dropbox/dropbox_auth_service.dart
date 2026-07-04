@@ -57,9 +57,9 @@ class _FileTokenStorage {
 
 class _TokenStorage {
   _TokenStorage()
-      : _isDesktop = Platform.isMacOS || Platform.isLinux || Platform.isWindows,
-        _secureStorage = const FlutterSecureStorage(),
-        _fileStorage = _FileTokenStorage();
+    : _isDesktop = Platform.isMacOS || Platform.isLinux || Platform.isWindows,
+      _secureStorage = const FlutterSecureStorage(),
+      _fileStorage = _FileTokenStorage();
 
   final bool _isDesktop;
   final FlutterSecureStorage _secureStorage;
@@ -68,10 +68,9 @@ class _TokenStorage {
   Future<String?> read({required String key}) =>
       _isDesktop ? _fileStorage.read(key: key) : _secureStorage.read(key: key);
 
-  Future<void> write({required String key, required String value}) =>
-      _isDesktop
-          ? _fileStorage.write(key: key, value: value)
-          : _secureStorage.write(key: key, value: value);
+  Future<void> write({required String key, required String value}) => _isDesktop
+      ? _fileStorage.write(key: key, value: value)
+      : _secureStorage.write(key: key, value: value);
 
   Future<void> delete({required String key}) => _isDesktop
       ? _fileStorage.delete(key: key)
@@ -79,10 +78,9 @@ class _TokenStorage {
 }
 
 class DropboxAuthService {
-  DropboxAuthService({
-    http.Client? httpClient,
-  })  : _storage = _TokenStorage(),
-        _client = httpClient ?? http.Client();
+  DropboxAuthService({http.Client? httpClient})
+    : _storage = _TokenStorage(),
+      _client = httpClient ?? http.Client();
 
   final _TokenStorage _storage;
   final http.Client _client;
@@ -94,10 +92,23 @@ class DropboxAuthService {
   static const _accessTokenKey = 'dropbox_access_token';
   static const _refreshTokenKey = 'dropbox_refresh_token';
   static const _expiresAtKey = 'dropbox_token_expires_at';
+  static const _offlineModeKey = 'offline_mode_enabled';
 
   Future<bool> isAuthenticated() async {
     final token = await _storage.read(key: _accessTokenKey);
     return token != null && token.isNotEmpty;
+  }
+
+  Future<bool> isOfflineModeEnabled() async {
+    return await _storage.read(key: _offlineModeKey) == 'true';
+  }
+
+  Future<void> enableOfflineMode() async {
+    await _storage.write(key: _offlineModeKey, value: 'true');
+  }
+
+  Future<void> clearOfflineMode() async {
+    await _storage.delete(key: _offlineModeKey);
   }
 
   Future<void> authenticate() async {
@@ -115,7 +126,9 @@ class DropboxAuthService {
     final pkce = _generatePkce();
 
     final server = await HttpServer.bind(
-        InternetAddress.loopbackIPv4, AppConstants.dropboxLinuxCallbackPort);
+      InternetAddress.loopbackIPv4,
+      AppConstants.dropboxLinuxCallbackPort,
+    );
 
     if (!await _launchAuthUrl(redirectUri: redirectUri, pkce: pkce)) {
       await server.close(force: true);
@@ -214,7 +227,10 @@ class DropboxAuthService {
     }
 
     await _exchangeCodeForTokens(
-        code: code, verifier: pkce.verifier, redirectUri: redirectUri);
+      code: code,
+      verifier: pkce.verifier,
+      redirectUri: redirectUri,
+    );
   }
 
   // ── Shared ─────────────────────────────────────────────────────────────────
@@ -248,7 +264,9 @@ class DropboxAuthService {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
     // Return cached token if still valid (60s buffer).
-    if (_cachedToken != null && _cachedExpiresAt != null && now < _cachedExpiresAt! - 60) {
+    if (_cachedToken != null &&
+        _cachedExpiresAt != null &&
+        now < _cachedExpiresAt! - 60) {
       return _cachedToken!;
     }
 
@@ -314,6 +332,7 @@ class DropboxAuthService {
     if (refreshToken != null) {
       await _storage.write(key: _refreshTokenKey, value: refreshToken);
     }
+    await clearOfflineMode();
   }
 
   Future<void> signOut() async {
@@ -330,9 +349,9 @@ class DropboxAuthService {
     final rng = Random.secure();
     final verifierBytes = List<int>.generate(32, (_) => rng.nextInt(256));
     final verifier = base64UrlEncode(verifierBytes).replaceAll('=', '');
-    final challenge =
-        base64UrlEncode(sha256.convert(utf8.encode(verifier)).bytes)
-            .replaceAll('=', '');
+    final challenge = base64UrlEncode(
+      sha256.convert(utf8.encode(verifier)).bytes,
+    ).replaceAll('=', '');
     final stateBytes = List<int>.generate(16, (_) => rng.nextInt(256));
     final state = base64UrlEncode(stateBytes).replaceAll('=', '');
     return (verifier: verifier, challenge: challenge, state: state);

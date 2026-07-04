@@ -12,18 +12,24 @@ part of 'auth_provider.dart';
 @ProviderFor(dropboxAuth)
 final dropboxAuthProvider = DropboxAuthProvider._();
 
-final class DropboxAuthProvider extends $FunctionalProvider<DropboxAuthService,
-    DropboxAuthService, DropboxAuthService> with $Provider<DropboxAuthService> {
+final class DropboxAuthProvider
+    extends
+        $FunctionalProvider<
+          DropboxAuthService,
+          DropboxAuthService,
+          DropboxAuthService
+        >
+    with $Provider<DropboxAuthService> {
   DropboxAuthProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'dropboxAuthProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dropboxAuthProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$dropboxAuthHash();
@@ -31,8 +37,8 @@ final class DropboxAuthProvider extends $FunctionalProvider<DropboxAuthService,
   @$internal
   @override
   $ProviderElement<DropboxAuthService> $createElement(
-          $ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
   DropboxAuthService create(Ref ref) {
@@ -57,15 +63,15 @@ final class IsAuthenticatedProvider
     extends $FunctionalProvider<AsyncValue<bool>, bool, FutureOr<bool>>
     with $FutureModifier<bool>, $FutureProvider<bool> {
   IsAuthenticatedProvider._()
-      : super(
-          from: null,
-          argument: null,
-          retry: null,
-          name: r'isAuthenticatedProvider',
-          isAutoDispose: false,
-          dependencies: null,
-          $allTransitiveDependencies: null,
-        );
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'isAuthenticatedProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
   @override
   String debugGetCreateSourceHash() => _$isAuthenticatedHash();
@@ -82,3 +88,42 @@ final class IsAuthenticatedProvider
 }
 
 String _$isAuthenticatedHash() => r'c299502d505e97ea8dc9dfaf03a13ae8c6c533ea';
+
+@ProviderFor(appAccessMode)
+final appAccessModeProvider = AppAccessModeProvider._();
+
+final class AppAccessModeProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<AppAccessMode>,
+          AppAccessMode,
+          FutureOr<AppAccessMode>
+        >
+    with $FutureModifier<AppAccessMode>, $FutureProvider<AppAccessMode> {
+  AppAccessModeProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'appAccessModeProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$appAccessModeHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<AppAccessMode> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<AppAccessMode> create(Ref ref) {
+    return appAccessMode(ref);
+  }
+}
+
+String _$appAccessModeHash() => r'21272f047ef8bcec5dea906d31eb850e80cd7e3c';
