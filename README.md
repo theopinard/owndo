@@ -1,6 +1,9 @@
 # OwnDo
 
-Offline-first todo app with Dropbox sync. Available on Android, iOS, and macOS.
+Offline-first todo app with optional Dropbox sync. Available on Android, iOS, and macOS.
+
+OwnDo can be used fully offline without an account. Dropbox is optional and can
+be connected later to back up and sync existing local tasks across devices.
 
 ## Architecture
 
@@ -34,6 +37,8 @@ flutter create . \
 ```
 
 ### 3. Create a Dropbox App
+
+Dropbox is optional for users, but required if you want to test or develop sync.
 
 1. Go to https://www.dropbox.com/developers/apps
 2. Create a new app → **Scoped access** → **App folder**
@@ -150,11 +155,13 @@ lib/
 └── presentation/   # Screens, router, widgets
 ```
 
-## Sync design
+## Offline and sync design
 
 - **Local DB is the source of truth**
+- Users can continue offline without signing in
 - Every local write records a `pending_change`
+- Sync starts only after Dropbox is connected
 - Sync engine: push all pending changes → pull all remote files → merge (last-write-wins on `updated_at`)
-- Sync runs on app start, every 45 seconds, and on foreground resume
+- After Dropbox is connected, sync runs on app start, every 45 seconds, and on foreground resume
 - Dropbox conflict copies are auto-resolved (newer `updated_at` wins)
 - Network errors don't block the UI — pending changes are retried next cycle
