@@ -1,6 +1,8 @@
 # OwnDo
 
-Offline-first todo app with optional Dropbox sync. Available on Android, iOS, and macOS.
+Offline-first todo app with optional Dropbox sync. Available on Android, iOS, Linux, and macOS.
+
+Website: https://theopinard.github.io/owndo/
 
 OwnDo can be used fully offline without an account. Dropbox is optional and can
 be connected later to back up and sync existing local tasks across devices.
@@ -33,7 +35,7 @@ flutter create . \
   --project-name owndo \
   --org com \
   --platforms android,ios,linux,macos \
-  --description "Offline-first todo app with Dropbox sync"
+  --description "Offline-first todo app with optional Dropbox sync"
 ```
 
 ### 3. Create a Dropbox App
@@ -72,7 +74,7 @@ Replace `-d macos` with `-d linux`, `-d android`, or `-d ios` as needed. No `--d
 
 ### Platform-specific configuration
 
-**Linux** — install system dependencies for `flutter_secure_storage` and `flutter_web_auth_2`:
+**Linux** — install system dependencies for secure storage and desktop auth:
 
 ```bash
 sudo apt-get install -y \
