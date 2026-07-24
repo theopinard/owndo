@@ -1,0 +1,32 @@
+OwnDo is a focused task manager that keeps your plans in your hands. Start immediately without creating an account: your tasks, projects, and reminders work offline and are stored on your device.
+
+CAPTURE WHAT MATTERS
+
+Create tasks with notes, deadlines, and reminders. Keep quick items in your Inbox or move them into projects when you need more structure.
+
+BREAK WORK INTO STEPS
+
+Turn larger tasks into subtasks and track progress one step at a time. Expand a task to update its steps without losing sight of the rest of your list.
+
+ORGANIZE YOUR WAY
+
+• A clear Inbox for incoming tasks
+• Projects for related work
+• Optional descriptions for useful context
+• Deadlines with easy-to-scan date labels
+• Local reminders for important tasks
+• Completed-task controls that keep lists focused
+
+OFFLINE BY DEFAULT
+
+OwnDo does not require an account. Your local database remains the source of truth, so you can create, edit, and complete tasks without a network connection.
+
+OPTIONAL DROPBOX SYNC
+
+Connect your own Dropbox account when you want backup or access across devices. Dropbox sync is optional and can be enabled after you have already started working offline.
+
+BUILT WITH PRIVACY IN MIND
+
+OwnDo contains no advertising, analytics, or tracking services. When Dropbox sync is disabled, the app does not transmit your task data. If you enable sync, task and project data is sent directly to your own Dropbox app folder.
+
+OwnDo is open source. Source code, releases, and issue tracking are available through the project website.
