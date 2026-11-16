@@ -41,7 +41,8 @@ class TaskEditNotifier extends _$TaskEditNotifier {
     state = state.copyWith(title: title);
   }
 
-  void updateDeadline(int? deadline) => state = state.copyWith(deadline: deadline);
+  void updateDeadline(int? deadline) =>
+      state = state.copyWith(deadline: deadline);
   void updateReminderAt(int? reminderAt) =>
       state = state.copyWith(reminderAt: reminderAt);
 
@@ -71,7 +72,6 @@ class TaskEditNotifier extends _$TaskEditNotifier {
         deadline: state.deadline,
         reminderAt: state.reminderAt,
       ).copyWith(subtaskSteps: state.subtaskSteps);
-      await repo.saveTask(saved);
     } else {
       final existing = await repo.getTaskById(state.existingTaskId!);
       if (existing == null) return;
@@ -85,8 +85,8 @@ class TaskEditNotifier extends _$TaskEditNotifier {
         subtaskSteps: state.subtaskSteps,
         updatedAt: now,
       );
-      await repo.saveTask(saved);
     }
+    await repo.saveTask(saved);
     if (saved.reminderAt != null) {
       await notifications.scheduleReminder(saved);
     } else {

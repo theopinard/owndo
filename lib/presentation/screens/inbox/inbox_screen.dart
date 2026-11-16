@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:owndo/application/notifiers/task_list_notifier.dart';
 import 'package:owndo/application/providers/auth_provider.dart';
-import 'package:owndo/presentation/screens/task/task_list_item.dart';
+import 'package:owndo/presentation/screens/task/task_list.dart';
 import 'package:owndo/presentation/widgets/adaptive_nav_shell.dart';
-import 'package:owndo/presentation/widgets/empty_state_widget.dart';
 import 'package:owndo/presentation/widgets/sync_status_indicator.dart';
 
 class InboxScreen extends ConsumerStatefulWidget {
@@ -55,35 +54,18 @@ class _InboxScreenState extends ConsumerState<InboxScreen> {
         onPressed: () => context.push('/tasks/new'),
         child: const Icon(Icons.add),
       ),
-      body: tasksAsync.when(
-        loading: () => const SizedBox.shrink(),
-        error: (e, _) => Center(child: Text('Error: $e')),
-        data: (tasks) {
-          final visible = _showCompleted
-              ? tasks
-              : tasks.where((t) => !t.completed).toList();
-          if (visible.isEmpty) {
-            return const EmptyStateWidget(message: 'No tasks — add one below');
-          }
-          return ListView.builder(
-            itemCount: visible.length,
-            itemBuilder: (context, index) {
-              final task = visible[index];
-              return TaskListItem(
-                task: task,
-                onToggle: () => notifier.toggleComplete(task),
-                onDelete: () {
-                  notifier.deleteTask(task.id);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('"${task.title}" deleted')),
-                  );
-                },
-                onTap: () =>
-                    context.push('/tasks/${task.id}/edit', extra: task),
-              );
-            },
-          );
+      body: TaskList(
+        tasks: tasksAsync,
+        showCompleted: _showCompleted,
+        emptyMessage: 'No tasks — add one below',
+        onToggle: notifier.toggleComplete,
+        onDelete: (task) {
+          notifier.deleteTask(task.id);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('"${task.title}" deleted')));
         },
+        onOpen: (task) => context.push('/tasks/${task.id}/edit', extra: task),
       ),
     );
   }

@@ -4,8 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:owndo/application/providers/project_providers.dart';
 import 'package:owndo/application/providers/task_providers.dart';
 import 'package:owndo/domain/entities/task.dart';
-import 'package:owndo/presentation/screens/task/task_list_item.dart';
-import 'package:owndo/presentation/widgets/empty_state_widget.dart';
+import 'package:owndo/presentation/screens/task/task_list.dart';
 import 'package:owndo/presentation/widgets/sync_status_indicator.dart';
 
 class ProjectTaskListScreen extends ConsumerStatefulWidget {
@@ -48,30 +47,13 @@ class _ProjectTaskListScreenState extends ConsumerState<ProjectTaskListScreen> {
           const SyncStatusIndicator(),
         ],
       ),
-      body: tasksAsync.when(
-        loading: () => const SizedBox.shrink(),
-        error: (e, _) => Center(child: Text('Error: $e')),
-        data: (tasks) {
-          final visible = _showCompleted
-              ? tasks
-              : tasks.where((t) => !t.completed).toList();
-          if (visible.isEmpty) {
-            return const EmptyStateWidget(message: 'No tasks in this project');
-          }
-          return ListView.builder(
-            itemCount: visible.length,
-            itemBuilder: (context, index) {
-              final task = visible[index];
-              return TaskListItem(
-                task: task,
-                onToggle: () => _toggleTask(task),
-                onDelete: () => _deleteTask(task.id),
-                onTap: () =>
-                    context.push('/tasks/${task.id}/edit', extra: task),
-              );
-            },
-          );
-        },
+      body: TaskList(
+        tasks: tasksAsync,
+        showCompleted: _showCompleted,
+        emptyMessage: 'No tasks in this project',
+        onToggle: _toggleTask,
+        onDelete: (task) => _deleteTask(task.id),
+        onOpen: (task) => context.push('/tasks/${task.id}/edit', extra: task),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
@@ -83,9 +65,9 @@ class _ProjectTaskListScreenState extends ConsumerState<ProjectTaskListScreen> {
 
   void _toggleTask(Task task) {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    ref.read(taskRepositoryProvider).saveTask(
-          task.copyWith(completed: !task.completed, updatedAt: now),
-        );
+    ref
+        .read(taskRepositoryProvider)
+        .saveTask(task.copyWith(completed: !task.completed, updatedAt: now));
   }
 
   void _deleteTask(String id) {
